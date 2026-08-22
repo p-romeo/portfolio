@@ -1,0 +1,8 @@
+- **SSCP (ISC2 Associate)** | (ISC)² | 2025
+- **CompTIA Security+** | CompTIA | 2024
+- **CompTIA Network+** | CompTIA | 2023
+- **CompTIA A+** | CompTIA | 2023
+- **CompTIA Project+** | CompTIA | 2024
+- **ITIL 4 Foundation** | Axelos | 2023
+- **Google Cybersecurity Certificate** | Google / Coursera | 2024
+- **LPI Linux Essentials** | Linux Professional Institute | 2023
