@@ -7,8 +7,8 @@
 - **SSCP** | ISC2 | Issued Jul 2025 | logo:assets/logos/isc2.svg | credential_id:1123939 | verify_url:https://www.isc2.org/verify
 - **ITIL 4 Foundation** | PeopleCert | Issued Dec 3 2024 · expires Dec 3 2027 | logo:assets/logos/peoplecert.svg | credential_id:GR671719240PR | verify_url:https://www.peoplecert.org/for-corporations/certificate-verification-service
 - **LPI Linux Essentials** | Linux Professional Institute | Issued Aug 5 2025 | logo:assets/logos/lpi.png | credential_id:LPI000661841 | verify_url:https://lpi.org/v/LPI000661841/grcznusuq7
-- **HackerRank Python (Basic)** | HackerRank | Issued Nov 27 2023 · no expiry | logo:assets/logos/hackerrank.svg | credential_id:68B4AF7ED6E8 | verify_url:https://www.hackerrank.com/certificate/68B4AF7ED6E8
-- **HackerRank SQL (Basic)** | HackerRank | Issued Feb 19 2025 · no expiry | logo:assets/logos/hackerrank.svg | credential_id:4402EB8CB415 | verify_url:https://www.hackerrank.com/certificate/4402EB8CB415
+- **HackerRank Python (Basic)** | HackerRank | Issued Nov 27 2023 · no expiry | logo:assets/logos/hackerrank.svg | credential_id:68B4AF7ED6E8 | verify_url:https://www.hackerrank.com/certificates/68b4af7ed6e8
+- **HackerRank SQL (Basic)** | HackerRank | Issued Feb 19 2025 · no expiry | logo:assets/logos/hackerrank.svg | credential_id:4402EB8CB415 | verify_url:https://www.hackerrank.com/certificates/4402eb8cb415
 - **TryHackMe Pre-Security Path** | TryHackMe | Issued Sep 11 2025 | logo:https://tryhackme.com/favicon.ico | credential_id:THM-UEU9TLFMVM | verify_url:https://tryhackme.com/certificate/THM-UEU9TLFMVM
 - **Pokémon Professor — Pokémon TCG** | Professor University | issued Feb 16 2026 · expires Feb 16 2027 | logo:assets/logos/pokeball.svg | credential_id:b176ec3f-fa3e-4b40-83a9-55d8da47fefa | verify_url:assets/certs/pokemon-professor.pdf
 - **CompTIA CIOS Stackable** | CompTIA | Issued Jul 2024 · expires Jul 2027 | logo:assets/logos/comptia.png | credential_id:COMP001022285812 | verify_url:https://cp.certmetrics.com/CompTIA/en/public/verify/credential/COMP001022285812
