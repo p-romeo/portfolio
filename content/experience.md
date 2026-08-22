@@ -1,6 +1,6 @@
 ## Belmont Leather Co — IT Systems & Security Manager / E-commerce Operations (Current)
 
-logo:assets/logos/belmont.png|Belmont Leather Co,assets/logos/sba4u.png|Shoe and Boot Accessories 4 U
+logo:assets/logos/belmont.png|Belmont Leather Co,assets/logos/sba4u.webp|Shoe and Boot Accessories 4 U
 
 Own the company's technology and security end to end: scaled the BigCommerce e-commerce platform, integrated POS with e-commerce operations, administer ESET EDR across ~15 endpoints, UniFi networking with Protect surveillance, and TrueNAS storage infrastructure. Lead phishing/BEC incident response, including attacker infrastructure takedowns.
 
