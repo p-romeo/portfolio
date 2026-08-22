@@ -102,18 +102,19 @@ nav a.active::after{content:'_';animation:blink 1s steps(1) infinite}
 <div class="hero" data-reveal><div class="wrap">
 <div class="kicker">// cybersecurity · defensive security</div>
 <h1>Paul Joseph Romeo</h1>
-<p class="sub">IT Director &amp; Security Manager turning operational leadership into defensible security.</p>
+<p class="sub">Security manager who does the work — incident response, takedowns, endpoint &amp; network defense.</p>
 <p class="sub" style="font-family:var(--mono);color:var(--accent);font-size:1rem">&gt; <span id="typed">security manager</span><span class="typed-cursor">▌</span></p>
 <div class="tags"><span class="tag">SSCP</span><span class="tag">Security+</span><span class="tag">Incident Response</span><span class="tag">SOC</span><span class="tag">Detection Engineering</span></div>
 </div></div>
 
 <section id="about"><div class="wrap" data-reveal>
 <h2>About</h2>
-<div class="about-grid"><div><p>Security-minded IT leader with 15+ years running technology and operations — currently <strong>IT Systems &amp; Security Manager and E-commerce Operations lead at Belmont Leather Co.</strong>, where I own identity, endpoint, network, and e-commerce platform security end to end. I administer the company&#x27;s security stack daily: <strong>ESET EDR + ESET Cloud Protect across ~15 endpoints</strong>, <strong>UniFi networking with a 10-camera UniFi Protect surveillance system</strong>, and <strong>TrueNAS file storage/SMB infrastructure</strong>.</p>
-<p>That infrastructure work has direct business results. I scaled the company&#x27;s BigCommerce e-commerce platform and integrated it with our POS systems, driving <strong>389% sales growth</strong> and <strong>$1.2M in new revenue</strong> while cutting <strong>$12K in costs</strong> through the POS/e-commerce integration. Building customer relationship systems added another <strong>$32K per year in revenue</strong>.</p>
-<p>I <strong>graduated from Western Governors University in August 2026 with a B.S. in Cybersecurity and Information Assurance</strong>. My capstone (D833) — a Wazuh SIEM deployment plus Duo MFA proposal for a fictional company, &quot;Granite&quot; — passed on first submission. My path there was non-linear, with prior coursework at SNHU, Rowan University, and NJIT.</p>
-<p>What I do every day is <strong>incident response</strong>. I investigate phishing and business email compromise (BEC) attacks against the company, and I don&#x27;t just block them — I take attacker infrastructure down through registrar, hosting provider, and abuse-desk reports. Recent real cases include:</p>
+<div class="about-grid"><div><p>I run security and IT at <strong>Belmont Leather Co.</strong> — one person owning the whole stack: <strong>ESET EDR across ~15 endpoints</strong>, <strong>UniFi networking with 10-camera Protect surveillance</strong>, <strong>TrueNAS storage</strong>, identity, email security, and the BigCommerce e-commerce platform.</p>
+<p>The part I actually love is incident response. When phishing or business email compromise hits the company, I investigate it, and I don&#x27;t stop at blocking — I take attacker infrastructure down through registrar, hosting provider, and abuse-desk reports. Real cases I&#x27;ve worked:</p>
 <ul><li>A <strong>ClickFix social-engineering campaign</strong> targeting employees with fake fix-it prompts</li><li>A <strong>BEC attempt impersonating Beacon Adhesives</strong> to redirect payments</li><li>An <strong>SSA/ScreenConnect lure</strong> delivering remote-access malware</li><li>A <strong>Temu brand-impersonation</strong> phishing wave</li><li>A multi-message <strong>Punchbowl-themed phishing campaign</strong></li></ul>
+<p>That hands-on work shows up in my projects too: <strong><a href="https://github.com/p-romeo/signal-vault">Signal Vault</a></strong> (scam/phishing triage engine built from real cases), a <strong>CTF toolkit</strong>, and a Wazuh SIEM deployment for my capstone.</p>
+<p>I backed all of this with the paper: <strong>B.S. Cybersecurity &amp; Information Assurance from Western Governors University</strong> (August 2026, capstone passed first submission), plus Security+, CySA+, PenTest+, SSCP, and more — <a href="#certifications">full list below</a>.</p>
+<p>On the business side, the platform work pays for itself: <strong>389% sales growth</strong>, <strong>$1.2M in new revenue</strong>, <strong>$12K in costs cut</strong> through POS/e-commerce integration, and <strong>$32K/year</strong> added from customer relationship systems. Security that understands the business it protects.</p>
 <p>Outside of work you&#x27;ll find me building CTF tooling, automating investigations with AI agents, and picking apart scam infrastructure for fun.</p></div>
 <dl class="facts">
 <dt>Currently</dt><dd>IT Director &amp; Security Manager, Belmont Leather Co.</dd>
@@ -178,7 +179,7 @@ if('IntersectionObserver' in window){
  Object.keys(map).forEach(function(id){var s=document.getElementById(id);if(s)nio.observe(s);});
 }
 // hero typing
-var roles=['incident responder','detection engineer','security manager'];
+var roles=['phishing investigation','EDR management','abuse-desk takedowns','SIEM & detection'];
 var el=document.getElementById('typed');
 if(!reduced&&el){
  var ri=0,ci=0,del=false;
@@ -191,7 +192,7 @@ if(!reduced&&el){
   else ci+=del?-1:1;
   setTimeout(tick,t);
  })();
-}else if(el){el.textContent='security manager';}
+}else if(el){el.textContent='phishing investigation · EDR · takedowns';}
 // progress bar
 var bar=document.getElementById('progress'),raf=0;
 function upd(){

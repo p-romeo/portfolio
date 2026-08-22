@@ -349,7 +349,7 @@ if('IntersectionObserver' in window){
  Object.keys(map).forEach(function(id){var s=document.getElementById(id);if(s)nio.observe(s);});
 }
 // hero typing
-var roles=['incident responder','detection engineer','security manager'];
+var roles=['phishing investigation','EDR management','abuse-desk takedowns','SIEM & detection'];
 var el=document.getElementById('typed');
 if(!reduced&&el){
  var ri=0,ci=0,del=false;
@@ -362,7 +362,7 @@ if(!reduced&&el){
   else ci+=del?-1:1;
   setTimeout(tick,t);
  })();
-}else if(el){el.textContent='security manager';}
+}else if(el){el.textContent='phishing investigation · EDR · takedowns';}
 // progress bar
 var bar=document.getElementById('progress'),raf=0;
 function upd(){
@@ -392,7 +392,7 @@ upd();
 <div class="hero" data-reveal><div class="wrap">
 <div class="kicker">// cybersecurity · defensive security</div>
 <h1>Paul Joseph Romeo</h1>
-<p class="sub">IT Director &amp; Security Manager turning operational leadership into defensible security.</p>
+<p class="sub">Security manager who does the work — incident response, takedowns, endpoint &amp; network defense.</p>
 <p class="sub" style="font-family:var(--mono);color:var(--accent);font-size:1rem">&gt; <span id="typed">security manager</span><span class="typed-cursor">▌</span></p>
 <div class="tags">{hero_tags}</div>
 </div></div>
