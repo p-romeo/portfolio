@@ -1,7 +1,7 @@
-I run security and IT at **Belmont Leather Co.** — one person owning the whole stack: **ESET EDR across ~15 endpoints**, **UniFi networking with 10-camera Protect**, **TrueNAS**, identity, email security, and BigCommerce.
+I run security and IT at Belmont Leather Co. It's a one-person operation covering the whole stack: ESET EDR on ~15 endpoints, UniFi networking with 10-camera Protect, TrueNAS, identity, email security, and the BigCommerce platform.
 
-The part I actually love is incident response — and I don't stop at blocking. I take attacker infrastructure down through registrar, hosting provider, and abuse-desk reports: **ClickFix** social engineering, a **BEC attempt impersonating Beacon Adhesives**, an **SSA/ScreenConnect lure**, **Temu** impersonation, and more.
+My favorite part is incident response. When phishing or BEC hits the company, I investigate it, then go after the attacker's infrastructure with registrar, hosting provider, and abuse-desk reports. Recent cases: ClickFix social engineering, a BEC attempt impersonating Beacon Adhesives, an SSA/ScreenConnect lure, Temu impersonation waves.
 
-That work became my projects: **[Signal Vault](https://github.com/p-romeo/signal-vault)** (scam/phishing triage engine built from real cases) and a **CTF toolkit**.
+That casework turned into projects: [Signal Vault](https://github.com/p-romeo/signal-vault), a scam/phishing triage engine built from real incidents, plus a CTF toolkit.
 
-Credentials: **B.S. Cybersecurity & Information Assurance, WGU** (Aug 2026) plus Security+, CySA+, PenTest+, SSCP — [full list below](#certifications). The platform work pays for itself too: **389% sales growth**, **$1.2M new revenue**, security that understands the business it protects.
+Credentials: B.S. Cybersecurity & Information Assurance from WGU (Aug 2026), Security+, CySA+, PenTest+, SSCP — full list below. The e-commerce platform work also drove 389% sales growth and $1.2M in new revenue, so security decisions here get made with the business in mind.
