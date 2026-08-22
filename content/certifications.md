@@ -10,7 +10,7 @@
 - **HackerRank Python (Basic)** | HackerRank | Issued Nov 27 2023 · no expiry | logo:https://cdn0.hackerrank.com/assets/logo/hackerrank-logo.png | credential_id:68B4AF7ED6E8 | verify_url:https://www.hackerrank.com/certificate/68B4AF7ED6E8
 - **HackerRank SQL (Basic)** | HackerRank | Issued Feb 19 2025 · no expiry | logo:https://cdn0.hackerrank.com/assets/logo/hackerrank-logo.png | credential_id:4402EB8CB415 | verify_url:https://www.hackerrank.com/certificate/4402EB8CB415
 - **TryHackMe Pre-Security Path** | TryHackMe | Issued Sep 11 2025 | logo:https://tryhackme.com/favicon.ico | credential_id:THM-UEU9TLFMVM | verify_url:https://tryhackme.com/certificate/THM-UEU9TLFMVM
-- **Pokémon Professor — Pokémon TCG** | Professor University | issued Feb 16 2026 · expires Feb 16 2027 | icon_text:⚡ | credential_id:b176ec3f-fa3e-4b40-83a9-55d8da47fefa | verify_url:../assets/certs/pokemon-professor.pdf
+- **Pokémon Professor — Pokémon TCG** | Professor University | issued Feb 16 2026 · expires Feb 16 2027 | icon_text:⚡ | credential_id:b176ec3f-fa3e-4b40-83a9-55d8da47fefa | verify_url:assets/certs/pokemon-professor.pdf
 - **CompTIA CIOS Stackable** | CompTIA | Issued Jul 2024 · expires Jul 2027 | logo:assets/logos/comptia.png | credential_id:COMP001022285812 | verify_url:https://cp.certmetrics.com/CompTIA/en/public/verify/credential/COMP001022285812
 
 *Security+, Network+, A+, and Project+ were earned together as part of WGU's stackable certification track (B.S. Cybersecurity & Information Assurance). The CIOS stackable shares its credential ID with CSIS.*
