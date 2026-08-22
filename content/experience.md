@@ -4,7 +4,7 @@ logo:assets/logos/belmont.webp|Belmont Leather Co,assets/logos/sba4u.webp|Shoe a
 
 Own the company's technology and security end to end: scaled the BigCommerce e-commerce platform, integrated POS with e-commerce operations, administer ESET EDR across ~15 endpoints, UniFi networking with Protect surveillance, and TrueNAS storage infrastructure. Lead phishing/BEC incident response, including attacker infrastructure takedowns.
 
-## Rowan University — Theater Technician (Part-time, ~8 years)
+## Rowan University — Theater Technician (Part-time, 2018–2019)
 
 logo:assets/logos/rowan.png
 

@@ -108,7 +108,8 @@ def parse_projects():
             body = m.group(2).strip()
         meta["body"] = body
         projects.append(meta)
-    # sort by weight then name
+    # drop hidden projects, then sort by weight then name
+    projects = [p for p in projects if str(p.get("hidden", "")).lower() != "true"]
     projects.sort(key=lambda p: (int(p.get("weight", 99)), p.get("title", "")))
     return projects
 
