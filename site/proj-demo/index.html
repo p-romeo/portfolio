@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>proj — your AI product manager</title>
+<meta name="description" content="proj is an AI-infused personal product/project manager. Check-ins, reports, scope control — it manages you so you don't have to.">
+<style>
+:root{--bg:#0b0f14;--bg2:#10161e;--card:#131a23;--line:#223042;--text:#d7e2ee;--muted:#8aa0b6;--accent:#3ddc97;--accent2:#4fc3f7;--warn:#f5c542;--bad:#f56a6a;--mono:ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font:16px/1.65 'Segoe UI',system-ui,-apple-system,sans-serif}
+a{color:var(--accent2);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:960px;margin:0 auto;padding:0 24px}
+header{position:sticky;top:0;z-index:10;background:rgba(11,15,20,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;gap:16px;padding:16px 0;font-family:var(--mono);font-size:.85rem}
+nav .brand{color:var(--accent);font-weight:700;margin-right:auto}
+nav .brand::before{content:'>_ '}
+nav a{color:var(--muted);white-space:nowrap}nav a:hover{color:var(--accent)}
+.hero{padding:72px 0 56px;border-bottom:1px solid var(--line);background:radial-gradient(600px 300px at 70% 0%,rgba(79,195,247,.08),transparent),radial-gradient(500px 260px at 20% 100%,rgba(61,220,151,.07),transparent)}
+.hero .kicker{font-family:var(--mono);color:var(--accent);font-size:.85rem;letter-spacing:.12em;text-transform:uppercase}
+.hero h1{font-size:2.6rem;line-height:1.15;margin:12px 0 6px}
+.hero .sub{font-size:1.15rem;color:var(--muted)}
+.hero .cta{margin-top:24px;display:flex;gap:12px;flex-wrap:wrap}
+.btn{font-family:var(--mono);font-size:.9rem;padding:10px 18px;border:1px solid var(--accent);color:var(--accent);border-radius:6px;cursor:pointer;background:transparent}
+.btn:hover{background:rgba(61,220,151,.1);text-decoration:none}
+.btn.primary{background:var(--accent);color:#06281a;font-weight:700}
+.btn.primary:hover{background:#5ae8ac}
+section{padding:56px 0;border-bottom:1px solid var(--line)}
+h2{font-size:1.5rem;margin-bottom:8px;font-family:var(--mono);color:var(--accent)}
+h2::before{content:'## ';color:var(--muted)}
+.lead{color:var(--muted);margin-bottom:24px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px}
+.card h3{font-size:1.02rem;margin-bottom:6px;color:var(--text)}
+.card p{color:var(--muted);font-size:.92rem}
+.card .tag{display:inline-block;font-family:var(--mono);font-size:.68rem;color:var(--accent);border:1px solid var(--line);border-radius:4px;padding:2px 8px;margin-bottom:10px}
+/* terminal demo */
+.term{background:#0a0e13;border:1px solid var(--line);border-radius:10px;overflow:hidden;font-family:var(--mono);font-size:.85rem}
+.term .bar{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--bg2);border-bottom:1px solid var(--line)}
+.dot{width:11px;height:11px;border-radius:50%}
+.dot.r{background:#f56a6a}.dot.y{background:#f5c542}.dot.g{background:#3ddc97}
+.term .bar span{color:var(--muted);margin-left:8px;font-size:.75rem}
+.term .body{padding:18px;min-height:340px;white-space:pre-wrap;line-height:1.7}
+.c-p{color:var(--accent)} .c-b{color:var(--accent2)} .c-m{color:var(--muted)} .c-w{color:var(--warn)} .c-r{color:var(--bad)} .c-t{color:var(--text)}
+.cursor{display:inline-block;width:8px;height:15px;background:var(--accent);vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+/* health */
+.health{display:flex;gap:8px;margin:14px 0}
+.pill{font-family:var(--mono);font-size:.75rem;padding:4px 12px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
+.pill.on{border-color:var(--accent);color:var(--accent)}
+.pill.att{border-color:var(--warn);color:var(--warn)}
+.pill.risk{border-color:var(--bad);color:var(--bad)}
+/* report card */
+.report{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px;margin-top:16px}
+.report h4{font-family:var(--mono);color:var(--accent2);margin:12px 0 6px;font-size:.9rem}
+.report ul{padding-left:20px;color:var(--muted);font-size:.92rem}
+.report li{margin:4px 0}
+footer{padding:40px 0;color:var(--muted);font-size:.85rem;font-family:var(--mono)}
+@media(max-width:720px){.hero h1{font-size:2rem}nav{flex-wrap:wrap}nav .brand{flex-basis:100%}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><nav>
+  <span class="brand">proj</span>
+  <a href="#demo">demo</a><a href="#features">features</a><a href="#report">report</a><a href="#roadmap">roadmap</a>
+</nav></div></header>
+
+<div class="hero"><div class="wrap">
+  <div class="kicker">personal product manager</div>
+  <h1>proj manages you,<br>so you don't have to.</h1>
+  <p class="sub">An AI-infused PM that works for individuals instead of companies. Daily check-ins, manager-style reports, scope-change control, app tests &amp; accessibility studies — built for brains that can't self-manage.</p>
+  <div class="cta"><a class="btn primary" href="#demo">Watch it work</a><a class="btn" href="https://github.com/p-romeo/proj">Source (private)</a></div>
+</div></div>
+
+<section id="demo"><div class="wrap">
+  <h2>live demo</h2>
+  <p class="lead">A real session with proj: create a project, run a check-in, get managed.</p>
+  <div class="term">
+    <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span>proj — demo session</span></div>
+    <div class="body" id="term"></div>
+  </div>
+</div></section>
+
+<section id="features"><div class="wrap">
+  <h2>what it does</h2>
+  <div class="grid">
+    <div class="card"><span class="tag">shipped · mvp</span><h3>Check-in engine</h3><p>Daily, hourly, or on-demand status prompts. Answers feed a health signal: on track / needs attention / at risk.</p></div>
+    <div class="card"><span class="tag">shipped · mvp</span><h3>Manager-style reports</h3><p>Progress, blockers, and next actions — LLM-written via OpenRouter, with an offline template fallback.</p></div>
+    <div class="card"><span class="tag">shipped · mvp</span><h3>Scope-change log</h3><p>Every scope change is logged per project. proj remembers when you said "just one small addition."</p></div>
+    <div class="card"><span class="tag">shipped · mvp</span><h3>Task tracking</h3><p>Per-project task lists with done/open states — the raw material for every report and check-in.</p></div>
+    <div class="card"><span class="tag">v0.2</span><h3>Outreach</h3><p>Email and GitHub review-request nudges — proj chases other people so you don't have to.</p></div>
+    <div class="card"><span class="tag">v0.3+</span><h3>App tests &amp; a11y studies</h3><p>Scheduled application testing and accessibility audits with findings folded into your reports.</p></div>
+  </div>
+</div></section>
+
+<section id="report"><div class="wrap">
+  <h2>the report you'd wake up to</h2>
+  <p class="lead">Generated from yesterday's check-in answers and task activity.</p>
+  <div class="health">
+    <span class="pill on">● on_track</span><span class="pill">needs_attention</span><span class="pill">at_risk</span>
+  </div>
+  <div class="report">
+    <strong>Daily report — proj demo website · 2026-08-23</strong>
+    <h4>Progress</h4>
+    <ul><li>Demo page deployed to proj.paulromeo.net (2/3 tasks done)</li><li>Check-in streak: 3 days — health holding at on_track</li></ul>
+    <h4>Blockers</h4>
+    <ul><li>Copy for the pricing section is still undecided (open since Tue — this is the third nudge)</li></ul>
+    <h4>Next actions</h4>
+    <ul><li>1. Pick pricing copy today (15 min — do it before opening email)</li><li>2. Ship accessibility pass on the demo (scheduled test runs tonight)</li></ul>
+    <p style="margin-top:14px;color:var(--muted);font-size:.85rem;font-family:var(--mono)">source: llm · model: openrouter/free-tier</p>
+  </div>
+</div></section>
+
+<section id="roadmap"><div class="wrap">
+  <h2>roadmap</h2>
+  <div class="grid">
+    <div class="card"><span class="tag">v0.1 · now</span><h3>MVP CLI</h3><p>Projects, check-ins, reports, tasks, scope log. 11/11 tests passing.</p></div>
+    <div class="card"><span class="tag">v0.2</span><h3>Reach out</h3><p>Email + GitHub outreach engine. proj talks to people for you.</p></div>
+    <div class="card"><span class="tag">v0.3</span><h3>Test runner</h3><p>Automated app tests + accessibility studies on a schedule.</p></div>
+    <div class="card"><span class="tag">v0.4</span><h3>Always on</h3><p>Web dashboard (this site's big sibling), Telegram check-ins, cron-driven daily reports.</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">proj — built by an AI PM, for people who need one. · <a href="https://paulromeo.net">paulromeo.net</a></div></footer>
+
+<script>
+const lines = [
+ ['c-m','$ ', 'proj create "proj demo website" --goal "Ship a demo that explains proj" --scope "Landing page, live CLI walkthrough"'],
+ ['c-p','✓ ', 'Project created: proj demo website (id: pdw-1)'],
+ ['',''  , ''],
+ ['c-m','$ ', 'proj task add pdw-1 "Design landing page"'],
+ ['c-p','✓ ', 'Task added (open)'],
+ ['c-m','$ ', 'proj task add pdw-1 "Write demo copy"'],
+ ['c-m','$ ', 'proj task add pdw-1 "Deploy to proj.paulromeo.net"'],
+ ['',''  , ''],
+ ['c-m','$ ', 'proj checkin pdw-1 --cadence daily'],
+ ['c-b','proj: ', 'Daily check-in — 3 questions.'],
+ ['c-b','  1. ', 'What moved forward since yesterday?'],
+ ['c-t','  > ', 'Landing page designed, copy drafted'],
+ ['c-b','  2. ', 'Anything blocked?'],
+ ['c-t','  > ', 'Waiting on final copy approval'],
+ ['c-b','  3. ', 'Confidence this ships this week (1-5)?'],
+ ['c-t','  > ', '4'],
+ ['c-p','✓ ', 'Check-in recorded → health signal: on_track'],
+ ['',''  , ''],
+ ['c-m','$ ', 'proj scope pdw-1 "add a pricing section" --reason "stakeholder request"'],
+ ['c-w','⚠ ', 'Scope change logged. Project scope has changed 1 time.'],
+ ['c-w','  ', 'proj will factor this into the ship-date estimate.'],
+ ['',''  , ''],
+ ['c-m','$ ', 'proj report pdw-1'],
+ ['c-p','▸ ', 'Generating report (OpenRouter)...'],
+ ['c-p','✓ ', 'Report ready — 2 done, 1 open, 1 scope change. Health: on_track.'],
+ ['c-m','  ', 'Next check-in: tomorrow 09:00'],
+];
+const el = document.getElementById('term');
+let i = 0, j = 0, buf = [];
+function render() {
+  el.innerHTML = buf.join('') + '<span class="cursor"></span>';
+}
+function step() {
+  if (i >= lines.length) { render(); return; }
+  const [cls, pre, txt] = lines[i];
+  if (pre === '' && txt === '') { buf.push('\n'); i++; j = 0; render(); setTimeout(step, 220); return; }
+  if (j === 0) {
+    if (pre) buf.push('<span class="'+cls+'">'+pre.replace(/</g,'&lt;')+'</span>');
+    buf.push('<span class="'+(cls==='c-m'?'c-t':cls)+'">');
+  }
+  buf[buf.length-1] = buf[buf.length-1]; // noop keep structure
+  const span = '<span class="'+(cls==='c-m'?'c-t':cls)+'">';
+  // simpler: append chars to last text span
+  j += 3;
+  renderText(cls, pre, txt);
+}
+// simpler char-typing approach
+let out = [], li = 0, ci = 0;
+function renderText(cls, pre, txt) {
+  const full = (pre||'') + (txt||'');
+  if (ci <= full.length) {
+    const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+    let html = out.map(l => '<span class="'+l.c+'">'+esc(l.t)+'</span>').join('');
+    const cur = full.slice(0, ci);
+    const cc = cls==='c-m'?'c-t':cls;
+    el.innerHTML = html + '<span class="'+cc+'">'+esc(cur)+'</span><span class="cursor"></span>';
+    ci += 2;
+    setTimeout(() => renderText(cls, pre, txt), 12);
+  } else {
+    out.push({c: cls==='c-m'?'c-t':cls, t: full});
+    li++; ci = 0;
+    setTimeout(step, li % 6 === 0 ? 260 : 60);
+  }
+}
+function start() {
+  if (li < lines.length) {
+    const [cls, pre, txt] = lines[li];
+    if ((pre===''||pre==null) && (txt===''||txt==null)) { out.push({c:'',t:''}); li++; setTimeout(start,200); return; }
+    renderText(cls, pre, txt);
+  } else {
+    const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
+    el.innerHTML = out.map(l => l.t==='' ? '' : '<span class="'+l.c+'">'+esc(l.t)+'</span>').join('\n') + '\n' + '<span class="cursor"></span>';
+  }
+}
+// IntersectionObserver: start when visible
+const io = new IntersectionObserver(e => { if (e[0].isIntersecting) { start(); io.disconnect(); } }, {threshold:.3});
+io.observe(el);
+</script>
+</body>
+</html>
