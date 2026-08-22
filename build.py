@@ -197,6 +197,25 @@ h2::before{content:'//';font-family:var(--mono);color:var(--accent);font-size:1r
 .btn.ghost{background:transparent;color:var(--accent)}
 footer{padding:32px 0;font-family:var(--mono);font-size:.78rem;color:var(--muted);text-align:center}
 footer .sep{color:var(--line)}
+/* --- interactive polish --- */
+html{scroll-padding-top:64px}
+#progress{position:fixed;top:0;left:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--accent);z-index:20;box-shadow:0 0 6px rgba(61,220,151,.6);will-change:transform}
+[data-reveal]{opacity:0;transform:translateY(18px)}
+[data-reveal].in{opacity:1;transform:none;transition:opacity .5s ease,transform .5s ease;transition-delay:var(--d,0ms)}
+.card,.badge,.xp{transition:border-color .2s,transform .2s,box-shadow .2s}
+.card:hover{border-color:var(--accent2);box-shadow:0 4px 18px rgba(79,195,247,.15)}
+.badge:hover,.xp:hover{border-color:var(--accent);box-shadow:0 4px 18px rgba(61,220,151,.15)}
+nav a.active{color:var(--accent);border-bottom:1px solid var(--accent)}
+nav a.active::after{content:'_';animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.typed-cursor{display:inline-block;color:var(--accent);animation:blink 1s steps(1) infinite}
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ [data-reveal]{opacity:1;transform:none}
+ [data-reveal].in{transition:none}
+ nav a.active::after,.typed-cursor{animation:none}
+ *{scroll-behavior:auto!important}
+}
 """
 
 
@@ -242,9 +261,9 @@ def render():
         return ""
 
     experience_html = "".join(
-        f'<div class="xp"><div class="xp-head">{xp_logo(r)}<h3>{esc(r["title"])}</h3></div>'
+        f'<div class="xp" data-reveal style="--d:{i * 40}ms"><div class="xp-head">{xp_logo(r)}<h3>{esc(r["title"])}</h3></div>'
         f'<p>{inline(r["body"])}</p></div>'
-        for r in experience)
+        for i, r in enumerate(experience))
 
     def badge_icon(b):
         logo = b.get("logo", "")
@@ -254,12 +273,12 @@ def render():
         return '<div class="icon">%s</div>' % esc(b["name"].split()[0][:3])
 
     badges_html = "".join(
-        f'<div class="badge">{badge_icon(b)}'
+        f'<div class="badge" data-reveal style="--d:{i * 40}ms">{badge_icon(b)}'
         f'<div><b>{esc(b["name"])}</b><span>{esc(b["issuer"])} · {esc(b["year"])}</span></div></div>'
-        for b in certs)
+        for i, b in enumerate(certs))
 
     cards_html = ""
-    for p in projects:
+    for idx, p in enumerate(projects):
         link = p.get("link", "")
         title = esc(p.get("title", ""))
         if link and link != "private":
@@ -267,13 +286,63 @@ def render():
         priv = ' <span class="chip">private repo</span>' if link == "private" else ""
         body_html = blocks(p["body"])
         cards_html += (
-            f'<article class="card"><div class="meta">{esc(p.get("tag", ""))}</div>'
+            f'<article class="card" data-reveal style="--d:{idx * 40}ms"><div class="meta">{esc(p.get("tag", ""))}</div>'
             f'<h3>{title}{priv}</h3>{body_html}</article>')
 
     skills_html = "".join(
-        f'<div class="skill-group"><h3>{esc(g["category"])}</h3><div class="chips">'
+        f'<div class="skill-group" data-reveal style="--d:{i * 40}ms"><h3>{esc(g["category"])}</h3><div class="chips">'
         + "".join(f'<span class="chip">{esc(i)}</span>' for i in g["items"])
-        + "</div></div>" for g in skills)
+        + "</div></div>" for i, g in enumerate(skills))
+
+    JS = """<script>
+(function(){
+'use strict';
+var reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+// scroll reveals
+var items=document.querySelectorAll('[data-reveal]');
+if(!reduced&&'IntersectionObserver' in window){
+ var io=new IntersectionObserver(function(es){es.forEach(function(e){
+  if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+ });},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+ items.forEach(function(el){io.observe(el);});
+}else{items.forEach(function(el){el.classList.add('in');});}
+// active nav
+var links=[].slice.call(document.querySelectorAll('nav a[href^="#"]'));
+var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+if('IntersectionObserver' in window){
+ var nio=new IntersectionObserver(function(es){es.forEach(function(e){
+  var a=map[e.target.id];if(!a)return;
+  if(e.isIntersecting){links.forEach(function(l){l.classList.remove('active');});a.classList.add('active');}
+ });},{rootMargin:'-45% 0px -50% 0px'});
+ Object.keys(map).forEach(function(id){var s=document.getElementById(id);if(s)nio.observe(s);});
+}
+// hero typing
+var roles=['incident responder','detection engineer','security manager'];
+var el=document.getElementById('typed');
+if(!reduced&&el){
+ var ri=0,ci=0,del=false;
+ (function tick(){
+  var w=roles[ri];
+  el.textContent=w.slice(0,ci);
+  var t=del?40:75;
+  if(!del&&ci===w.length){t=1600;del=true;}
+  else if(del&&ci===0){del=false;ri=(ri+1)%roles.length;t=350;}
+  else ci+=del?-1:1;
+  setTimeout(tick,t);
+ })();
+}else if(el){el.textContent='security manager';}
+// progress bar
+var bar=document.getElementById('progress'),raf=0;
+function upd(){
+ raf=0;
+ var h=document.documentElement;
+ var max=h.scrollHeight-h.clientHeight;
+ bar.style.transform='scaleX('+(max>0?(h.scrollTop||document.body.scrollTop)/max:1)+')';
+}
+addEventListener('scroll',function(){if(!raf)raf=requestAnimationFrame(upd);},{passive:true});
+upd();
+})();
+</script>"""
 
     page = f"""<!DOCTYPE html>
 <html lang="en">
@@ -285,16 +354,18 @@ def render():
 <style>{CSS}</style>
 </head>
 <body>
+<div id="progress" aria-hidden="true"></div>
 <header><div class="wrap"><nav><span class="brand">paul_romeo</span>{nav}</nav></div></header>
 
-<div class="hero"><div class="wrap">
+<div class="hero" data-reveal><div class="wrap">
 <div class="kicker">// cybersecurity · defensive security</div>
 <h1>Paul Joseph Romeo</h1>
 <p class="sub">IT Director &amp; Security Manager turning operational leadership into defensible security.</p>
+<p class="sub" style="font-family:var(--mono);color:var(--accent);font-size:1rem">&gt; <span id="typed">security manager</span><span class="typed-cursor">▌</span></p>
 <div class="tags">{hero_tags}</div>
 </div></div>
 
-<section id="about"><div class="wrap">
+<section id="about"><div class="wrap" data-reveal>
 <h2>About</h2>
 <div class="about-grid"><div>{blocks(about_md)}</div>{facts}</div>
 </div></section>
@@ -319,7 +390,7 @@ def render():
 {skills_html}
 </div></section>
 
-<section id="resume"><div class="wrap">
+<section id="resume"><div class="wrap" data-reveal>
 <h2>Résumé</h2>
 <div class="resume-card">
 <div><b>Download a copy</b><br><span style="color:var(--muted);font-size:.9rem">PDF résumé, kept current.</span></div>
@@ -330,6 +401,7 @@ def render():
 </div></section>
 
 <footer><div class="wrap">built with a tiny static generator <span class="sep">|</span> markdown in, html out <span class="sep">|</span> © 2026 Paul Joseph Romeo</footer>
+{JS}
 </body></html>"""
 
     os.makedirs(SITE, exist_ok=True)
