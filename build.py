@@ -94,6 +94,21 @@ def parse_projects():
     return projects
 
 
+def parse_experience(md):
+    """## Role — Org (dates) followed by paragraph."""
+    roles, cur = [], None
+    for line in md.splitlines():
+        h = re.match(r"^##\s+(.+)", line)
+        if h:
+            cur = {"title": h.group(1), "body": []}
+            roles.append(cur)
+        elif cur is not None and line.strip():
+            cur["body"].append(line.strip())
+    for r in roles:
+        r["body"] = " ".join(r["body"])
+    return roles
+
+
 def parse_skills(md):
     """## Category followed by comma-separated list."""
     groups, cur = [], None
@@ -154,6 +169,9 @@ h2::before{content:'//';font-family:var(--mono);color:var(--accent);font-size:1r
 .skill-group{margin-bottom:20px}
 .skill-group h3{font-family:var(--mono);font-size:.78rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
 .chips{display:flex;flex-wrap:wrap;gap:7px}
+.xp{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:14px}
+.xp h3{font-size:1rem;margin-bottom:6px}
+.xp p{font-size:.9rem;color:var(--muted)}
 .chip{font-family:var(--mono);font-size:.75rem;background:var(--bg2);border:1px solid var(--line);border-radius:6px;padding:4px 10px;color:var(--text)}
 .resume-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:28px;display:flex;align-items:center;gap:28px;flex-wrap:wrap}
 .btn{font-family:var(--mono);font-size:.85rem;padding:11px 22px;border-radius:8px;border:1px solid var(--accent);color:var(--bg);background:var(--accent);font-weight:700}
@@ -173,9 +191,10 @@ def render():
     certs = parse_certs(read("certifications.md"))
     projects = parse_projects()
     skills = parse_skills(read("skills.md"))
+    experience = parse_experience(read("experience.md"))
 
     nav = "".join(f'<a href="#{sid}">{label}</a>' for sid, label in [
-        ("about", "about"), ("certifications", "certs"),
+        ("about", "about"), ("experience", "experience"), ("certifications", "certs"),
         ("projects", "projects"), ("skills", "skills"), ("resume", "resume")])
 
     hero_tags = "".join(f'<span class="tag">{esc(t)}</span>' for t in [
@@ -189,6 +208,10 @@ def render():
 <dt>Focus</dt><dd>Incident response &middot; SOC operations &middot; Detection engineering</dd>
 <dt>Founder</dt><dd>Shoe and Boot Accessories 4 U (Amazon / eBay / BigCommerce)</dd>
 </dl>"""
+
+    experience_html = "".join(
+        f'<div class="xp"><h3>{esc(r["title"])}</h3><p>{inline(r["body"])}</p></div>'
+        for r in experience)
 
     badges_html = "".join(
         f'<div class="badge"><div class="icon">{esc(b["name"].split()[0][:3])}</div>'
@@ -234,6 +257,11 @@ def render():
 <section id="about"><div class="wrap">
 <h2>About</h2>
 <div class="about-grid"><div>{blocks(about_md)}</div>{facts}</div>
+</div></section>
+
+<section id="experience"><div class="wrap">
+<h2>Experience</h2>
+{experience_html}
 </div></section>
 
 <section id="certifications"><div class="wrap">

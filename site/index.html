@@ -50,6 +50,9 @@ h2::before{content:'//';font-family:var(--mono);color:var(--accent);font-size:1r
 .skill-group{margin-bottom:20px}
 .skill-group h3{font-family:var(--mono);font-size:.78rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
 .chips{display:flex;flex-wrap:wrap;gap:7px}
+.xp{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:14px}
+.xp h3{font-size:1rem;margin-bottom:6px}
+.xp p{font-size:.9rem;color:var(--muted)}
 .chip{font-family:var(--mono);font-size:.75rem;background:var(--bg2);border:1px solid var(--line);border-radius:6px;padding:4px 10px;color:var(--text)}
 .resume-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:28px;display:flex;align-items:center;gap:28px;flex-wrap:wrap}
 .btn{font-family:var(--mono);font-size:.85rem;padding:11px 22px;border-radius:8px;border:1px solid var(--accent);color:var(--bg);background:var(--accent);font-weight:700}
@@ -60,7 +63,7 @@ footer .sep{color:var(--line)}
 </style>
 </head>
 <body>
-<header><div class="wrap"><nav><span class="brand">paul_romeo</span><a href="#about">about</a><a href="#certifications">certs</a><a href="#projects">projects</a><a href="#skills">skills</a><a href="#resume">resume</a></nav></div></header>
+<header><div class="wrap"><nav><span class="brand">paul_romeo</span><a href="#about">about</a><a href="#experience">experience</a><a href="#certifications">certs</a><a href="#projects">projects</a><a href="#skills">skills</a><a href="#resume">resume</a></nav></div></header>
 
 <div class="hero"><div class="wrap">
 <div class="kicker">// cybersecurity · defensive security</div>
@@ -71,7 +74,8 @@ footer .sep{color:var(--line)}
 
 <section id="about"><div class="wrap">
 <h2>About</h2>
-<div class="about-grid"><div><p>Security-minded IT leader with 15+ years running technology and operations — currently <strong>IT Director &amp; Security Manager at Belmont Leather Co.</strong> (and E-commerce Operations Manager), where I own identity, endpoint, network, and e-commerce platform security end to end. I administer the company&#x27;s security stack daily: <strong>ESET EDR + ESET Cloud Protect across ~15 endpoints</strong>, <strong>UniFi networking with a 10-camera UniFi Protect surveillance system</strong>, and <strong>TrueNAS file storage/SMB infrastructure</strong>.</p>
+<div class="about-grid"><div><p>Security-minded IT leader with 15+ years running technology and operations — currently <strong>IT Systems &amp; Security Manager and E-commerce Operations lead at Belmont Leather Co.</strong>, where I own identity, endpoint, network, and e-commerce platform security end to end. I administer the company&#x27;s security stack daily: <strong>ESET EDR + ESET Cloud Protect across ~15 endpoints</strong>, <strong>UniFi networking with a 10-camera UniFi Protect surveillance system</strong>, and <strong>TrueNAS file storage/SMB infrastructure</strong>.</p>
+<p>That infrastructure work has direct business results. I scaled the company&#x27;s BigCommerce e-commerce platform and integrated it with our POS systems, driving <strong>389% sales growth</strong> and <strong>$1.2M in new revenue</strong> while cutting <strong>$12K in costs</strong> through the POS/e-commerce integration. Building customer relationship systems added another <strong>$32K per year in revenue</strong>.</p>
 <p>I <strong>graduated from Western Governors University in August 2026 with a B.S. in Cybersecurity and Information Assurance</strong>. My capstone (D833) — a Wazuh SIEM deployment plus Duo MFA proposal for a fictional company, &quot;Granite&quot; — passed on first submission. My path there was non-linear, with prior coursework at SNHU, Rowan University, and NJIT.</p>
 <p>What I do every day is <strong>incident response</strong>. I investigate phishing and business email compromise (BEC) attacks against the company, and I don&#x27;t just block them — I take attacker infrastructure down through registrar, hosting provider, and abuse-desk reports. Recent real cases include:</p>
 <ul><li>A <strong>ClickFix social-engineering campaign</strong> targeting employees with fake fix-it prompts</li><li>A <strong>BEC attempt impersonating Beacon Adhesives</strong> to redirect payments</li><li>An <strong>SSA/ScreenConnect lure</strong> delivering remote-access malware</li><li>A <strong>Temu brand-impersonation</strong> phishing wave</li><li>A multi-message <strong>Punchbowl-themed phishing campaign</strong></li></ul>
@@ -85,9 +89,14 @@ footer .sep{color:var(--line)}
 </dl></div>
 </div></section>
 
+<section id="experience"><div class="wrap">
+<h2>Experience</h2>
+<div class="xp"><h3>Belmont Leather Co — IT Systems &amp; Security Manager / E-commerce Operations (Current)</h3><p>Own the company&#x27;s technology and security end to end: scaled the BigCommerce e-commerce platform, integrated POS with e-commerce operations, administer ESET EDR across ~15 endpoints, UniFi networking with Protect surveillance, and TrueNAS storage infrastructure. Lead phishing/BEC incident response, including attacker infrastructure takedowns.</p></div><div class="xp"><h3>Rowan University — Theater Technician (Part-time, ~8 years)</h3><p>Lighting, sound, and safety systems for 20+ productions.</p></div><div class="xp"><h3>Southern New Hampshire University — IT Help Desk (2017–2018)</h3><p></p></div><div class="xp"><h3>Rowan University — Media Services / Switchboard Operator (2016–2018)</h3><p></p></div>
+</div></section>
+
 <section id="certifications"><div class="wrap">
 <h2>Certifications</h2>
-<div class="badges"><div class="badge"><div class="icon">SSC</div><div><b>SSCP (ISC2 Associate)</b><span>(ISC)² · 2025</span></div></div><div class="badge"><div class="icon">Com</div><div><b>CompTIA Security+</b><span>CompTIA · 2024</span></div></div><div class="badge"><div class="icon">Com</div><div><b>CompTIA Network+</b><span>CompTIA · 2023</span></div></div><div class="badge"><div class="icon">Com</div><div><b>CompTIA A+</b><span>CompTIA · 2023</span></div></div><div class="badge"><div class="icon">Com</div><div><b>CompTIA Project+</b><span>CompTIA · 2024</span></div></div><div class="badge"><div class="icon">ITI</div><div><b>ITIL 4 Foundation</b><span>Axelos · 2023</span></div></div><div class="badge"><div class="icon">Goo</div><div><b>Google Cybersecurity Certificate</b><span>Google / Coursera · 2024</span></div></div><div class="badge"><div class="icon">LPI</div><div><b>LPI Linux Essentials</b><span>Linux Professional Institute · 2023</span></div></div></div>
+<div class="badges"><div class="badge"><div class="icon">Com</div><div><b>CompTIA Security+</b><span>CompTIA · Issued Jul 2024 · expires Jul 2027</span></div></div><div class="badge"><div class="icon">Com</div><div><b>CompTIA Network+</b><span>CompTIA · Issued Jul 2024 · expires Jul 2027</span></div></div><div class="badge"><div class="icon">Com</div><div><b>CompTIA A+</b><span>CompTIA · Issued Jul 2024 · expires Jul 2027</span></div></div><div class="badge"><div class="icon">Com</div><div><b>CompTIA Project+</b><span>CompTIA · Issued Jul 2024 · expires Jul 2027</span></div></div><div class="badge"><div class="icon">Com</div><div><b>CompTIA CySA+</b><span>CompTIA Cybersecurity Analyst · Issued Aug 2022 · expires Aug 2028</span></div></div><div class="badge"><div class="icon">Com</div><div><b>CompTIA PenTest+</b><span>CompTIA · Issued Jul 2024 · expires Jul 2027</span></div></div><div class="badge"><div class="icon">SSC</div><div><b>SSCP</b><span>ISC2 · Credential ID 1123939 · issued Jul 2025</span></div></div><div class="badge"><div class="icon">ITI</div><div><b>ITIL 4 Foundation</b><span>PeopleCert · Issued Dec 2024 · expires Dec 2027</span></div></div><div class="badge"><div class="icon">Goo</div><div><b>Google Cybersecurity Certificate</b><span>Google · Issued Jan 2024</span></div></div><div class="badge"><div class="icon">Goo</div><div><b>Google IT Support Professional Certificate</b><span>Google · Issued Jan 2024</span></div></div><div class="badge"><div class="icon">LPI</div><div><b>LPI Linux Essentials</b><span>Linux Professional Institute · Issued Jun 2024</span></div></div></div>
 </div></section>
 
 <section id="projects"><div class="wrap">
