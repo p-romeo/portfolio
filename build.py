@@ -61,13 +61,15 @@ def blocks(md):
 # ---------- section parsers ----------
 
 def parse_certs(md):
-    """Entries like: - **Name** | Issuer | Year | badge-url(optional)"""
+    """Entries like: - **Name** | Issuer | Year | logo:path (optional)"""
     badges = []
     for line in md.splitlines():
-        m = re.match(r"^-\s+\*\*(.+?)\*\*\s+\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*(?:\|\s*(\S+)\s*)?$", line)
+        m = re.match(r"^- +\*\*(.+?)\*\* *\|([^|]+?)\|\s*([^|]+?)\s*(?:\|\s*(\S+)\s*)?$", line)
         if m:
-            badges.append({"name": m.group(1), "issuer": m.group(2),
-                           "year": m.group(3), "url": (m.group(4) or "").strip()})
+            extra = (m.group(4) or "").strip()
+            logo = extra[5:] if extra.startswith("logo:") else ""
+            badges.append({"name": m.group(1), "issuer": m.group(2).strip(),
+                           "year": m.group(3), "url": "" if logo else extra, "logo": logo})
     return badges
 
 
@@ -155,7 +157,8 @@ h2::before{content:'//';font-family:var(--mono);color:var(--accent);font-size:1r
 .badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
 .badge{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;transition:border-color .2s,transform .2s}
 .badge:hover{border-color:var(--accent);transform:translateY(-2px)}
-.badge .icon{width:38px;height:38px;flex:none;border-radius:9px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#17324a,#12301f);font-family:var(--mono);font-weight:700;color:var(--accent);font-size:.95rem}
+.badge .icon{width:56px;height:44px;flex:none;border-radius:9px;display:flex;align-items:center;justify-content:center;background:#f5f7fa;border:1px solid var(--line);font-family:var(--mono);font-weight:700;color:var(--accent);font-size:.95rem;padding:6px}
+.badge .icon img{max-width:100%;max-height:100%;object-fit:contain;display:block}
 .badge b{display:block;font-size:.92rem}
 .badge span{font-size:.78rem;color:var(--muted)}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
@@ -213,8 +216,15 @@ def render():
         f'<div class="xp"><h3>{esc(r["title"])}</h3><p>{inline(r["body"])}</p></div>'
         for r in experience)
 
+    def badge_icon(b):
+        logo = b.get("logo", "")
+        if logo:
+            return ('<div class="icon"><img src="%s" alt="%s logo" loading="lazy"></div>'
+                    % (esc(logo), esc(b["issuer"])))
+        return '<div class="icon">%s</div>' % esc(b["name"].split()[0][:3])
+
     badges_html = "".join(
-        f'<div class="badge"><div class="icon">{esc(b["name"].split()[0][:3])}</div>'
+        f'<div class="badge">{badge_icon(b)}'
         f'<div><b>{esc(b["name"])}</b><span>{esc(b["issuer"])} · {esc(b["year"])}</span></div></div>'
         for b in certs)
 
@@ -295,6 +305,11 @@ def render():
     os.makedirs(SITE, exist_ok=True)
     with open(os.path.join(SITE, "index.html"), "w", encoding="utf-8") as f:
         f.write(page)
+    # copy static assets (logos) into site/
+    import shutil
+    assets_src = os.path.join(ROOT, "assets")
+    if os.path.isdir(assets_src):
+        shutil.copytree(assets_src, os.path.join(SITE, "assets"), dirs_exist_ok=True)
     print(f"Wrote {os.path.join(SITE, 'index.html')} ({len(page)} bytes, {len(certs)} certs, {len(projects)} projects)")
 
 
