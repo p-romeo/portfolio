@@ -288,7 +288,7 @@ def render():
         if logo:
             return ('<div class="icon"><img src="%s" alt="%s logo" loading="lazy"></div>'
                     % (esc(logo), esc(b["issuer"])))
-        return '<div class="icon">%s</div>' % esc(b["name"].split()[0][:3])
+        return '<div class="icon">%s</div>' % esc(b.get("icon_text") or b["name"].split()[0][:3])
 
     def badge_card(i, b):
         title = esc(b["name"])
