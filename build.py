@@ -64,12 +64,26 @@ def parse_certs(md):
     """Entries like: - **Name** | Issuer | Year | logo:path (optional)"""
     badges = []
     for line in md.splitlines():
-        m = re.match(r"^- +\*\*(.+?)\*\* *\|([^|]+?)\|\s*([^|]+?)\s*(?:\|\s*(\S+)\s*)?$", line)
+        m = re.match(r"^- +\*\*(.+?)\*\* *\|([^|]+?)\|\s*([^|]+?)\s*(?:\|\s*(.+?)\s*)?$", line)
         if m:
             extra = (m.group(4) or "").strip()
-            logo = extra[5:] if extra.startswith("logo:") else ""
+            first = extra.split("|")[0].strip() if extra else ""
+            logo = first[5:] if first.startswith("logo:") else ""
             badges.append({"name": m.group(1), "issuer": m.group(2).strip(),
-                           "year": m.group(3), "url": "" if logo else extra, "logo": logo})
+                           "year": m.group(3), "url": "" if logo else first, "logo": logo})
+    # optional credential_id / verify_url fields appended after the first 4 pipe groups
+    for line in md.splitlines():
+        m = re.match(r"^- +\*\*(.+?)\*\* *\|", line)
+        if not m:
+            continue
+        for b in badges:
+            if b["name"] == m.group(1):
+                cid = re.search(r"\|\s*credential_id:([^|]+)", line)
+                vurl = re.search(r"\|\s*verify_url:(\S+)", line)
+                if cid:
+                    b["credential_id"] = cid.group(1).strip()
+                if vurl:
+                    b["verify_url"] = vurl.group(1).strip()
     return badges
 
 
@@ -171,6 +185,10 @@ h2::before{content:'//';font-family:var(--mono);color:var(--accent);font-size:1r
 .badge .icon img{max-width:100%;max-height:100%;object-fit:contain;display:block}
 .badge b{display:block;font-size:.92rem}
 .badge span{font-size:.78rem;color:var(--muted)}
+.badge .cid{display:block;font-family:var(--mono);font-size:.7rem;color:var(--muted);margin-top:2px;letter-spacing:.02em;word-break:break-all}
+.badge .verify-link{color:inherit;text-decoration:none;border-bottom:1px dotted var(--muted)}
+.badge .verify-link:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.badge .verify-link::after{content:" ↗";font-size:.75em}
 .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;transition:border-color .2s,transform .2s}
 .card:hover{border-color:var(--accent2);transform:translateY(-2px)}
@@ -272,10 +290,19 @@ def render():
                     % (esc(logo), esc(b["issuer"])))
         return '<div class="icon">%s</div>' % esc(b["name"].split()[0][:3])
 
-    badges_html = "".join(
-        f'<div class="badge" data-reveal style="--d:{i * 40}ms">{badge_icon(b)}'
-        f'<div><b>{esc(b["name"])}</b><span>{esc(b["issuer"])} · {esc(b["year"])}</span></div></div>'
-        for i, b in enumerate(certs))
+    def badge_card(i, b):
+        title = esc(b["name"])
+        if b.get("verify_url"):
+            title = ('<a href="%s" target="_blank" rel="noopener" class="verify-link">%s</a>'
+                     % (esc(b["verify_url"]), title))
+        cid_line = ''
+        if b.get("credential_id"):
+            cid_line = '<span class="cid">ID: %s</span>' % esc(b["credential_id"])
+        return (f'<div class="badge" data-reveal style="--d:{i * 40}ms">{badge_icon(b)}'
+                f'<div><b>{title}</b><span>{esc(b["issuer"])} · {esc(b["year"])}</span>'
+                f'{cid_line}</div></div>')
+
+    badges_html = "".join(badge_card(i, b) for i, b in enumerate(certs))
 
     cards_html = ""
     for idx, p in enumerate(projects):
