@@ -181,14 +181,16 @@ h2::before{content:'//';font-family:var(--mono);color:var(--accent);font-size:1r
 .facts{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;font-size:.9rem}
 .facts dt{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;color:var(--accent);letter-spacing:.1em;margin-top:12px}
 .facts dt:first-child{margin-top:0}.facts dd{color:var(--muted)}
-.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
 .badge{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;transition:border-color .2s,transform .2s}
 .badge:hover{border-color:var(--accent);transform:translateY(-2px)}
 .badge .icon{width:56px;height:44px;flex:none;border-radius:9px;display:flex;align-items:center;justify-content:center;background:#f5f7fa;border:1px solid var(--line);font-family:var(--mono);font-weight:700;color:var(--accent);font-size:.95rem;padding:6px}
 .badge .icon img{max-width:100%;max-height:100%;object-fit:contain;display:block}
-.badge b{display:block;font-size:.92rem}
+.badge>div{min-width:0}
+.badge b{display:block;font-size:.92rem;line-height:1.25}
 .badge span{font-size:.78rem;color:var(--muted)}
-.badge .cid{display:block;font-family:var(--mono);font-size:.7rem;color:var(--muted);margin-top:2px;letter-spacing:.02em;word-break:break-all}
+.badge span:not(.cid){display:block;line-height:1.35}
+.badge .cid{display:block;font-family:var(--mono);font-size:.68rem;color:var(--muted);margin-top:4px;letter-spacing:.02em;word-break:break-all}
 .badge .verify-link{color:inherit;text-decoration:none;border-bottom:1px dotted var(--muted)}
 .badge .verify-link:hover{color:var(--accent);border-bottom-color:var(--accent)}
 .badge .verify-link::after{content:" ↗";font-size:.75em}
