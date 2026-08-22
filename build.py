@@ -142,10 +142,12 @@ body{background:var(--bg);color:var(--text);font:16px/1.65 'Segoe UI',system-ui,
 a{color:var(--accent2);text-decoration:none}a:hover{text-decoration:underline}
 .wrap{max-width:960px;margin:0 auto;padding:0 24px}
 header{position:sticky;top:0;z-index:10;background:rgba(11,15,20,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-nav{display:flex;align-items:center;gap:24px;padding:16px 0;font-family:var(--mono);font-size:.85rem}
+nav{display:flex;align-items:center;flex-wrap:wrap;row-gap:8px;gap:16px;padding:16px 0;font-family:var(--mono);font-size:.85rem}
 nav .brand{color:var(--accent);font-weight:700;margin-right:auto}
+@media(max-width:720px){nav .brand{flex-basis:100%;margin-right:0}}
+nav a{color:var(--muted);white-space:nowrap}
 nav .brand::before{content:'>_ '}
-nav a{color:var(--muted)}nav a:hover{color:var(--accent)}
+nav a{color:var(--muted);white-space:nowrap}nav a:hover{color:var(--accent)}
 .hero{padding:88px 0 64px;border-bottom:1px solid var(--line);
  background:radial-gradient(600px 300px at 70% 0%,rgba(79,195,247,.08),transparent),radial-gradient(500px 260px at 20% 100%,rgba(61,220,151,.07),transparent)}
 .hero .kicker{font-family:var(--mono);color:var(--accent);font-size:.85rem;letter-spacing:.12em;text-transform:uppercase}
@@ -182,10 +184,10 @@ h2::before{content:'//';font-family:var(--mono);color:var(--accent);font-size:1r
 .chips{display:flex;flex-wrap:wrap;gap:7px}
 .xp{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:14px}
 .xp-head{display:flex;align-items:center;gap:14px}
-.xp-logo{width:44px;height:44px;flex:none;border-radius:9px;display:flex;align-items:center;justify-content:center;background:#f5f7fa;border:1px solid var(--line);padding:6px;gap:4px}
+.xp-logo{width:96px;height:44px;flex:none;border-radius:9px;display:flex;align-items:center;justify-content:center;background:#f5f7fa;border:1px solid var(--line);padding:6px;gap:4px}
 .xp-logo img{max-width:100%;max-height:100%;object-fit:contain;display:block}
-.xp-logo.multi{width:auto;padding:6px 8px}
-.xp-logo.multi img{width:40px;height:32px}
+.xp-logo.multi{padding:6px 4px}
+.xp-logo.multi img{width:40px;height:32px;flex:none}
 .xp h3{font-size:1rem;margin-bottom:6px}
 .xp p{font-size:.9rem;color:var(--muted)}
 .chip{font-family:var(--mono);font-size:.75rem;background:var(--bg2);border:1px solid var(--line);border-radius:6px;padding:4px 10px;color:var(--text)}
