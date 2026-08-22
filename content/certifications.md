@@ -1,15 +1,16 @@
-- **CompTIA Security+** | CompTIA | Issued Jul 2024 · expires Jul 2027 | logo:assets/logos/comptia.png | credential_id:2R073TRC0G1447W9Q | verify_url:https://www.comptia.org/certifications/verify
-- **CompTIA Network+** | CompTIA | Issued Jul 2024 · expires Jul 2027 | logo:assets/logos/comptia.png | credential_id:1TR74XKZGF2MFT09L | verify_url:https://www.comptia.org/certifications/verify
-- **CompTIA A+** | CompTIA | Issued Jul 2024 · expires Jul 2027 | logo:assets/logos/comptia.png | credential_id:Q32KN7KSL2LLR19W | verify_url:https://www.comptia.org/certifications/verify
-- **CompTIA Project+** | CompTIA | Issued Jul 2024 · expires Jul 2027 | logo:assets/logos/comptia.png | credential_id:JR2KMMY7GBD7V4FSUJ | verify_url:https://www.comptia.org/certifications/verify
-- **CompTIA CySA+** | CompTIA Cybersecurity Analyst | Issued Aug 2022 · expires Aug 2028 | logo:assets/logos/comptia.png | credential_id:RAWCXWLS5N6LSJG2 | verify_url:https://www.comptia.org/certifications/verify
-<!-- TODO(paul): add credential ID -->
-- **CompTIA PenTest+** | CompTIA | Issued Jul 2024 · expires Jul 2027 | logo:assets/logos/comptia.png | verify_url:https://www.comptia.org/certifications/verify
-- **SSCP** | ISC2 | Issued Jul 2025 | logo:assets/logos/isc2.svg | credential_id:1123939 | verify_url:https://www.isc2.org/certifications/verify
-- **ITIL 4 Foundation** | PeopleCert | Issued Dec 2024 · expires Dec 2027 | logo:assets/logos/peoplecert.svg | credential_id:GR674724040F | verify_url:https://www.peoplecert.org/browse/certifications/certification-verification
-- **Google Cybersecurity Certificate** | Google | Issued Jan 2024 | logo:assets/logos/google.svg | credential_id:5T38W6XLY370O1 | verify_url:https://www.coursera.org/verify/professional-cert/5T38W6XLY370O1
-- **Google IT Support Professional Certificate** | Google | Issued Jan 2024 | logo:assets/logos/google.svg | credential_id:R6A9RU9VXL87 | verify_url:https://www.coursera.org/verify/professional-cert/R6A9RU9VXL87
-<!-- TODO(paul): add credential ID -->
-- **LPI Linux Essentials** | Linux Professional Institute | Issued Jun 2024 | logo:assets/logos/lpi.png | verify_url:https://lpi.org/certification/verify/
+- **CompTIA Security+** | CompTIA | Issued Jul 30 2024 · expires Jul 30 2027 | logo:assets/logos/comptia.png | credential_id:2SY3TK06GJ44Q4WQ | verify_url:https://cp.certmetrics.com/CompTIA/en/public/verify/credential/2SY3TK06GJ44Q4WQ
+- **CompTIA Network+** | CompTIA | Issued Jun 11 2024 · expires Jun 11 2027 | logo:assets/logos/comptia.png | credential_id:N0BPXTXZFFV4QM3T | verify_url:https://cp.certmetrics.com/CompTIA/en/public/verify/credential/N0BPXTXZFFV4QM3T
+- **CompTIA A+** | CompTIA | Issued Jun 11 2024 · expires Jun 11 2027 | logo:assets/logos/comptia.png | credential_id:G33N7H5ZJERE1F5W | verify_url:https://cp.certmetrics.com/CompTIA/en/public/verify/credential/G33N7H5ZJERE1F5W
+- **CompTIA Project+** | CompTIA | Issued Jul 8 2025 · expires Jul 2028 | logo:assets/logos/comptia.png | credential_id:K1MYZLGS02V415QJ | verify_url:https://cp.certmetrics.com/CompTIA/en/public/verify/credential/K1MYZLGS02V415QJ
+- **CompTIA CySA+** | CompTIA Cybersecurity Analyst | Issued Aug 19 2025 · expires Aug 19 2028 | logo:assets/logos/comptia.png | credential_id:RWEXWLLS9NRE5JE2 | verify_url:https://cp.certmetrics.com/CompTIA/en/public/verify/credential/RWEXWLLS9NRE5JE2
+- **CompTIA PenTest+** | CompTIA | Issued Apr 21 2026 · expires Apr 21 2029 (PT0-003) | logo:assets/logos/comptia.png | credential_id:e3a26d1b0a1944db8e569cfa0ce20432 | verify_url:https://cp.certmetrics.com/CompTIA/en/public/verify/credential/e3a26d1b0a1944db8e569cfa0ce20432
+- **SSCP** | ISC2 | Issued Jul 2025 | logo:assets/logos/isc2.svg | credential_id:1123939 | verify_url:https://www.isc2.org/verify
+- **ITIL 4 Foundation** | PeopleCert | Issued Dec 3 2024 · expires Dec 3 2027 | logo:assets/logos/peoplecert.svg | credential_id:GR671719240PR | verify_url:https://www.peoplecert.org/for-corporations/certificate-verification-service
+- **LPI Linux Essentials** | Linux Professional Institute | Issued Aug 5 2025 | logo:assets/logos/lpi.png | credential_id:LPI000661841 | verify_url:https://lpi.org/v/LPI000661841/grcznusuq7
+- **HackerRank Python (Basic)** | HackerRank | Issued Nov 27 2023 · no expiry | logo:https://cdn0.hackerrank.com/assets/logo/hackerrank-logo.png | credential_id:68B4AF7ED6E8 | verify_url:https://www.hackerrank.com/certificate/68B4AF7ED6E8
+- **HackerRank SQL (Basic)** | HackerRank | Issued Feb 19 2025 · no expiry | logo:https://cdn0.hackerrank.com/assets/logo/hackerrank-logo.png | credential_id:4402EB8CB415 | verify_url:https://www.hackerrank.com/certificate/4402EB8CB415
+- **TryHackMe Pre-Security Path** | TryHackMe | Issued Sep 11 2025 | logo:https://tryhackme.com/favicon.ico | credential_id:THM-UEU9TLFMVM | verify_url:https://tryhackme.com/certificate/THM-UEU9TLFMVM
+- **Professor University PROF 101** | Professor University | Internal training completion — yes, it's Pokémon-themed · issued Feb 16 2026 · expires Feb 16 2027 | credential_id:b176ec3f-fa3e-4b40-83a9-55d8da47fefa
+- **CompTIA CIOS Stackable** | CompTIA | Issued Jul 2024 · expires Jul 2027 | logo:assets/logos/comptia.png | credential_id:COMP001022285812 | verify_url:https://cp.certmetrics.com/CompTIA/en/public/verify/credential/COMP001022285812
 
-*Security+, Network+, A+, and Project+ were earned together as part of WGU's stackable certification track (B.S. Cybersecurity & Information Assurance).*
+*Security+, Network+, A+, and Project+ were earned together as part of WGU's stackable certification track (B.S. Cybersecurity & Information Assurance). The CIOS stackable shares its credential ID with CSIS.*
