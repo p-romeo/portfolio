@@ -105,9 +105,13 @@ def parse_experience(md):
             cur = {"title": h.group(1), "body": [], "logo": ""}
             roles.append(cur)
         elif cur is not None and line.strip():
-            lm = re.match(r"^logo:(\S+)\s*$", line.strip())
+            lm = re.match(r"^logo:(.+)$", line.strip())
             if lm:
-                cur["logo"] = lm.group(1)
+                # Comma-separated paths; each may carry "|alt text".
+                cur["logo"] = [
+                    p.split("|", 1) if "|" in p else (p.strip(), "")
+                    for p in lm.group(1).split(",")
+                ]
             else:
                 cur["body"].append(line.strip())
     for r in roles:
@@ -178,8 +182,10 @@ h2::before{content:'//';font-family:var(--mono);color:var(--accent);font-size:1r
 .chips{display:flex;flex-wrap:wrap;gap:7px}
 .xp{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:14px}
 .xp-head{display:flex;align-items:center;gap:14px}
-.xp-logo{width:44px;height:44px;flex:none;border-radius:9px;display:flex;align-items:center;justify-content:center;background:#f5f7fa;border:1px solid var(--line);padding:6px}
+.xp-logo{width:44px;height:44px;flex:none;border-radius:9px;display:flex;align-items:center;justify-content:center;background:#f5f7fa;border:1px solid var(--line);padding:6px;gap:4px}
 .xp-logo img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.xp-logo.multi{width:auto;padding:6px 8px}
+.xp-logo.multi img{width:40px;height:32px}
 .xp h3{font-size:1rem;margin-bottom:6px}
 .xp p{font-size:.9rem;color:var(--muted)}
 .chip{font-family:var(--mono);font-size:.75rem;background:var(--bg2);border:1px solid var(--line);border-radius:6px;padding:4px 10px;color:var(--text)}
@@ -221,10 +227,16 @@ def render():
 
     def xp_logo(r):
         org = r["title"].split("—")[0].strip() or "Employer"
-        logo = r.get("logo", "")
-        if logo:
-            return ('<div class="xp-logo"><img src="%s" alt="%s logo" loading="lazy"></div>'
-                    % (esc(logo), esc(org)))
+        logos = r.get("logo", "")
+        if isinstance(logos, str):
+            logos = [(logos, "")] if logos else []
+        if logos:
+            imgs = "".join(
+                '<img src="%s" alt="%s logo" loading="lazy">'
+                % (esc(path), esc(alt or org))
+                for path, alt in logos
+            )
+            return '<div class="xp-logo multi">%s</div>' % imgs if len(logos) > 1 else '<div class="xp-logo">%s</div>' % imgs
         return ""
 
     experience_html = "".join(
