@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# TODO(paul): set CONTACT_EMAIL — currently a placeholder (paul.j.romeo@example.com) used in the Résumé section mailto link.
+CONTACT_EMAIL = "pauljromeo@proton.me"  # used in the Résumé section mailto link
 """Portfolio site generator.
 
 Renders markdown content from content/ into a single-page static site in site/.
@@ -97,15 +97,19 @@ def parse_projects():
 
 
 def parse_experience(md):
-    """## Role — Org (dates) followed by paragraph."""
+    """## Role — Org (dates), optional `logo:path` line, then paragraph(s)."""
     roles, cur = [], None
     for line in md.splitlines():
         h = re.match(r"^##\s+(.+)", line)
         if h:
-            cur = {"title": h.group(1), "body": []}
+            cur = {"title": h.group(1), "body": [], "logo": ""}
             roles.append(cur)
         elif cur is not None and line.strip():
-            cur["body"].append(line.strip())
+            lm = re.match(r"^logo:(\S+)\s*$", line.strip())
+            if lm:
+                cur["logo"] = lm.group(1)
+            else:
+                cur["body"].append(line.strip())
     for r in roles:
         r["body"] = " ".join(r["body"])
     return roles
@@ -173,6 +177,9 @@ h2::before{content:'//';font-family:var(--mono);color:var(--accent);font-size:1r
 .skill-group h3{font-family:var(--mono);font-size:.78rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
 .chips{display:flex;flex-wrap:wrap;gap:7px}
 .xp{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:14px}
+.xp-head{display:flex;align-items:center;gap:14px}
+.xp-logo{width:44px;height:44px;flex:none;border-radius:9px;display:flex;align-items:center;justify-content:center;background:#f5f7fa;border:1px solid var(--line);padding:6px}
+.xp-logo img{max-width:100%;max-height:100%;object-fit:contain;display:block}
 .xp h3{font-size:1rem;margin-bottom:6px}
 .xp p{font-size:.9rem;color:var(--muted)}
 .chip{font-family:var(--mono);font-size:.75rem;background:var(--bg2);border:1px solid var(--line);border-radius:6px;padding:4px 10px;color:var(--text)}
@@ -212,8 +219,17 @@ def render():
 <dt>Founder</dt><dd>Shoe and Boot Accessories 4 U (Amazon / eBay / BigCommerce)</dd>
 </dl>"""
 
+    def xp_logo(r):
+        org = r["title"].split("—")[0].strip() or "Employer"
+        logo = r.get("logo", "")
+        if logo:
+            return ('<div class="xp-logo"><img src="%s" alt="%s logo" loading="lazy"></div>'
+                    % (esc(logo), esc(org)))
+        return ""
+
     experience_html = "".join(
-        f'<div class="xp"><h3>{esc(r["title"])}</h3><p>{inline(r["body"])}</p></div>'
+        f'<div class="xp"><div class="xp-head">{xp_logo(r)}<h3>{esc(r["title"])}</h3></div>'
+        f'<p>{inline(r["body"])}</p></div>'
         for r in experience)
 
     def badge_icon(b):
@@ -295,7 +311,7 @@ def render():
 <div><b>Download a copy</b><br><span style="color:var(--muted);font-size:.9rem">PDF résumé, kept current.</span></div>
 <!-- TODO(paul): upload Paul-Romeo-Resume.pdf to site/ so this download link works -->
 <a class="btn" href="Paul-Romeo-Resume.pdf" download>↓ Download PDF</a>
-<a class="btn ghost" href="mailto:paul.j.romeo@example.com">✉ Contact me</a>
+<a class="btn ghost" href="mailto:{CONTACT_EMAIL}">✉ Contact me</a>
 </div>
 </div></section>
 
