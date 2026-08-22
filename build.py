@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# TODO(paul): set CONTACT_EMAIL — currently a placeholder (paul.j.romeo@example.com) used in the Résumé section mailto link.
 """Portfolio site generator.
 
 Renders markdown content from content/ into a single-page static site in site/.
@@ -183,7 +184,8 @@ def render():
     facts = """
 <dl class="facts">
 <dt>Currently</dt><dd>IT Director &amp; Security Manager, Belmont Leather Co.</dd>
-<dt>Education</dt><dd>B.S. Cybersecurity, WGU — capstone submitted Aug 2026</dd>
+<dt>Education</dt><dd>B.S. Cybersecurity &amp; Information Assurance, WGU — graduated Aug 2026</dd>
+<dt>Incident Response</dt><dd>Phishing &amp; BEC investigation; attacker infrastructure takedowns</dd>
 <dt>Focus</dt><dd>Incident response &middot; SOC operations &middot; Detection engineering</dd>
 <dt>Founder</dt><dd>Shoe and Boot Accessories 4 U (Amazon / eBay / BigCommerce)</dd>
 </dl>"""
@@ -253,6 +255,7 @@ def render():
 <h2>Résumé</h2>
 <div class="resume-card">
 <div><b>Download a copy</b><br><span style="color:var(--muted);font-size:.9rem">PDF résumé, kept current.</span></div>
+<!-- TODO(paul): upload Paul-Romeo-Resume.pdf to site/ so this download link works -->
 <a class="btn" href="Paul-Romeo-Resume.pdf" download>↓ Download PDF</a>
 <a class="btn ghost" href="mailto:paul.j.romeo@example.com">✉ Contact me</a>
 </div>

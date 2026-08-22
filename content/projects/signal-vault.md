@@ -1,7 +1,7 @@
 ---
 title: Signal Vault
-tag: investigation · privacy
+tag: detection · scam triage
 link: private
 weight: 1
 ---
-Private workspace for scam investigation and privacy cleanup: structured case files, evidence handling, and takedown workflows for online-fraud victims. Built around repeatable playbooks rather than one-off fixes.
+Scam and phishing triage engine: a TypeScript/React application with **15+ automated detectors** covering obfuscated IP addresses, homoglyph/lookalike domains, brand impersonation, smishing patterns, and more. Backed by **60 tests** and built around repeatable triage playbooks rather than one-off fixes — the tooling side of my day-job incident response work.
