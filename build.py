@@ -80,10 +80,13 @@ def parse_certs(md):
             if b["name"] == m.group(1):
                 cid = re.search(r"\|\s*credential_id:([^|]+)", line)
                 vurl = re.search(r"\|\s*verify_url:(\S+)", line)
+                ico = re.search(r"\|\s*icon_text:([^|]+)", line)
                 if cid:
                     b["credential_id"] = cid.group(1).strip()
                 if vurl:
                     b["verify_url"] = vurl.group(1).strip()
+                if ico:
+                    b["icon_text"] = ico.group(1).strip()
     return badges
 
 
