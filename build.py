@@ -259,7 +259,7 @@ def render():
         ("projects", "projects"), ("skills", "skills"), ("resume", "resume")])
 
     hero_tags = "".join(f'<span class="tag">{esc(t)}</span>' for t in [
-        "SSCP", "Security+", "Incident Response", "SOC", "Detection Engineering"])
+        "B.S. Cybersecurity — WGU", "SSCP", "Security+", "CySA+", "PenTest+", "Incident Response", "SOC"])
 
     facts = """
 <dl class="facts">

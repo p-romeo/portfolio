@@ -1,3 +1,4 @@
+- **B.S. Cybersecurity & Information Assurance** | Western Governors University | Graduated Aug 2026 · capstone D833 (Wazuh SIEM + Duo MFA) passed first submission | icon_text:🎓
 - **CompTIA Security+** | CompTIA | Issued Jul 30 2024 · expires Jul 30 2027 | logo:assets/logos/comptia.png | credential_id:2SY3TK06GJ44Q4WQ | verify_url:https://cp.certmetrics.com/CompTIA/en/public/verify/credential/2SY3TK06GJ44Q4WQ
 - **CompTIA Network+** | CompTIA | Issued Jun 11 2024 · expires Jun 11 2027 | logo:assets/logos/comptia.png | credential_id:N0BPXTXZFFV4QM3T | verify_url:https://cp.certmetrics.com/CompTIA/en/public/verify/credential/N0BPXTXZFFV4QM3T
 - **CompTIA A+** | CompTIA | Issued Jun 11 2024 · expires Jun 11 2027 | logo:assets/logos/comptia.png | credential_id:G33N7H5ZJERE1F5W | verify_url:https://cp.certmetrics.com/CompTIA/en/public/verify/credential/G33N7H5ZJERE1F5W
