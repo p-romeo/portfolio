@@ -308,6 +308,9 @@ def render():
                 f'<div><b>{title}</b><span>{esc(b["issuer"])} · {esc(b["year"])}</span>'
                 f'{cid_line}</div></div>')
 
+    import shutil
+    if os.path.exists('Paul-Romeo-Resume.pdf'):
+        shutil.copy('Paul-Romeo-Resume.pdf', 'site/Paul-Romeo-Resume.pdf')
     badges_html = "".join(badge_card(i, b) for i, b in enumerate(certs))
 
     cards_html = ""
@@ -427,7 +430,6 @@ upd();
 <h2>Résumé</h2>
 <div class="resume-card">
 <div><b>Download a copy</b><br><span style="color:var(--muted);font-size:.9rem">PDF résumé, kept current.</span></div>
-<!-- TODO(paul): upload Paul-Romeo-Resume.pdf to site/ so this download link works -->
 <a class="btn" href="Paul-Romeo-Resume.pdf" download>↓ Download PDF</a>
 <a class="btn ghost" href="mailto:{CONTACT_EMAIL}">✉ Contact me</a>
 </div>
