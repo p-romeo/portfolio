@@ -1,0 +1,313 @@
+{
+  "page": {
+    "width_mm": 215.9,
+    "height_mm": 279.4,
+    "margins_mm": {
+      "top": 12.7,
+      "bottom": 12.7,
+      "left": 14.1,
+      "right": 14.1
+    }
+  },
+  "styles": [
+    {
+      "name": "NameTitle",
+      "base": "Normal",
+      "font": "Helvetica",
+      "size_pt": 20,
+      "bold": true,
+      "color": "19202A"
+    },
+    {
+      "name": "ContactLine",
+      "base": "Normal",
+      "font": "Helvetica",
+      "size_pt": 9.5,
+      "bold": false,
+      "italic": false,
+      "color": "464E5A"
+    },
+    {
+      "name": "SectionHeader",
+      "base": "Normal",
+      "font": "Helvetica",
+      "size_pt": 11,
+      "bold": true,
+      "color": "1E4678"
+    },
+    {
+      "name": "JobTitle",
+      "base": "Normal",
+      "font": "Helvetica",
+      "size_pt": 10.5,
+      "bold": true,
+      "color": "19202A"
+    },
+    {
+      "name": "JobMeta",
+      "base": "Normal",
+      "font": "Helvetica",
+      "size_pt": 9.5,
+      "bold": false,
+      "italic": true,
+      "color": "5A626E"
+    },
+    {
+      "name": "Body",
+      "base": "Normal",
+      "font": "Helvetica",
+      "size_pt": 9.5,
+      "bold": false,
+      "color": "19202A"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "paragraph",
+      "style": "NameTitle",
+      "runs": [
+        {
+          "text": "PAUL J. ROMEO"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "ContactLine",
+      "runs": [
+        {
+          "text": "Union, NJ  |  pauljromeo@proton.me  |  linkedin.com/in/paul-romeo  |  github.com/p-romeo"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "SectionHeader",
+      "runs": [
+        {
+          "text": "SUMMARY"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Body",
+      "runs": [
+        {
+          "text": "Security-focused IT professional who owns security and IT operations end-to-end for a multi-channel e-commerce company. Leads incident response and phishing/BEC investigations through to attacker-infrastructure takedowns; administers ESET EDR, UniFi networking and Protect surveillance, and TrueNAS storage. B.S. in Cybersecurity & Information Assurance (WGU, August 2026) backed by nine industry certifications including Security+, CySA+, PenTest+, and ISC2 SSCP."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "SectionHeader",
+      "runs": [
+        {
+          "text": "CORE SKILLS"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Body",
+      "runs": [
+        {
+          "text": "Security Operations: ",
+          "bold": true
+        },
+        {
+          "text": "EDR Administration (ESET EDR / Cloud Protect) | Phishing & BEC Investigation | Attacker-Infrastructure Takedowns | Log Analysis | Wazuh SIEM | Duo MFA | Vulnerability Management | Endpoint Hardening | Patch Management"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Body",
+      "runs": [
+        {
+          "text": "Network & Infrastructure: ",
+          "bold": true
+        },
+        {
+          "text": "UniFi Networking | VLANs & Segmentation | TCP/IP, DNS, Wi-Fi | TrueNAS / SMB Storage | Backup & Disaster Recovery | Windows & Active Directory"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Body",
+      "runs": [
+        {
+          "text": "Automation & Tools: ",
+          "bold": true
+        },
+        {
+          "text": "Python | PowerShell | Bash | Git | GitHub Actions CI/CD"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Body",
+      "runs": [
+        {
+          "text": "Business Platforms: ",
+          "bold": true
+        },
+        {
+          "text": "BigCommerce | Amazon FBA | eBay | POS Integration"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "SectionHeader",
+      "runs": [
+        {
+          "text": "CERTIFICATIONS"
+        }
+      ]
+    },
+    {
+      "type": "bullet_list",
+      "items": [
+        "CompTIA PenTest+ (PT0-003) — ID e3a26d1b0a1944db8e569cfa0ce20432 (Apr 2026 - Apr 2029)",
+        "CompTIA CySA+ — ID RWEXWLLS9NRE5JE2 (Aug 2025 - Aug 2028)",
+        "ISC2 SSCP — ID 1123939 (Jul 2025)",
+        "CompTIA Project+ — ID K1MYZLGS02V415QJ (Jul 2025)",
+        "LPI Linux Essentials — ID LPI000661841 (Aug 2025)",
+        "CompTIA Security+ — ID 2SY3TK06GJ44Q4WQ (Jul 2024 - Jul 2027)",
+        "CompTIA Network+ — ID N0BPXTXZFFV4QM3T (Jun 2024 - Jun 2027)",
+        "CompTIA A+ — ID G33N7H5ZJERE1F5W (Jun 2024 - Jun 2027)",
+        "ITIL 4 Foundation — ID GR671719240PR (Dec 2024 - Dec 2027)"
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "SectionHeader",
+      "runs": [
+        {
+          "text": "PROFESSIONAL EXPERIENCE"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "JobTitle",
+      "runs": [
+        {
+          "text": "Systems Administrator & Security Administrator"
+        },
+        {
+          "text": " — Belmont Leather Company"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "JobMeta",
+      "runs": [
+        {
+          "text": "Clifton, NJ  |  2021 - Present"
+        }
+      ]
+    },
+    {
+      "type": "bullet_list",
+      "items": [
+        "Own security and IT operations end-to-end as the company's sole internal administrator: workstations, printers, network devices, storage, and backups.",
+        "Administer ESET EDR and ESET Cloud Protect across ~15 endpoints; built automated threat alerting, weekly CVE exposure reviews, and endpoint update management.",
+        "Lead phishing and BEC incident response end-to-end, filing registrar/host/abuse-desk takedowns against live campaigns (ClickFix malware lures, BEC impersonation attempts, SSA/ScreenConnect lures, and brand-impersonation waves).",
+        "Designed and deployed core infrastructure: a UniFi network with VLAN segmentation, a 10-camera UniFi Protect surveillance system, and TrueNAS storage with SMB shares and scheduled cloud backup.",
+        "Drove e-commerce growth on BigCommerce integrated with point-of-sale: 389% sales growth and $1.2M in new revenue; cut $12K in costs through POS/e-commerce integration and added $32K/year via customer-relationship systems."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "JobTitle",
+      "runs": [
+        {
+          "text": "Theater Technician (Part-time)"
+        },
+        {
+          "text": " — Rowan University"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "JobMeta",
+      "runs": [
+        {
+          "text": "2018 - 2020"
+        }
+      ]
+    },
+    {
+      "type": "bullet_list",
+      "items": [
+        "Operated and maintained lighting, sound, and life-safety systems across 20+ live productions, troubleshooting failures under show-time pressure.",
+        "Coordinated setup and teardown with student and faculty crews for rehearsals, performances, and campus events."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "JobTitle",
+      "runs": [
+        {
+          "text": "IT Help Desk Technician & Media Services Specialist"
+        },
+        {
+          "text": " — Southern New Hampshire University"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "JobMeta",
+      "runs": [
+        {
+          "text": "2016 - 2018"
+        }
+      ]
+    },
+    {
+      "type": "bullet_list",
+      "items": [
+        "Delivered Tier 1/2 support to 200+ users: malware removal, security policy enforcement, hardware/software triage, and account administration.",
+        "Maintained classroom and AV technology across campus, supporting lectures, media playback, and hybrid events."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "SectionHeader",
+      "runs": [
+        {
+          "text": "EDUCATION"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "Body",
+      "runs": [
+        {
+          "text": "B.S. Cybersecurity & Information Assurance",
+          "bold": true
+        },
+        {
+          "text": " — Western Governors University, August 2026"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "JobMeta",
+      "runs": [
+        {
+          "text": "Capstone (D833): Wazuh SIEM deployment + Duo MFA proposal — passed on first submission."
+        }
+      ]
+    }
+  ]
+}
