@@ -7,9 +7,9 @@ from fpdf import FPDF
 PDF = "Paul-Romeo-Resume.pdf"
 
 pdf = FPDF(format="letter", unit="pt")
-# Unicode font for em-dashes and proper glyphs
-pdf.add_font("dejavu", "", "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf")
-pdf.add_font("dejavu", "B", "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf")
+# Liberation Sans: clean Arial-metric font with em-dash support
+pdf.add_font("liberation", "", "/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf")
+pdf.add_font("liberation", "B", "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf")
 pdf.set_margins(36, 36, 36)
 W = None
 pdf.add_page()
@@ -19,12 +19,12 @@ DARK = (25, 30, 38)
 ACCENT = (30, 70, 120)
 
 def h1(text):
-    pdf.set_font("dejavu", "B", 20)
+    pdf.set_font("liberation", "B", 20)
     pdf.set_text_color(*DARK)
     pdf.cell(0, 22, text, new_x="LMARGIN", new_y="NEXT")
 
 def contact_line():
-    pdf.set_font("dejavu", "", 10)
+    pdf.set_font("liberation", "", 10)
     pdf.set_text_color(70, 78, 90)
     pdf.cell(0, 13, "Union, NJ  |  pauljromeo@proton.me  |  linkedin.com/in/paul-romeo  |  github.com/p-romeo",
              new_x="LMARGIN", new_y="NEXT")
@@ -32,54 +32,54 @@ def contact_line():
 
 def section(title):
     y = pdf.get_y() + 2
-    pdf.set_font("dejavu", "B", 12)
+    pdf.set_font("liberation", "B", 12)
     pdf.set_text_color(*ACCENT)
     pdf.cell(0, 14, title.upper(), new_x="LMARGIN", new_y="NEXT")
     pdf.set_draw_color(*ACCENT)
     pdf.set_line_width(0.7)
-    pdf.line(40, y + 13.5, 40 + W, y + 13.5)
-    pdf.ln(2.5)
+    pdf.line(40, y + 14, 40 + W, y + 14)
+    pdf.ln(3.5)
 
-def para(text, size=10, style="", h=12.5):
-    pdf.set_font("dejavu", style, size)
+def para(text, size=10, style="", h=13):
+    pdf.set_font("liberation", style, size)
     pdf.set_text_color(*DARK)
     pdf.multi_cell(W, h, text, new_x="LMARGIN", new_y="NEXT", align="L")
 
 def labeled(label, text):
-    pdf.set_font("dejavu", "", 10)
+    pdf.set_font("liberation", "", 10)
     pdf.set_text_color(*DARK)
     x = pdf.get_x()
-    pdf.set_font("dejavu", "B", 10)
+    pdf.set_font("liberation", "B", 10)
     pdf.multi_cell(W, 12, label + " " + text, markdown=False, new_x="LMARGIN", new_y="NEXT", align="L")
     pdf.set_x(x)
 
 def skill_line(label, text):
-    pdf.set_font("dejavu", "B", 10)
+    pdf.set_font("liberation", "B", 10)
     pdf.set_text_color(*DARK)
     lw = pdf.get_string_width(label) + 2
-    pdf.cell(lw, 12.5, label)
-    pdf.set_font("dejavu", "", 10)
-    pdf.multi_cell(W - lw, 12.5, text, new_x="LMARGIN", new_y="NEXT", align="L")
+    pdf.cell(lw, 13, label)
+    pdf.set_font("liberation", "", 10)
+    pdf.multi_cell(W - lw, 13, text, new_x="LMARGIN", new_y="NEXT", align="L")
 
 def bullet(text, bold_prefix=None):
-    pdf.set_font("dejavu", "", 10)
+    pdf.set_font("liberation", "", 10)
     pdf.set_text_color(*DARK)
-    pdf.cell(10, 12.5, "-")
+    pdf.cell(10, 13, "-")
     if bold_prefix:
-        pdf.set_font("dejavu", "B", 10)
+        pdf.set_font("liberation", "B", 10)
         pw = pdf.get_string_width(bold_prefix) + 1
         pdf.cell(pw, 12, bold_prefix)
         rest_w = W - 10 - pw
-        pdf.set_font("dejavu", "", 10)
-        pdf.multi_cell(rest_w, 12.5, text, new_x="LMARGIN", new_y="NEXT", align="L")
+        pdf.set_font("liberation", "", 10)
+        pdf.multi_cell(rest_w, 13, text, new_x="LMARGIN", new_y="NEXT", align="L")
     else:
-        pdf.multi_cell(W - 10, 12.5, text, new_x="LMARGIN", new_y="NEXT", align="L")
+        pdf.multi_cell(W - 10, 13, text, new_x="LMARGIN", new_y="NEXT", align="L")
 
 def job(title_org, dates, location=None):
-    pdf.set_font("dejavu", "B", 11)
+    pdf.set_font("liberation", "B", 11)
     pdf.set_text_color(*DARK)
     pdf.cell(W - 130, 14, f"{title_org}")
-    pdf.set_font("dejavu", "", 10)
+    pdf.set_font("liberation", "", 10)
     txt = dates if not location else f"{location} | {dates}"
     pdf.cell(0, 13, txt, align="R", new_x="LMARGIN", new_y="NEXT")
 
@@ -118,7 +118,7 @@ certs = [
     ("CompTIA A+", "G33N7H5ZJERE1F5W", "Jun 2024 - Jun 2027"),
     ("ITIL 4 Foundation", "GR671719240PR", "Dec 2024 - Dec 2027"),
 ]
-pdf.set_font("dejavu", "", 9.5)
+pdf.set_font("liberation", "", 9.5)
 pdf.set_text_color(*DARK)
 for name, cid, dates in certs:
     pdf.cell(10, 12, "-")
