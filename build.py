@@ -431,6 +431,7 @@ upd();
 <div class="resume-card">
 <div><b>Download a copy</b><br><span style="color:var(--muted);font-size:.9rem">PDF résumé, kept current.</span></div>
 <a class="btn" href="Paul-Romeo-Resume.pdf" download>↓ Download PDF</a>
+<a class="btn ghost" href="Paul-Romeo-Resume.docx" download>↓ Download Word</a>
 <a class="btn ghost" href="mailto:{CONTACT_EMAIL}">✉ Contact me</a>
 </div>
 </div></section>
