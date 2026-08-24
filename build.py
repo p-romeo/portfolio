@@ -316,14 +316,17 @@ def render():
     cards_html = ""
     for idx, p in enumerate(projects):
         link = p.get("link", "")
+        site = p.get("site", "")
         title = esc(p.get("title", ""))
         if link and link != "private":
             title = f'<a href="{esc(link)}">{title}</a>'
         priv = ' <span class="chip">private repo</span>' if link == "private" else ""
         body_html = blocks(p["body"])
+        site_link = (f' <a class="chip" href="{esc(site)}" style="text-decoration:none">'
+                     f'{esc(site.split("//", 1)[-1].split("/")[0])} ↗</a>' if site else "")
         cards_html += (
             f'<article class="card" data-reveal style="--d:{idx * 40}ms"><div class="meta">{esc(p.get("tag", ""))}</div>'
-            f'<h3>{title}{priv}</h3>{body_html}</article>')
+            f'<h3>{title}{priv}{site_link}</h3>{body_html}</article>')
 
     skills_html = "".join(
         f'<div class="skill-group" data-reveal style="--d:{i * 40}ms"><h3>{esc(g["category"])}</h3><div class="chips">'
