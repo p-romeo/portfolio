@@ -267,7 +267,7 @@ function init(THREE){
  const geo=new THREE.BufferGeometry();
  geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
  geo.setAttribute('color',new THREE.BufferAttribute(col,3));
- const mat=new THREE.PointsMaterial({size:.055,vertexColors:true,transparent:true,opacity:.95,
+ const mat=new THREE.PointsMaterial({size:.09,vertexColors:true,transparent:true,opacity:.8,
   blending:THREE.AdditiveBlending,depthWrite:false,sizeAttenuation:true});
  const pts=new THREE.Points(geo,mat);
  const group=new THREE.Group();group.add(pts);scene.add(group);
@@ -295,6 +295,13 @@ function init(THREE){
   renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
  }
  resize();new ResizeObserver(resize).observe(hero);
+ // position: right of center on wide screens (clear of headline), centered on mobile
+ function frame(){
+  const wide=hero.clientWidth>=820;
+  group.position.x=wide?4.6:0;
+  group.scale.setScalar(wide?1.25:.95);
+ }
+ frame();new ResizeObserver(frame).observe(hero);
 
  let visible=true;
  new IntersectionObserver(es=>es.forEach(e=>{visible=e.isIntersecting;}),{threshold:0}).observe(hero);
