@@ -233,6 +233,13 @@ nav a.active{color:var(--accent);border-bottom:1px solid var(--accent)}
 nav a.active::after{content:'_';animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 .typed-cursor{display:inline-block;color:var(--accent);animation:blink 1s steps(1) infinite}
+/* --- 3d constellation --- */
+#space-wrap{position:relative;height:460px;border:1px solid var(--line);border-radius:12px;background:#070a0e;overflow:hidden;margin-bottom:8px}
+#space-wrap canvas{display:block;width:100%;height:100%;cursor:grab}
+#space-wrap canvas:active{cursor:grabbing}
+#skill-label{position:absolute;left:14px;bottom:12px;font-family:var(--mono);font-size:.78rem;color:var(--accent);background:rgba(7,10,14,.85);border:1px solid var(--line);border-radius:6px;padding:5px 10px;pointer-events:none;opacity:0;transition:opacity .15s}
+#skill-hint{position:absolute;right:12px;top:10px;font-family:var(--mono);font-size:.68rem;color:var(--muted)}
+@media(max-width:720px){#space-wrap{height:380px}}
 @media(prefers-reduced-motion:reduce){
  html{scroll-behavior:auto}
  [data-reveal]{opacity:1;transform:none}
@@ -383,6 +390,130 @@ upd();
 })();
 </script>"""
 
+    # ---- 3d skills constellation (three.js) ----
+    import json
+    palette = ["#3ddc97", "#4fc3f7", "#f7b74f", "#e46bd8", "#8f7bff", "#6ee7c8"]
+    constellation_data = [
+        {"category": g["category"], "items": g["items"], "color": palette[i % len(palette)]}
+        for i, g in enumerate(skills)]
+    SKILL_DATA_JSON = json.dumps(constellation_data).replace("</", "<\\/")
+
+    SPACE_JS_TEMPLATE = """<script type="module">
+(async function(){
+'use strict';
+const wrap=document.getElementById('space-wrap'),canvas=document.getElementById('skill-space'),label=document.getElementById('skill-label');
+if(!wrap||!canvas)return;
+const DATA=__SKILL_DATA__;
+function init(){
+ const THREE=window.__THREE__;if(!THREE)return;
+ const scene=new THREE.Scene();
+ const camera=new THREE.PerspectiveCamera(50,wrap.clientWidth/wrap.clientHeight,.1,100);
+ camera.position.set(0,4,15);
+ const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'});
+ renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+ renderer.setSize(wrap.clientWidth,wrap.clientHeight,false);
+ scene.add(new THREE.AmbientLight(0xffffff,.5));
+ const key=new THREE.DirectionalLight(0xffffff,.9);key.position.set(5,10,7);scene.add(key);
+ // clusters
+ const N=DATA.reduce((s,g)=>s+g.items.length,0),rows=[],meta=[];
+ let id=0;
+ DATA.forEach((g,gi)=>{
+  const a=gi/DATA.length*Math.PI*2,cx=Math.cos(a)*6.2,cz=Math.sin(a)*6.2;
+  const nodes=[];
+  g.items.forEach((name,i)=>{
+   const t=i/g.items.length,r=1.9,nth=g.items.length;
+   const x=cx+Math.cos(t*Math.PI*2+nth)*r*(0.55+0.3*Math.sin(i*2.7)),z=cz+Math.sin(t*Math.PI*2+nth)*r*(0.55+0.3*Math.cos(i*1.9)),y=(i%2?.9:-.9)*(0.4+t*.25);
+   const geo=new THREE.IcosahedronGeometry(.28,0);
+   const mat=new THREE.MeshStandardMaterial({color:g.color,emissive:new THREE.Color(g.color),emissiveIntensity:.35,roughness:.35,metalness:.15});
+   const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);scene.add(m);nodes.push(m);
+   meta.push({mesh:m,name:name,cat:g.category,color:g.color,id:id++});
+  });
+  rows.push({nodes:nodes,color:g.color,angle:a});
+ });
+ // spokes + cluster rings
+ const lineMat=new THREE.LineBasicMaterial({color:0x223042,transparent:true,opacity:.85});
+ rows.forEach(row=>{
+  for(let i=1;i<row.nodes.length;i++){
+   const g2=new THREE.BufferGeometry().setFromPoints([row.nodes[i-1].position,row.nodes[i].position]);
+   scene.add(new THREE.Line(g2,lineMat));
+  }
+  const ringG=new THREE.BufferGeometry().setFromPoints(
+   Array.from({length:49},(_,k)=>{const t=k/48*Math.PI*2;return new THREE.Vector3(Math.cos(t)*6.2,-1.6,Math.sin(t)*6.2)}));
+  const rm=new THREE.LineBasicMaterial({color:new THREE.Color(row.color),transparent:true,opacity:.18});
+  scene.add(new THREE.Line(ringG,rm));
+ });
+ // starfield (shared geometry)
+ const sGeo=new THREE.BufferGeometry(),n=350,pos=new Float32Array(n*3);
+ for(let i=0;i<n;i++){pos[i*3]=(Math.random()-.5)*46;pos[i*3+1]=(Math.random()-.5)*26;pos[i*3+2]=(Math.random()-.5)*46;}
+ sGeo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+ scene.add(new THREE.Points(sGeo,new THREE.PointsMaterial({color:0x4fc3f7,size:.06,transparent:true,opacity:.5})));
+ // orbit control (drag + wheel zoom + touch pinch)
+ const target=new THREE.Vector3(0,0,0);let theta=.6,phi=1.15,radius=17,vTheta=0;
+ function apply(){camera.position.set(radius*Math.sin(phi)*Math.sin(theta),radius*Math.cos(phi),radius*Math.sin(phi)*Math.cos(theta));camera.lookAt(target);}
+ apply();
+ let dragging=false,lx=0,ly=0,touchDist=0;
+ canvas.addEventListener('pointerdown',e=>{dragging=true;lx=e.clientX;ly=e.clientY;canvas.setPointerCapture(e.pointerId);});
+ canvas.addEventListener('pointermove',e=>{
+  if(dragging){theta-=(e.clientX-lx)*.005;phi+=(e.clientY-ly)*.005;phi=Math.max(.35,Math.min(2.65,phi));lx=e.clientX;ly=e.clientY;}
+  else pick(e);
+ });
+ addEventListener('pointerup',()=>dragging=false,{passive:true});
+ canvas.addEventListener('wheel',e=>{e.preventDefault();radius=Math.max(9,Math.min(30,radius+e.deltaY*.02));},{passive:false});
+ canvas.addEventListener('touchmove',e=>{if(e.touches.length===2){const dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY,d=Math.hypot(dx,dy);if(touchDist)radius=Math.max(9,Math.min(30,radius-(d-touchDist)*.03));touchDist=d;}},{passive:true});
+ canvas.addEventListener('touchend',()=>touchDist=0,{passive:true});
+ // hover raycast
+ const ray=new THREE.Raycaster(),ptr=new THREE.Vector2();let hovered=null;
+ function pick(e){
+  const r=canvas.getBoundingClientRect();
+  ptr.x=((e.clientX-r.left)/r.width)*2-1;ptr.y=-((e.clientY-r.top)/r.height)*2+1;
+  ray.setFromCamera(ptr,camera);
+  const hit=ray.intersectObjects(meta.map(m=>m.mesh))[0];
+  const found=hit&&meta.find(m=>m.mesh===hit.object)||null;
+  if(found!==hovered){
+   if(hovered){hovered.mesh.material.emissiveIntensity=.35;hovered.mesh.scale.setScalar(1);}
+   hovered=found;
+   if(hovered){hovered.mesh.material.emissiveIntensity=.95;hovered.mesh.scale.setScalar(1.45);
+    label.textContent='> '+hovered.name+' ['+hovered.cat+']';label.style.opacity=1;}
+   else label.style.opacity=0;
+   canvas.style.cursor=hovered?'pointer':'grab';
+  }
+ }
+ // visibility-gated animation
+ let visible=false,inited=true;
+ new IntersectionObserver(es=>es.forEach(e=>{visible=e.isIntersecting;}),{threshold:.05}).observe(wrap);
+ document.addEventListener('visibilitychange',()=>{});
+ function loop(t){
+  requestAnimationFrame(loop);
+  if(!visible)return;
+  const s=t*.001;
+  vTheta+= .00035;
+  theta+=vTheta*.016;if(!dragging)vTheta=Math.min(vTheta+.0002,.004);
+  meta.forEach((m,i)=>{
+   if(m!==hovered)m.mesh.position.y+=Math.sin(s*1.2+i)*.0012;
+  });
+  apply();
+  renderer.render(scene,camera);
+ }
+ requestAnimationFrame(loop);
+ // resize
+ let rz=0;new ResizeObserver(()=>{if(!rz)rz=requestAnimationFrame(()=>{rz=0;
+  const w=wrap.clientWidth,h=wrap.clientHeight;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);});}).observe(wrap);
+}
+if(matchMedia('(prefers-reduced-motion: reduce)').matches){wrap.style.display='none';return;}
+// lazy-load three.js only when section approaches viewport
+let started=false;
+const io=new IntersectionObserver(es=>es.forEach(async e=>{
+ if(!e.isIntersecting||started)return;started=true;io.disconnect();
+ try{
+  const T=await import('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js');
+  window.__THREE__=T;init();
+ }catch(err){/* CDN blocked: keep chips-only fallback */}
+}),{rootMargin:'400px 0px'});
+io.observe(wrap);
+})();
+</script>"""
+    SPACE_JS = SPACE_JS_TEMPLATE.replace("__SKILL_DATA__", SKILL_DATA_JSON)
+
     page = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -426,6 +557,11 @@ upd();
 
 <section id="skills"><div class="wrap">
 <h2>Skills</h2>
+<div id="space-wrap">
+<canvas id="skill-space"></canvas>
+<div id="skill-hint">drag to orbit · scroll to zoom · hover nodes</div>
+<div id="skill-label"></div>
+</div>
 {skills_html}
 </div></section>
 
@@ -441,6 +577,7 @@ upd();
 
 <footer><div class="wrap">built with a tiny static generator <span class="sep">|</span> markdown in, html out <span class="sep">|</span> © 2026 Paul Joseph Romeo</footer>
 {JS}
+{SPACE_JS}
 </body></html>"""
 
     os.makedirs(SITE, exist_ok=True)
