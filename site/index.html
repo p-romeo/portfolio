@@ -86,12 +86,7 @@ nav a.active{color:var(--accent);border-bottom:1px solid var(--accent)}
 nav a.active::after{content:'_';animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 .typed-cursor{display:inline-block;color:var(--accent);animation:blink 1s steps(1) infinite}
-/* --- hero 3d atmosphere --- */
-.hero{position:relative;overflow:hidden}
-#hero-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
-.hero .wrap{position:relative;z-index:1}
-@media(prefers-reduced-motion:reduce){#hero-canvas{display:none}}
-@media(prefers-reduced-motion:reduce){
+ @media(prefers-reduced-motion:reduce){
  html{scroll-behavior:auto}
  [data-reveal]{opacity:1;transform:none}
  [data-reveal].in{transition:none}
@@ -104,7 +99,7 @@ nav a.active::after{content:'_';animation:blink 1s steps(1) infinite}
 <div id="progress" aria-hidden="true"></div>
 <header><div class="wrap"><nav><span class="brand">paul_romeo</span><a href="#about">about</a><a href="#experience">experience</a><a href="#certifications">certs</a><a href="#projects">projects</a><a href="#skills">skills</a><a href="#resume">resume</a></nav></div></header>
 
-<div class="hero" data-reveal><canvas id="hero-canvas" aria-hidden="true"></canvas><div class="wrap">
+<div class="hero" data-reveal><div class="wrap">
 <div class="kicker">// cybersecurity · defensive security</div>
 <h1>Paul Joseph Romeo</h1>
 <p class="sub">Security manager who does the work — incident response, takedowns, endpoint &amp; network defense.</p>
@@ -205,129 +200,6 @@ function upd(){
 }
 addEventListener('scroll',function(){if(!raf)raf=requestAnimationFrame(upd);},{passive:true});
 upd();
-})();
-</script>
-<script type="module">
-(async function(){
-'use strict';
-const canvas=document.getElementById('hero-canvas'),hero=document.querySelector('.hero');
-if(!canvas||!hero)return;
-if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-let started=false;
-new IntersectionObserver(es=>es.forEach(async e=>{
- if(!e.isIntersecting||started)return;started=true;
- try{
-  const THREE=await import('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js');
-  init(THREE);
- }catch(err){}
-}),{rootMargin:'200px 0px'}).observe(hero);
-function init(THREE){
- const scene=new THREE.Scene();
- const camera=new THREE.PerspectiveCamera(55,1,.1,80);
- camera.position.set(0,0,13);
- const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'});
- renderer.setPixelRatio(Math.min(devicePixelRatio,2));
-
- // --- shield: particles sampled on a heraldic shield surface + orbiting ring
- // shield outline via 2d canvas sampling (gives a real shield silhouette, not a primitive)
- const off=document.createElement('canvas');off.width=200;off.height=240;
- const c=off.getContext('2d');
- c.beginPath();
- c.moveTo(100,8);            // top center
- c.lineTo(186,36);           // top right
- c.bezierCurveTo(188,130,168,196,100,232);   // right curve to point
- c.bezierCurveTo(32,196,12,130,14,36);       // left curve
- c.closePath();c.fillStyle='#fff';c.fill();
- const img=c.getImageData(0,0,200,240).data;
- const samples=[];
- while(samples.length<2600){
-  const x=Math.random()*200,y=Math.random()*240;
-  if(img[(y|0)*200*4+(x|0)*4+3]>128)samples.push([x/100-1,-(y/120-1)]);
- }
- const N=samples.length,total=N+900;
- const pos=new Float32Array(total*3),col=new Float32Array(total*3),seed=new Float32Array(total);
- const green=new THREE.Color('#3ddc97'),blue=new THREE.Color('#4fc3f7'),white=new THREE.Color('#9fd8ff');
- for(let i=0;i<N;i++){
-  const [sx,sy]=samples[i];
-  // give the flat silhouette gentle depth: bulge at center like a real shield
-  const z=Math.cos(sx*1.35)*.85*(1-Math.abs(sy)*.25)+.4;
-  pos[i*3]=sx*3.6;pos[i*3+1]=sy*2.5;pos[i*3+2]=z;
-  const t=Math.random(),cc=t<.72?green:(t<.92?blue:white);
-  col[i*3]=cc.r;col[i*3+1]=cc.g;col[i*3+2]=cc.b;
-  seed[i]=Math.random()*Math.PI*2;
- }
- // orbital debris ring around the shield
- for(let i=N;i<total;i++){
-  const k=(i-N)/900,a=k*Math.PI*2*7,r=4.6+Math.random()*.7,h=(Math.random()-.5)*.55;
-  pos[i*3]=Math.cos(a)*r;pos[i*3+1]=h;pos[i*3+2]=Math.sin(a)*r;
-  const t=Math.random(),cc=t<.6?blue:(t<.85?green:white);
-  col[i*3]=cc.r;col[i*3+1]=cc.g;col[i*3+2]=cc.b;
-  seed[i]=a;
- }
- const geo=new THREE.BufferGeometry();
- geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
- geo.setAttribute('color',new THREE.BufferAttribute(col,3));
- const mat=new THREE.PointsMaterial({size:.09,vertexColors:true,transparent:true,opacity:.8,
-  blending:THREE.AdditiveBlending,depthWrite:false,sizeAttenuation:true});
- const pts=new THREE.Points(geo,mat);
- const group=new THREE.Group();group.add(pts);scene.add(group);
-
- // faint wireframe shield echo behind the points
- const echoGeo=new THREE.BufferGeometry();
- echoGeo.setAttribute('position',geo.getAttribute('position'));
- const echo=new THREE.Points(echoGeo,new THREE.PointsMaterial({color:0x3ddc97,size:.02,transparent:true,opacity:.18}));
- group.add(echo);
-
- // --- interaction: pointer/tilt parallax + scroll fade (no UI to learn)
- let px=0,py=0,tpx=0,tpy=0;
- addEventListener('pointermove',e=>{tpx=(e.clientX/innerWidth-.5)*2;tpy=(e.clientY/innerHeight-.5)*2;},{passive:true});
- addEventListener('deviceorientation',e=>{
-  if(e.gamma!=null){tpx=Math.max(-1,Math.min(1,e.gamma/30));tpy=Math.max(-1,Math.min(1,((e.beta||45)-45)/30));}
- },{passive:true});
- let scrollFade=1;
- addEventListener('scroll',()=>{
-  const r=hero.getBoundingClientRect();
-  scrollFade=Math.max(0,Math.min(1,(r.bottom+60)/(r.height*.8)));
- },{passive:true});
-
- function resize(){
-  const w=hero.clientWidth,h=hero.clientHeight;
-  renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
- }
- resize();new ResizeObserver(resize).observe(hero);
- // position: right of center on wide screens (clear of headline), centered on mobile
- function frame(){
-  const wide=hero.clientWidth>=820;
-  group.position.x=wide?4.6:0;
-  group.scale.setScalar(wide?1.25:.85);
- }
- frame();new ResizeObserver(frame).observe(hero);
-
- let visible=true;
- new IntersectionObserver(es=>es.forEach(e=>{visible=e.isIntersecting;}),{threshold:0}).observe(hero);
- const clock={t:0};
- function loop(now){
-  requestAnimationFrame(loop);
-  if(!visible)return;
-  clock.t=now*.001;const s=clock.t;
-  px+=(tpx-px)*.045;py+=(tpy-py)*.045;
-  group.rotation.y=s*.22+px*.42;
-  group.rotation.x=-py*.28;
-  group.position.y=Math.sin(s*.6)*.22;
-  // shimmer: shield particles breathe on their own axes
-  const p=geo.attributes.position.array;
-  for(let i=0;i<N;i+=4){p[i*3+2]+=Math.sin(s*1.4+seed[i])*.004;}
-  geo.attributes.position.needsUpdate=true;
-  // ring counter-rotates
-  pts.geometry.drawRange?null:null;
-  group.children[0].rotation.y=-s*.05;
-  mat.opacity=.95*scrollFade;
-  echo.material.opacity=.18*scrollFade;
-  camera.lookAt(0,0,0);
-  renderer.render(scene,camera);
- }
- requestAnimationFrame(loop);
-}
 })();
 </script>
 </body></html>
