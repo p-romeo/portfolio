@@ -481,7 +481,7 @@ function init(THREE){
  function frame(){
   const wide=hero.clientWidth>=820;
   group.position.x=wide?4.6:0;
-  group.scale.setScalar(wide?1.25:.95);
+  group.scale.setScalar(wide?1.25:.85);
  }
  frame();new ResizeObserver(frame).observe(hero);
 
