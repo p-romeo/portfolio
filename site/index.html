@@ -86,18 +86,11 @@ nav a.active{color:var(--accent);border-bottom:1px solid var(--accent)}
 nav a.active::after{content:'_';animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 .typed-cursor{display:inline-block;color:var(--accent);animation:blink 1s steps(1) infinite}
-/* --- 3d topology --- */
-#space-wrap{position:relative;height:clamp(360px,52vh,520px);border:1px solid var(--line);border-radius:12px;background:#070a0e;overflow:hidden}
-#space-wrap canvas{display:block;width:100%;height:100%;cursor:grab;touch-action:pan-y}
-#space-wrap canvas:active{cursor:grabbing}
-#space-reset{position:absolute;top:10px;right:10px;font-family:var(--mono);font-size:.72rem;color:var(--muted);background:rgba(7,10,14,.85);border:1px solid var(--line);border-radius:6px;padding:6px 12px;cursor:pointer;z-index:2}
-#space-reset:active{color:var(--accent);border-color:var(--accent)}
-#legend{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
-#legend .lg{font-family:var(--mono);font-size:.74rem;border:1px solid var(--line);background:var(--bg2);border-radius:999px;padding:7px 13px;color:var(--text);cursor:pointer;display:flex;align-items:center;gap:7px;-webkit-tap-highlight-color:transparent}
-#legend .lg .dot{width:9px;height:9px;border-radius:50%;flex:none}
-#legend .lg.on{border-color:var(--accent);color:var(--accent)}
-#skill-info{font-family:var(--mono);font-size:.82rem;color:var(--accent);background:var(--bg2);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:8px;padding:12px 15px;margin-bottom:20px;min-height:3.4em}
-#skill-info b{color:var(--text)}#skill-info .dim{color:var(--muted)}
+/* --- hero 3d atmosphere --- */
+.hero{position:relative;overflow:hidden}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.hero .wrap{position:relative;z-index:1}
+@media(prefers-reduced-motion:reduce){#hero-canvas{display:none}}
 @media(prefers-reduced-motion:reduce){
  html{scroll-behavior:auto}
  [data-reveal]{opacity:1;transform:none}
@@ -111,7 +104,7 @@ nav a.active::after{content:'_';animation:blink 1s steps(1) infinite}
 <div id="progress" aria-hidden="true"></div>
 <header><div class="wrap"><nav><span class="brand">paul_romeo</span><a href="#about">about</a><a href="#experience">experience</a><a href="#certifications">certs</a><a href="#projects">projects</a><a href="#skills">skills</a><a href="#resume">resume</a></nav></div></header>
 
-<div class="hero" data-reveal><div class="wrap">
+<div class="hero" data-reveal><canvas id="hero-canvas" aria-hidden="true"></canvas><div class="wrap">
 <div class="kicker">// cybersecurity · defensive security</div>
 <h1>Paul Joseph Romeo</h1>
 <p class="sub">Security manager who does the work — incident response, takedowns, endpoint &amp; network defense.</p>
@@ -151,12 +144,6 @@ nav a.active::after{content:'_';animation:blink 1s steps(1) infinite}
 
 <section id="skills"><div class="wrap">
 <h2>Skills</h2>
-<div id="space-wrap">
-<canvas id="skill-space" aria-label="Interactive 3D map of Paul's security and IT environment" role="img"></canvas>
-<button id="space-reset" type="button">↺ reset view</button>
-</div>
-<div id="legend" aria-label="Environment layers — tap to focus"></div>
-<div id="skill-info"><span class="dim">&gt; tap a node or layer above to inspect_</span></div>
 <div class="skill-group" data-reveal style="--d:0ms"><h3>Security Operations</h3><div class="chips"><span class="chip">ESET EDR administration (~15 endpoints)</span><span class="chip">ESET Cloud Protect email filtering</span><span class="chip">Windows &amp; Active Directory administration</span><span class="chip">endpoint hardening</span><span class="chip">vulnerability management</span><span class="chip">patch pipelines</span><span class="chip">backup &amp; disaster recovery</span></div></div><div class="skill-group" data-reveal style="--d:40ms"><h3>Incident Response &amp; Detection</h3><div class="chips"><span class="chip">Wazuh SIEM deployment &amp; operation</span><span class="chip">Duo MFA rollout</span><span class="chip">phishing &amp; BEC investigation</span><span class="chip">infrastructure takedowns via registrar/host/abuse-desk reporting</span><span class="chip">log analysis</span></div></div><div class="skill-group" data-reveal style="--d:80ms"><h3>Network &amp; Infrastructure</h3><div class="chips"><span class="chip">UniFi network administration</span><span class="chip">UniFi Protect surveillance (10 cameras)</span><span class="chip">TrueNAS file storage/SMB</span><span class="chip">TCP/IP</span><span class="chip">firewalls &amp; VPNs</span><span class="chip">DNS</span><span class="chip">VLANs</span><span class="chip">Wi-Fi infrastructure</span><span class="chip">network segmentation</span></div></div><div class="skill-group" data-reveal style="--d:120ms"><h3>Linux &amp; Scripting</h3><div class="chips"><span class="chip">Bash</span><span class="chip">Python</span><span class="chip">PowerShell</span><span class="chip">cron/systemd</span><span class="chip">Git</span><span class="chip">LPI Linux Essentials certified</span></div></div><div class="skill-group" data-reveal style="--d:160ms"><h3>Cloud &amp; Platforms</h3><div class="chips"><span class="chip">Google Workspace</span><span class="chip">AWS fundamentals</span><span class="chip">GitHub Actions CI/CD</span><span class="chip">static-site deployment</span><span class="chip">BigCommerce / Amazon / eBay seller platforms</span></div></div><div class="skill-group" data-reveal style="--d:200ms"><h3>Leadership</h3><div class="chips"><span class="chip">Solo IT operations — day-to-day ownership with vendor &amp; staff coordination</span><span class="chip">security awareness training</span><span class="chip">budgeting</span><span class="chip">project delivery (Project+</span><span class="chip">ITIL)</span><span class="chip">incident communications</span></div></div>
 </div></section>
 
@@ -223,169 +210,117 @@ upd();
 <script type="module">
 (async function(){
 'use strict';
-const wrap=document.getElementById('space-wrap'),canvas=document.getElementById('skill-space'),
-      info=document.getElementById('skill-info'),legend=document.getElementById('legend'),
-      resetBtn=document.getElementById('space-reset');
-if(!wrap||!canvas)return;
-const DATA=[{"category": "Security Operations", "items": ["ESET EDR administration (~15 endpoints)", "ESET Cloud Protect email filtering", "Windows & Active Directory administration", "endpoint hardening", "vulnerability management", "patch pipelines", "backup & disaster recovery"], "color": "#3ddc97"}, {"category": "Incident Response & Detection", "items": ["Wazuh SIEM deployment & operation", "Duo MFA rollout", "phishing & BEC investigation", "infrastructure takedowns via registrar/host/abuse-desk reporting", "log analysis"], "color": "#4fc3f7"}, {"category": "Network & Infrastructure", "items": ["UniFi network administration", "UniFi Protect surveillance (10 cameras)", "TrueNAS file storage/SMB", "TCP/IP", "firewalls & VPNs", "DNS", "VLANs", "Wi-Fi infrastructure", "network segmentation"], "color": "#f7b74f"}, {"category": "Linux & Scripting", "items": ["Bash", "Python", "PowerShell", "cron/systemd", "Git", "LPI Linux Essentials certified"], "color": "#e46bd8"}, {"category": "Cloud & Platforms", "items": ["Google Workspace", "AWS fundamentals", "GitHub Actions CI/CD", "static-site deployment", "BigCommerce / Amazon / eBay seller platforms"], "color": "#8f7bff"}, {"category": "Leadership", "items": ["Solo IT operations \u2014 day-to-day ownership with vendor & staff coordination", "security awareness training", "budgeting", "project delivery (Project+", "ITIL)", "incident communications"], "color": "#6ee7c8"}];
-function init(){
- const THREE=window.__THREE__;if(!THREE)return;
+const canvas=document.getElementById('hero-canvas'),hero=document.querySelector('.hero');
+if(!canvas||!hero)return;
+if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+let started=false;
+new IntersectionObserver(es=>es.forEach(async e=>{
+ if(!e.isIntersecting||started)return;started=true;
+ try{
+  const THREE=await import('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js');
+  init(THREE);
+ }catch(err){}
+}),{rootMargin:'200px 0px'}).observe(hero);
+function init(THREE){
  const scene=new THREE.Scene();
- scene.fog=new THREE.Fog(0x070a0e,22,60);
- const camera=new THREE.PerspectiveCamera(52,wrap.clientWidth/wrap.clientHeight,.1,120);
+ const camera=new THREE.PerspectiveCamera(55,1,.1,80);
+ camera.position.set(0,0,13);
  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'});
  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
- renderer.setSize(wrap.clientWidth,wrap.clientHeight,false);
- scene.add(new THREE.AmbientLight(0xffffff,.55));
- const key=new THREE.DirectionalLight(0xffffff,.85);key.position.set(6,12,8);scene.add(key);
 
- // --- build environment map: hub-and-spoke core, skill nodes as satellites
- const world=new THREE.Group();scene.add(world);
- const layers=[],picking=[];
- DATA.forEach((g,gi)=>{
-  const layer={name:g.category,color:g.color,nodes:[],group:new THREE.Group()};
-  const a=gi/DATA.length*Math.PI*2,R=7.4;
-  layer.group.position.set(Math.cos(a)*R,0,Math.sin(a)*R);
-  // cluster halo disc (flat ring facing up)
-  const ringPts=Array.from({length:49},(_,k)=>{const t=k/48*Math.PI*2;
-   return new THREE.Vector3(layer.group.position.x+Math.cos(t)*2.6,.02,layer.group.position.z+Math.sin(t)*2.6)});
-  const rm=new THREE.LineBasicMaterial({color:new THREE.Color(g.color),transparent:true,opacity:.16});
-  world.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(ringPts),rm));
-  g.items.forEach((name,i)=>{
-   const ang=i/g.items.length*Math.PI*2,rr=g.items.length>4?1.9:1.35;
-   const x=Math.cos(ang)*rr,y=.55+((i*37)%5)*.33,z=Math.sin(ang)*rr;
-   const m=new THREE.Mesh(new THREE.IcosahedronGeometry(.24,0),
-    new THREE.MeshStandardMaterial({color:g.color,emissive:new THREE.Color(g.color),emissiveIntensity:.3,roughness:.4}));
-   m.position.set(x,y,z);m.userData={name:name,cat:g.category};
-   layer.group.add(m);layer.nodes.push(m);picking.push(m);
-  });
-  world.add(layer.group);
-  layers.push(layer);
- });
- // central SIEM core
- const core=new THREE.Mesh(new THREE.OctahedronGeometry(.9,0),
-  new THREE.MeshStandardMaterial({color:0x3ddc97,emissive:0x3ddc97,emissiveIntensity:.55,roughness:.25,metalness:.3}));
- core.userData={name:'Core — Wazuh SIEM + Duo MFA',cat:'everything reports here'};
- world.add(core);
- // spokes: core -> each layer's first node
- layers.forEach(L=>{
-  const wp=new THREE.Vector3(),nwp=new THREE.Vector3();
-  L.group.updateMatrixWorld(true);
-  wp.setFromMatrixPosition(L.group.matrixWorld);
-  nwp.setFromMatrixPosition(L.nodes[0].matrixWorld);
-  world.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([wp,nwp]),
-   new THREE.LineBasicMaterial({color:new THREE.Color(L.color),transparent:true,opacity:.28})));
- });
- // starfield
- const sGeo=new THREE.BufferGeometry(),SN=300,pos=new Float32Array(SN*3);
- for(let i=0;i<SN;i++){pos[i*3]=(Math.random()-.5)*56;pos[i*3+1]=(Math.random()-.5)*30;pos[i*3+2]=(Math.random()-.5)*56;}
- sGeo.setAttribute('position',new THREE.BufferAttribute(pos,3));
- world.add(new THREE.Points(sGeo,new THREE.PointsMaterial({color:0x4fc3f7,size:.07,transparent:true,opacity:.45})));
-
- // --- camera rig: spherical orbit, damped easing toward targets
- const HOME={theta:.85,phi:1.08,radius:19,tgt:new THREE.Vector3(0,.5,0)};
- let theta=HOME.theta-1.1,phi=HOME.phi,radius=HOME.radius+14;
- const tgt=new THREE.Vector3(0,-2,0);
- let fTheta=theta,fPhi=phi,fRadius=radius;const fTgt=tgt.clone();
- function apply(){
-  theta+= (fTheta-theta)*.07;phi+=(fPhi-phi)*.07;radius+=(fRadius-radius)*.07;tgt.lerp(fTgt,.07);
-  phi=Math.max(.3,Math.min(2.7,phi));
-  camera.position.set(tgt.x+radius*Math.sin(phi)*Math.sin(theta),tgt.y+radius*Math.cos(phi),tgt.z+radius*Math.sin(phi)*Math.cos(theta));
-  camera.lookAt(tgt);
+ // --- shield: particles sampled on a heraldic shield surface + orbiting ring
+ // shield outline via 2d canvas sampling (gives a real shield silhouette, not a primitive)
+ const off=document.createElement('canvas');off.width=200;off.height=240;
+ const c=off.getContext('2d');
+ c.beginPath();
+ c.moveTo(100,8);            // top center
+ c.lineTo(186,36);           // top right
+ c.bezierCurveTo(188,130,168,196,100,232);   // right curve to point
+ c.bezierCurveTo(32,196,12,130,14,36);       // left curve
+ c.closePath();c.fillStyle='#fff';c.fill();
+ const img=c.getImageData(0,0,200,240).data;
+ const samples=[];
+ while(samples.length<2600){
+  const x=Math.random()*200,y=Math.random()*240;
+  if(img[(y|0)*200*4+(x|0)*4+3]>128)samples.push([x/100-1,-(y/120-1)]);
  }
- apply();
-
- function setInfo(name,cat,color){
-  info.style.borderLeftColor=color;
-  info.innerHTML='<b>'+name+'</b><br><span class="dim">'+cat+'</span>';
+ const N=samples.length,total=N+900;
+ const pos=new Float32Array(total*3),col=new Float32Array(total*3),seed=new Float32Array(total);
+ const green=new THREE.Color('#3ddc97'),blue=new THREE.Color('#4fc3f7'),white=new THREE.Color('#9fd8ff');
+ for(let i=0;i<N;i++){
+  const [sx,sy]=samples[i];
+  // give the flat silhouette gentle depth: bulge at center like a real shield
+  const z=Math.cos(sx*1.35)*.85*(1-Math.abs(sy)*.25)+.4;
+  pos[i*3]=sx*3.6;pos[i*3+1]=sy*2.5;pos[i*3+2]=z;
+  const t=Math.random(),cc=t<.72?green:(t<.92?blue:white);
+  col[i*3]=cc.r;col[i*3+1]=cc.g;col[i*3+2]=cc.b;
+  seed[i]=Math.random()*Math.PI*2;
  }
- function clearInfo(){info.innerHTML='<span class="dim">&gt; tap a node or layer above to inspect_</span>';info.style.borderLeftColor='var(--accent)';}
-
- // legend buttons = fat tap targets that fly the camera to a layer
- const btns=layers.map((L,i)=>{
-  const b=document.createElement('button');b.type='button';b.className='lg';
-  b.innerHTML='<span class="dot" style="background:'+L.color+'"></span>'+L.name;
-  b.addEventListener('click',()=>{
-   const on=b.classList.toggle('on');
-   btns.forEach(x=>{if(x!==b)x.classList.remove('on')});
-   if(on){
-    const p=L.group.position.clone();
-    fTgt.set(p.x*.72,.5,p.z*.72);
-    fTheta=Math.atan2(p.x,p.z)+ .0;fPhi=1.05;fRadius=10.5;
-    setInfo(L.name,L.nodes.length+' skills · tap any lit node for detail','#fff');
-   }else{goHome();}
-  });
-  legend.appendChild(b);return b;
- });
- resetBtn.addEventListener('click',()=>{btns.forEach(b=>b.classList.remove('on'));goHome();});
- function goHome(){fTheta=HOME.theta;fPhi=HOME.phi;fRadius=HOME.radius;fTgt.copy(HOME.tgt);clearInfo();}
-
- // --- pointer: horizontal drag orbits; vertical swipes pass through (touch-action:pan-y)
- let dragging=false,lx=0,moved=false,pid=-1,startX=0,startY=0;
- canvas.addEventListener('pointerdown',e=>{dragging=true;moved=false;pid=e.pointerId;lx=startX=e.clientX;startY=e.clientY;});
- addEventListener('pointermove',e=>{
-  if(!dragging||e.pointerId!==pid)return;
-  const dx=e.clientX-lx;lx=e.clientX;
-  if(Math.abs(e.clientX-startX)>6||Math.abs(e.clientY-startY)>6)moved=true;
-  if(moved&&Math.abs(e.clientX-startX)>Math.abs(e.clientY-startY)){
-   try{canvas.setPointerCapture(pid)}catch(_){}
-   fTheta-=dx*.006;
-  }
- },{passive:true});
- addEventListener('pointerup',e=>{
-  if(dragging&&!moved&&e.pointerId===pid)tapSelect(e);
-  dragging=false;
- },{passive:true});
- // pinch zoom
- let pinch=0;
- canvas.addEventListener('touchmove',e=>{
-  if(e.touches.length===2){const dx=e.touches[0].clientX-e.touches[1].clientX,dy=e.touches[0].clientY-e.touches[1].clientY,d=Math.hypot(dx,dy);
-   if(pinch)fRadius=Math.max(6,Math.min(34,fRadius-(d-pinch)*.04));pinch=d;}
- },{passive:true});
- canvas.addEventListener('touchend',()=>pinch=0,{passive:true});
-
- // raycast tap-select (touch-friendly, no hover dependency)
- const ray=new THREE.Raycaster(),ptr=new THREE.Vector2();
- function tapSelect(e){
-  const r=canvas.getBoundingClientRect();
-  ptr.x=((e.clientX-r.left)/r.width)*2-1;ptr.y=-((e.clientY-r.top)/r.height)*2+1;
-  ray.setFromCamera(ptr,camera);
-  const hits=ray.intersectObjects([core,...picking]);
-  if(hits.length){
-   const o=hits[0].object;
-   setInfo(o.userData.name,o.userData.cat,'#'+o.material.color.getHexString());
-   o.scale.setScalar(o===core?1.15:1.5);
-   setTimeout(()=>o.scale.setScalar(1),900);
-  }else clearInfo();
+ // orbital debris ring around the shield
+ for(let i=N;i<total;i++){
+  const k=(i-N)/900,a=k*Math.PI*2*7,r=4.6+Math.random()*.7,h=(Math.random()-.5)*.55;
+  pos[i*3]=Math.cos(a)*r;pos[i*3+1]=h;pos[i*3+2]=Math.sin(a)*r;
+  const t=Math.random(),cc=t<.6?blue:(t<.85?green:white);
+  col[i*3]=cc.r;col[i*3+1]=cc.g;col[i*3+2]=cc.b;
+  seed[i]=a;
  }
+ const geo=new THREE.BufferGeometry();
+ geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+ geo.setAttribute('color',new THREE.BufferAttribute(col,3));
+ const mat=new THREE.PointsMaterial({size:.055,vertexColors:true,transparent:true,opacity:.95,
+  blending:THREE.AdditiveBlending,depthWrite:false,sizeAttenuation:true});
+ const pts=new THREE.Points(geo,mat);
+ const group=new THREE.Group();group.add(pts);scene.add(group);
 
- // visibility-gated loop
- let visible=false;
- new IntersectionObserver(es=>es.forEach(e=>{visible=e.isIntersecting;}),{threshold:.05}).observe(wrap);
- function loop(t){
+ // faint wireframe shield echo behind the points
+ const echoGeo=new THREE.BufferGeometry();
+ echoGeo.setAttribute('position',geo.getAttribute('position'));
+ const echo=new THREE.Points(echoGeo,new THREE.PointsMaterial({color:0x3ddc97,size:.02,transparent:true,opacity:.18}));
+ group.add(echo);
+
+ // --- interaction: pointer/tilt parallax + scroll fade (no UI to learn)
+ let px=0,py=0,tpx=0,tpy=0;
+ addEventListener('pointermove',e=>{tpx=(e.clientX/innerWidth-.5)*2;tpy=(e.clientY/innerHeight-.5)*2;},{passive:true});
+ addEventListener('deviceorientation',e=>{
+  if(e.gamma!=null){tpx=Math.max(-1,Math.min(1,e.gamma/30));tpy=Math.max(-1,Math.min(1,((e.beta||45)-45)/30));}
+ },{passive:true});
+ let scrollFade=1;
+ addEventListener('scroll',()=>{
+  const r=hero.getBoundingClientRect();
+  scrollFade=Math.max(0,Math.min(1,(r.bottom+60)/(r.height*.8)));
+ },{passive:true});
+
+ function resize(){
+  const w=hero.clientWidth,h=hero.clientHeight;
+  renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();
+ }
+ resize();new ResizeObserver(resize).observe(hero);
+
+ let visible=true;
+ new IntersectionObserver(es=>es.forEach(e=>{visible=e.isIntersecting;}),{threshold:0}).observe(hero);
+ const clock={t:0};
+ function loop(now){
   requestAnimationFrame(loop);
   if(!visible)return;
-  const s=t*.001;
-  core.rotation.y=s*.5;core.position.y=Math.sin(s)*.18;
-  layers.forEach((L,i)=>{L.group.rotation.y=Math.sin(s*.35+i)*.05;});
-  if(!dragging)fTheta+=.0011;          // idle drift resumes when not interacting
-  apply();
+  clock.t=now*.001;const s=clock.t;
+  px+=(tpx-px)*.045;py+=(tpy-py)*.045;
+  group.rotation.y=s*.22+px*.42;
+  group.rotation.x=-py*.28;
+  group.position.y=Math.sin(s*.6)*.22;
+  // shimmer: shield particles breathe on their own axes
+  const p=geo.attributes.position.array;
+  for(let i=0;i<N;i+=4){p[i*3+2]+=Math.sin(s*1.4+seed[i])*.004;}
+  geo.attributes.position.needsUpdate=true;
+  // ring counter-rotates
+  pts.geometry.drawRange?null:null;
+  group.children[0].rotation.y=-s*.05;
+  mat.opacity=.95*scrollFade;
+  echo.material.opacity=.18*scrollFade;
+  camera.lookAt(0,0,0);
   renderer.render(scene,camera);
  }
  requestAnimationFrame(loop);
- let rz=0;new ResizeObserver(()=>{if(!rz)rz=requestAnimationFrame(()=>{rz=0;
-  const w=wrap.clientWidth,h=wrap.clientHeight;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false);});}).observe(wrap);
 }
-if(matchMedia('(prefers-reduced-motion: reduce)').matches){wrap.style.display='none';return;}
-let started=false;
-const io=new IntersectionObserver(es=>es.forEach(async e=>{
- if(!e.isIntersecting||started)return;started=true;io.disconnect();
- try{
-  const T=await import('https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js');
-  window.__THREE__=T;init();
- }catch(err){}
-}),{rootMargin:'400px 0px'});
-io.observe(wrap);
 })();
 </script>
 </body></html>
