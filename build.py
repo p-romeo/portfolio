@@ -446,6 +446,17 @@ upd();
     os.makedirs(SITE, exist_ok=True)
     with open(os.path.join(SITE, "index.html"), "w", encoding="utf-8") as f:
         f.write(page)
+
+    # robots.txt per RFC 9309 — plain text, agent/crawler directives, sitemap ref
+    robots = "\n".join([
+        "User-agent: *",
+        "Allow: /",
+        "",
+        "Sitemap: https://paulromeo.net/sitemap.xml",
+        "",
+    ])
+    with open(os.path.join(SITE, "robots.txt"), "w", encoding="utf-8") as f:
+        f.write(robots)
     # copy static assets (logos) into site/
     import shutil
     assets_src = os.path.join(ROOT, "assets")
