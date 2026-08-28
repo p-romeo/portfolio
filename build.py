@@ -8,6 +8,7 @@ Stdlib only — no dependencies. Run: python3 build.py
 import html
 import os
 import re
+import time
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 CONTENT = os.path.join(ROOT, "content")
@@ -457,6 +458,24 @@ upd();
     ])
     with open(os.path.join(SITE, "robots.txt"), "w", encoding="utf-8") as f:
         f.write(robots)
+
+    # sitemap.xml per sitemaps.org protocol — canonical URLs of public pages
+    lastmod = time.strftime("%Y-%m-%d")
+    urls = [
+        ("https://paulromeo.net/", "1.0"),
+        ("https://paulromeo.net/proj-demo/", "0.8"),
+    ]
+    sitemap = ['<?xml version="1.0" encoding="UTF-8"?>',
+               '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for loc, pri in urls:
+        sitemap.append("  <url>")
+        sitemap.append(f"    <loc>{loc}</loc>")
+        sitemap.append(f"    <lastmod>{lastmod}</lastmod>")
+        sitemap.append(f"    <priority>{pri}</priority>")
+        sitemap.append("  </url>")
+    sitemap.append("</urlset>")
+    with open(os.path.join(SITE, "sitemap.xml"), "w", encoding="utf-8") as f:
+        f.write("\n".join(sitemap) + "\n")
     # copy static assets (logos) into site/
     import shutil
     assets_src = os.path.join(ROOT, "assets")
