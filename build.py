@@ -476,6 +476,26 @@ upd();
     sitemap.append("</urlset>")
     with open(os.path.join(SITE, "sitemap.xml"), "w", encoding="utf-8") as f:
         f.write("\n".join(sitemap) + "\n")
+
+    # llms.txt — machine-readable site summary (rel="describedby" target)
+    llms = "\n".join([
+        "# Paul Joseph Romeo — Cybersecurity & IT",
+        "",
+        "> Security manager at Belmont Leather Co: incident response, phishing/BEC",
+        "> investigation and attacker-infrastructure takedowns, endpoint & network defense.",
+        "",
+        "## Pages",
+        "",
+        "- [Home](https://paulromeo.net/): about, experience, certifications, projects, skills, résumé",
+        "- [Résumé (PDF)](https://paulromeo.net/Paul-Romeo-Resume.pdf): current résumé, kept up to date",
+        "",
+        "## Contact",
+        "",
+        "- Email: pauljromeo@proton.me",
+        "",
+    ])
+    with open(os.path.join(SITE, "llms.txt"), "w", encoding="utf-8") as f:
+        f.write(llms)
     # copy static assets (logos) into site/
     import shutil
     assets_src = os.path.join(ROOT, "assets")

@@ -1,0 +1,8 @@
+{
+  "name": "paulromeo-agent-headers",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-01",
+  "routes": [
+    { "pattern": "paulromeo.net/*", "zone_name": "paulromeo.net" }
+  ]
+}
