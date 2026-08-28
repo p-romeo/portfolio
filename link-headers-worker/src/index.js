@@ -62,8 +62,7 @@ const OPENAPI = {
   },
 };
 
-const API_DOCS = `<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+const API_DOCS = `<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>paulromeo.net — Site Status API</title>
 <style>body{font-family:system-ui,sans-serif;max-width:44rem;margin:2rem auto;padding:0 1rem;line-height:1.6;color:#1a1a1a}
 code,pre{background:#f4f4f4;border-radius:4px;padding:2px 6px;font-size:.9em}pre{padding:1rem;overflow-x:auto}
@@ -82,6 +81,42 @@ h1{font-size:1.5rem}table{border-collapse:collapse}td,th{border:1px solid #ddd;p
 {"status":"ok","service":"paulromeo.net edge","time":"2026-08-28T03:21:00Z"}</pre>
 <p><a href="/">← paulromeo.net</a></p>
 </body></html>`;
+
+const AUTH_MD = `# paulromeo.net auth.md
+
+Machine-readable agent authentication policy for paulromeo.net, per the Auth.md convention.
+
+## Audience
+
+Agents and automated clients calling the public paulromeo.net Site Status API
+(cataloged at \`/.well-known/api-catalog\` per RFC 9727, spec at \`/openapi.json\`).
+
+## Protected resources
+
+- \`GET https://paulromeo.net/status\` — public site health endpoint. Read-only, no sensitive data.
+
+## Authentication
+
+- **Method: none (anonymous public access).** No registration, no API keys, no OAuth.
+- Requests are rate-limited and cached at the Cloudflare edge. Send a descriptive
+  \`User-Agent\` so traffic is attributable; generic or abusive clients may be challenged.
+- There is no credential to provision and nothing to store. Do not send secrets to this host.
+
+## Agent registration
+
+- **register_uri: none.** This service does not accept agent registration.
+- No provisioning endpoint exists; public read-only access needs no account.
+
+## OAuth
+
+- This host is not an OAuth authorization server or protected resource, and publishes
+  no \`/.well-known/oauth-protected-resource\` or authorization-server metadata, because
+  none applies to its public endpoints.
+
+## Contact
+
+- Operator: Paul Joseph Romeo — pauljromeo@proton.me
+`;
 
 const json = (obj, cache = "public, max-age=3600") =>
   new Response(JSON.stringify(obj, null, 2) + "\n", {
@@ -112,6 +147,14 @@ export default {
       );
     }
     if (url.pathname === "/openapi.json") return json(OPENAPI);
+    if (url.pathname === "/auth.md") {
+      return new Response(AUTH_MD, {
+        headers: {
+          "content-type": "text/markdown; charset=utf-8",
+          "cache-control": "public, max-age=14400",
+        },
+      });
+    }
     if (url.pathname === "/api-docs") {
       return new Response(API_DOCS, {
         headers: {
