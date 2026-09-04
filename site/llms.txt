@@ -1,0 +1,13 @@
+# Paul Joseph Romeo — Cybersecurity & IT
+
+> Security manager at Belmont Leather Co: incident response, phishing/BEC
+> investigation and attacker-infrastructure takedowns, endpoint & network defense.
+
+## Pages
+
+- [Home](https://paulromeo.net/): about, experience, certifications, projects, skills, résumé
+- [Résumé (PDF)](https://paulromeo.net/Paul-Romeo-Resume.pdf): current résumé, kept up to date
+
+## Contact
+
+- Email: pauljromeo@proton.me

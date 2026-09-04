@@ -248,6 +248,98 @@ def esc(s):
     return html.escape(str(s))
 
 
+def render_projects_page(projects):
+    """Standalone /projects/ page styled with Tailwind (CDN). Dark terminal aesthetic to match the main site."""
+    palette = {
+        "bg": "#0b0f14", "bg2": "#10161e", "card": "#131a23", "line": "#223042",
+        "text": "#d7e2ee", "muted": "#8aa0b6", "accent": "#3ddc97", "accent2": "#4fc3f7",
+    }
+    css_vars = ";".join(f"--{k}:{v}" for k, v in palette.items())
+
+    cards = []
+    for idx, p in enumerate(projects):
+        link = p.get("link", "")
+        site = p.get("site", "")
+        title = esc(p.get("title", ""))
+        if link and link != "private":
+            title = f'<a href="{esc(link)}" class="hover:text-[var(--accent2)] transition-colors">{title}</a>'
+        priv = ' <span class="text-[10px] font-mono uppercase tracking-wider text-[var(--muted)] border border-[var(--line)] rounded px-1.5 py-0.5 ml-2 align-middle">private repo</span>' if link == "private" else ""
+        site_link = ""
+        if site:
+            host = esc(site.split("//", 1)[-1].split("/")[0])
+            site_link = (f'<a href="{esc(site)}" class="inline-flex items-center gap-1 text-xs font-mono '
+                         f'text-[var(--accent2)] border border-[var(--line)] rounded-md px-2.5 py-1 '
+                         f'hover:border-[var(--accent2)] hover:bg-[var(--accent2)]/5 transition-colors">'
+                         f'{host} <span aria-hidden="true">↗</span></a>')
+        github_link = ""
+        if link and link != "private" and "github.com" in link:
+            github_link = (f'<a href="{esc(link)}" class="inline-flex items-center gap-1 text-xs font-mono '
+                           f'text-[var(--muted)] border border-[var(--line)] rounded-md px-2.5 py-1 '
+                           f'hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors">'
+                           f'source <span aria-hidden="true">↗</span></a>')
+        body_html = blocks(p["body"])
+        cards.append(f"""
+        <article class="group relative bg-[var(--card)] border border-[var(--line)] rounded-xl p-6 md:p-7
+                       transition-all duration-200 hover:border-[var(--accent)]/40 hover:shadow-[0_0_24px_-6px_rgba(61,220,151,0.15)]
+                       hover:-translate-y-0.5" style="animation:fadeUp .5s ease-out both; animation-delay:{idx * 70}ms">
+          <div class="text-[11px] font-mono uppercase tracking-[0.15em] text-[var(--accent)] mb-3">{esc(p.get("tag", ""))}</div>
+          <h2 class="text-xl font-semibold text-[var(--text)] mb-3">{title}{priv}</h2>
+          <div class="text-[var(--muted)] text-sm leading-relaxed [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1
+                      [&_ul]:marker:text-[var(--accent)] [&_p]:mb-2 [&_code]:text-[var(--accent2)] [&_code]:font-mono
+                      [&_code]:text-[0.85em] [&_a]:text-[var(--accent2)] [&_a:hover]:underline [&_h3]:text-[var(--text)] [&_h3]:mt-3">{body_html}</div>
+          <div class="flex flex-wrap gap-2 mt-5">{site_link}{github_link}</div>
+        </article>""")
+
+    nav_links = "".join(
+        f'<a href="{href}" class="text-[var(--muted)] hover:text-[var(--accent)] transition-colors text-sm font-mono">{label}</a>'
+        for href, label in [("/", "about"), ("/#experience", "experience"), ("/#certifications", "certs"),
+                            ("/#skills", "skills"), ("/#resume", "resume")])
+
+    return f"""<!DOCTYPE html>
+<html lang="en" style="{css_vars}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Projects — Paul Joseph Romeo</title>
+<meta name="description" content="Projects by Paul Joseph Romeo: detection tooling, security automation, and applied AI systems.">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  @keyframes fadeUp {{ from {{ opacity:0; transform:translateY(12px); }} to {{ opacity:1; transform:none; }} }}
+  @media (prefers-reduced-motion: reduce) {{ * {{ animation: none !important; transition: none !important; }} }}
+  body {{ background: radial-gradient(700px 350px at 75% 0%, rgba(79,195,247,0.06), transparent),
+                        radial-gradient(600px 300px at 15% 100%, rgba(61,220,151,0.05), transparent), var(--bg); }}
+</style>
+</head>
+<body class="text-[var(--text)] antialiased min-h-screen">
+<header class="sticky top-0 z-10 backdrop-blur-md bg-[var(--bg)]/90 border-b border-[var(--line)]">
+  <nav class="max-w-4xl mx-auto flex items-center gap-5 px-5 py-4 font-mono">
+    <a href="/" class="text-[var(--accent)] font-bold text-sm mr-auto">paul_romeo</a>
+    {nav_links}
+  </nav>
+</header>
+
+<main class="max-w-4xl mx-auto px-5 pb-20">
+  <div class="pt-16 pb-10">
+    <div class="text-[11px] font-mono uppercase tracking-[0.2em] text-[var(--accent)]">// projects</div>
+    <h1 class="text-4xl font-bold mt-3 tracking-tight">Things I've built.</h1>
+    <p class="text-[var(--muted)] mt-3 max-w-xl">Detection tooling, security automation, and applied AI systems —
+    mostly born from real incident-response work. {len(projects)} projects.</p>
+  </div>
+  <div class="grid gap-6 md:grid-cols-2">{''.join(cards)}
+  </div>
+  <div class="mt-14 text-center font-mono text-sm">
+    <a href="/" class="text-[var(--muted)] hover:text-[var(--accent)] transition-colors">← back to paul_romeo</a>
+  </div>
+</main>
+
+<footer class="border-t border-[var(--line)]">
+  <div class="max-w-4xl mx-auto px-5 py-6 text-center text-xs text-[var(--muted)] font-mono">
+    © 2026 Paul Joseph Romeo <span class="mx-2 opacity-40">|</span> built with markdown, python &amp; tailwind
+  </div>
+</footer>
+</body></html>"""
+
+
 def render():
     about_md = read("about.md")
     certs = parse_certs(read("certifications.md"))
@@ -255,9 +347,9 @@ def render():
     skills = parse_skills(read("skills.md"))
     experience = parse_experience(read("experience.md"))
 
-    nav = "".join(f'<a href="#{sid}">{label}</a>' for sid, label in [
+    nav = "".join(f'<a href="#{sid}">{label}</a>' if not sid.startswith("/") else f'<a href="{sid}">{label}</a>' for sid, label in [
         ("about", "about"), ("experience", "experience"), ("certifications", "certs"),
-        ("projects", "projects"), ("skills", "skills"), ("resume", "resume")])
+        ("/projects/", "projects"), ("skills", "skills"), ("resume", "resume")])
 
     hero_tags = "".join(f'<span class="tag">{esc(t)}</span>' for t in [
         "B.S. Cybersecurity — WGU", "SSCP", "Security+", "CySA+", "PenTest+", "Incident Response", "SOC"])
@@ -420,11 +512,6 @@ upd();
 <div class="badges">{badges_html}</div>
 </div></section>
 
-<section id="projects"><div class="wrap">
-<h2>Projects</h2>
-<div class="cards">{cards_html}</div>
-</div></section>
-
 <section id="skills"><div class="wrap">
 <h2>Skills</h2>
 {skills_html}
@@ -448,6 +535,12 @@ upd();
     with open(os.path.join(SITE, "index.html"), "w", encoding="utf-8") as f:
         f.write(page)
 
+    # ---- Projects page (Tailwind) ----
+    projects_page = render_projects_page(projects)
+    os.makedirs(os.path.join(SITE, "projects"), exist_ok=True)
+    with open(os.path.join(SITE, "projects", "index.html"), "w", encoding="utf-8") as f:
+        f.write(projects_page)
+
     # robots.txt per RFC 9309 — plain text, agent/crawler directives, sitemap ref
     robots = "\n".join([
         "User-agent: *",
@@ -463,7 +556,7 @@ upd();
     lastmod = time.strftime("%Y-%m-%d")
     urls = [
         ("https://paulromeo.net/", "1.0"),
-        ("https://paulromeo.net/proj-demo/", "0.8"),
+        ("https://paulromeo.net/projects/", "0.9"),
     ]
     sitemap = ['<?xml version="1.0" encoding="UTF-8"?>',
                '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
