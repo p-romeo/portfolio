@@ -72,22 +72,10 @@ def parse_certs(md):
             logo = first[5:] if first.startswith("logo:") else ""
             badges.append({"name": m.group(1), "issuer": m.group(2).strip(),
                            "year": m.group(3), "url": "" if logo else first, "logo": logo})
-    # optional credential_id / verify_url fields appended after the first 4 pipe groups
-    for line in md.splitlines():
-        m = re.match(r"^- +\*\*(.+?)\*\* *\|", line)
-        if not m:
-            continue
-        for b in badges:
-            if b["name"] == m.group(1):
-                cid = re.search(r"\|\s*credential_id:([^|]+)", line)
-                vurl = re.search(r"\|\s*verify_url:(\S+)", line)
-                ico = re.search(r"\|\s*icon_text:([^|]+)", line)
-                if cid:
-                    b["credential_id"] = cid.group(1).strip()
-                if vurl:
-                    b["verify_url"] = vurl.group(1).strip()
-                if ico:
-                    b["icon_text"] = ico.group(1).strip()
+            for field in ('credential_id', 'verify_url', 'icon_text'):
+                value = re.search(r'\|\s*' + field + r':([^|]+)', line)
+                if value:
+                    badges[-1][field] = value.group(1).strip()
     return badges
 
 
@@ -164,7 +152,6 @@ header{position:sticky;top:0;z-index:10;background:rgba(11,15,20,.92);backdrop-f
 nav{display:flex;align-items:center;flex-wrap:wrap;row-gap:8px;gap:16px;padding:16px 0;font-family:var(--mono);font-size:.85rem}
 nav .brand{color:var(--accent);font-weight:700;margin-right:auto}
 @media(max-width:720px){nav .brand{flex-basis:100%;margin-right:0}}
-nav a{color:var(--muted);white-space:nowrap}
 nav .brand::before{content:'>_ '}
 nav a{color:var(--muted);white-space:nowrap}nav a:hover{color:var(--accent)}
 .hero{padding:88px 0 64px;border-bottom:1px solid var(--line);
@@ -196,14 +183,6 @@ h2::before{content:'//';font-family:var(--mono);color:var(--accent);font-size:1r
 .badge .verify-link{color:inherit;text-decoration:none;border-bottom:1px dotted var(--muted)}
 .badge .verify-link:hover{color:var(--accent);border-bottom-color:var(--accent)}
 .badge .verify-link::after{content:" ↗";font-size:.75em}
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;transition:border-color .2s,transform .2s}
-.card:hover{border-color:var(--accent2);transform:translateY(-2px)}
-.card h3{font-size:1.05rem;margin-bottom:4px}
-.card .meta{font-family:var(--mono);font-size:.72rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em}
-.card p{font-size:.9rem;color:var(--muted);margin-top:10px;flex-grow:1}
-.card ul{margin-top:10px;padding-left:18px;font-size:.85rem;color:var(--muted)}
-.card ul li{margin-bottom:3px}
 .skill-group{margin-bottom:20px}
 .skill-group h3{font-family:var(--mono);font-size:.78rem;color:var(--accent2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:8px}
 .chips{display:flex;flex-wrap:wrap;gap:7px}
@@ -227,8 +206,7 @@ html{scroll-padding-top:64px}
 #progress{position:fixed;top:0;left:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--accent);z-index:20;box-shadow:0 0 6px rgba(61,220,151,.6);will-change:transform}
 [data-reveal]{opacity:0;transform:translateY(18px)}
 [data-reveal].in{opacity:1;transform:none;transition:opacity .5s ease,transform .5s ease;transition-delay:var(--d,0ms)}
-.card,.badge,.xp{transition:border-color .2s,transform .2s,box-shadow .2s}
-.card:hover{border-color:var(--accent2);box-shadow:0 4px 18px rgba(79,195,247,.15)}
+.badge,.xp{transition:border-color .2s,transform .2s,box-shadow .2s}
 .badge:hover,.xp:hover{border-color:var(--accent);box-shadow:0 4px 18px rgba(61,220,151,.15)}
 nav a.active{color:var(--accent);border-bottom:1px solid var(--accent)}
 nav a.active::after{content:'_';animation:blink 1s steps(1) infinite}
@@ -402,24 +380,11 @@ def render():
                 f'{cid_line}</div></div>')
 
     import shutil
+    os.makedirs(SITE, exist_ok=True)
+    shutil.copy('tools/Paul-Romeo-Resume.docx', 'site/Paul-Romeo-Resume.docx')
     if os.path.exists('Paul-Romeo-Resume.pdf'):
         shutil.copy('Paul-Romeo-Resume.pdf', 'site/Paul-Romeo-Resume.pdf')
     badges_html = "".join(badge_card(i, b) for i, b in enumerate(certs))
-
-    cards_html = ""
-    for idx, p in enumerate(projects):
-        link = p.get("link", "")
-        site = p.get("site", "")
-        title = esc(p.get("title", ""))
-        if link and link != "private":
-            title = f'<a href="{esc(link)}">{title}</a>'
-        priv = ' <span class="chip">private repo</span>' if link == "private" else ""
-        body_html = blocks(p["body"])
-        site_link = (f' <a class="chip" href="{esc(site)}" style="text-decoration:none">'
-                     f'{esc(site.split("//", 1)[-1].split("/")[0])} ↗</a>' if site else "")
-        cards_html += (
-            f'<article class="card" data-reveal style="--d:{idx * 40}ms"><div class="meta">{esc(p.get("tag", ""))}</div>'
-            f'<h3>{title}{priv}{site_link}</h3>{body_html}</article>')
 
     skills_html = "".join(
         f'<div class="skill-group" data-reveal style="--d:{i * 40}ms"><h3>{esc(g["category"])}</h3><div class="chips">'
@@ -531,7 +496,6 @@ upd();
 {JS}
 </body></html>"""
 
-    os.makedirs(SITE, exist_ok=True)
     with open(os.path.join(SITE, "index.html"), "w", encoding="utf-8") as f:
         f.write(page)
 

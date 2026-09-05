@@ -65,47 +65,27 @@
     {
       "type": "paragraph",
       "style": "NameTitle",
-      "runs": [
-        {
-          "text": "PAUL J. ROMEO"
-        }
-      ]
+      "text": "PAUL J. ROMEO"
     },
     {
       "type": "paragraph",
       "style": "ContactLine",
-      "runs": [
-        {
-          "text": "Union, NJ  |  pauljromeo@proton.me  |  linkedin.com/in/paul-romeo  |  github.com/p-romeo"
-        }
-      ]
+      "text": "Union, NJ  |  pauljromeo@proton.me  |  linkedin.com/in/paul-romeo  |  github.com/p-romeo"
     },
     {
       "type": "paragraph",
       "style": "SectionHeader",
-      "runs": [
-        {
-          "text": "SUMMARY"
-        }
-      ]
+      "text": "SUMMARY"
     },
     {
       "type": "paragraph",
       "style": "Body",
-      "runs": [
-        {
-          "text": "Security-focused IT professional who owns security and IT operations end-to-end for a multi-channel e-commerce company. Leads incident response and phishing/BEC investigations through to attacker-infrastructure takedowns; administers ESET EDR, UniFi networking and Protect surveillance, and TrueNAS storage. B.S. in Cybersecurity & Information Assurance (WGU, August 2026) backed by nine industry certifications including Security+, CySA+, PenTest+, and ISC2 SSCP."
-        }
-      ]
+      "text": "Security-focused IT professional who owns security and IT operations end-to-end for a multi-channel e-commerce company. Leads incident response and phishing/BEC investigations through to attacker-infrastructure takedowns; administers ESET EDR, UniFi networking and Protect surveillance, and TrueNAS storage. B.S. in Cybersecurity & Information Assurance (WGU, August 2026) backed by nine industry certifications including Security+, CySA+, PenTest+, and ISC2 SSCP."
     },
     {
       "type": "paragraph",
       "style": "SectionHeader",
-      "runs": [
-        {
-          "text": "CORE SKILLS"
-        }
-      ]
+      "text": "CORE SKILLS"
     },
     {
       "type": "paragraph",
@@ -162,11 +142,7 @@
     {
       "type": "paragraph",
       "style": "SectionHeader",
-      "runs": [
-        {
-          "text": "CERTIFICATIONS"
-        }
-      ]
+      "text": "CERTIFICATIONS"
     },
     {
       "type": "bullet_list",
@@ -185,11 +161,7 @@
     {
       "type": "paragraph",
       "style": "SectionHeader",
-      "runs": [
-        {
-          "text": "PROFESSIONAL EXPERIENCE"
-        }
-      ]
+      "text": "PROFESSIONAL EXPERIENCE"
     },
     {
       "type": "paragraph",
@@ -206,11 +178,7 @@
     {
       "type": "paragraph",
       "style": "JobMeta",
-      "runs": [
-        {
-          "text": "Clifton, NJ  |  2021 - Present"
-        }
-      ]
+      "text": "Clifton, NJ  |  2021 - Present"
     },
     {
       "type": "bullet_list",
@@ -237,11 +205,7 @@
     {
       "type": "paragraph",
       "style": "JobMeta",
-      "runs": [
-        {
-          "text": "2018 - 2020"
-        }
-      ]
+      "text": "2018 - 2020"
     },
     {
       "type": "bullet_list",
@@ -265,11 +229,7 @@
     {
       "type": "paragraph",
       "style": "JobMeta",
-      "runs": [
-        {
-          "text": "2016 - 2018"
-        }
-      ]
+      "text": "2016 - 2018"
     },
     {
       "type": "bullet_list",
@@ -281,11 +241,7 @@
     {
       "type": "paragraph",
       "style": "SectionHeader",
-      "runs": [
-        {
-          "text": "EDUCATION"
-        }
-      ]
+      "text": "EDUCATION"
     },
     {
       "type": "paragraph",
@@ -303,11 +259,7 @@
     {
       "type": "paragraph",
       "style": "JobMeta",
-      "runs": [
-        {
-          "text": "Capstone (D833): Wazuh SIEM deployment + Duo MFA proposal — passed on first submission."
-        }
-      ]
+      "text": "Capstone (D833): Wazuh SIEM deployment + Duo MFA proposal — passed on first submission."
     }
   ]
 }
