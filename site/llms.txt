@@ -5,7 +5,8 @@
 
 ## Pages
 
-- [Home](https://paulromeo.net/): about, experience, certifications, projects, skills, résumé
+- [Home](https://paulromeo.net/): about, experience, certifications, skills, résumé
+- [Projects](https://paulromeo.net/projects/): Weekend, Signal Vault, Tesla Dash Viewer, Belmont Invoicer, FBA Label Printer, Reply Pass, Sleeper Draft Intelligence, CTF Toolkit
 - [Résumé (PDF)](https://paulromeo.net/Paul-Romeo-Resume.pdf): current résumé, kept up to date
 
 ## Contact
