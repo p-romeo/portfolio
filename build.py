@@ -71,7 +71,7 @@ def parse_certs(md):
             first = extra.split("|")[0].strip() if extra else ""
             logo = first[5:] if first.startswith("logo:") else ""
             badges.append({"name": m.group(1), "issuer": m.group(2).strip(),
-                           "year": m.group(3), "url": "" if logo else first, "logo": logo})
+                           "year": m.group(3), "logo": logo})
             for field in ('credential_id', 'verify_url', 'icon_text'):
                 value = re.search(r'\|\s*' + field + r':([^|]+)', line)
                 if value:
@@ -109,7 +109,7 @@ def parse_experience(md):
     for line in md.splitlines():
         h = re.match(r"^##\s+(.+)", line)
         if h:
-            cur = {"title": h.group(1), "body": [], "logo": ""}
+            cur = {"title": h.group(1), "body": [], "logo": []}
             roles.append(cur)
         elif cur is not None and line.strip():
             lm = re.match(r"^logo:(.+)$", line.strip())
@@ -227,94 +227,66 @@ def esc(s):
 
 
 def render_projects_page(projects):
-    """Standalone /projects/ page styled with Tailwind (CDN). Dark terminal aesthetic to match the main site."""
-    palette = {
-        "bg": "#0b0f14", "bg2": "#10161e", "card": "#131a23", "line": "#223042",
-        "text": "#d7e2ee", "muted": "#8aa0b6", "accent": "#3ddc97", "accent2": "#4fc3f7",
-    }
-    css_vars = ";".join(f"--{k}:{v}" for k, v in palette.items())
-
+    """Standalone projects page using the homepage's CSS foundation."""
     cards = []
     for idx, p in enumerate(projects):
-        link = p.get("link", "")
-        site = p.get("site", "")
+        link, site = p.get("link", ""), p.get("site", "")
         title = esc(p.get("title", ""))
         if link and link != "private":
-            title = f'<a href="{esc(link)}" class="hover:text-[var(--accent2)] transition-colors">{title}</a>'
-        priv = ' <span class="text-[10px] font-mono uppercase tracking-wider text-[var(--muted)] border border-[var(--line)] rounded px-1.5 py-0.5 ml-2 align-middle">private repo</span>' if link == "private" else ""
-        site_link = ""
+            title = f'<a href="{esc(link)}">{title}</a>'
+        private = ' <span class="private">private repo</span>' if link == "private" else ""
+        links = []
         if site:
             host = esc(site.split("//", 1)[-1].split("/")[0])
-            site_link = (f'<a href="{esc(site)}" class="inline-flex items-center gap-1 text-xs font-mono '
-                         f'text-[var(--accent2)] border border-[var(--line)] rounded-md px-2.5 py-1 '
-                         f'hover:border-[var(--accent2)] hover:bg-[var(--accent2)]/5 transition-colors">'
-                         f'{host} <span aria-hidden="true">↗</span></a>')
-        github_link = ""
+            links.append(f'<a href="{esc(site)}">{host} <span aria-hidden="true">↗</span></a>')
         if link and link != "private" and "github.com" in link:
-            github_link = (f'<a href="{esc(link)}" class="inline-flex items-center gap-1 text-xs font-mono '
-                           f'text-[var(--muted)] border border-[var(--line)] rounded-md px-2.5 py-1 '
-                           f'hover:border-[var(--accent)] hover:text-[var(--accent)] transition-colors">'
-                           f'source <span aria-hidden="true">↗</span></a>')
-        body_html = blocks(p["body"])
-        cards.append(f"""
-        <article class="group relative bg-[var(--card)] border border-[var(--line)] rounded-xl p-6 md:p-7
-                       transition-all duration-200 hover:border-[var(--accent)]/40 hover:shadow-[0_0_24px_-6px_rgba(61,220,151,0.15)]
-                       hover:-translate-y-0.5" style="animation:fadeUp .5s ease-out both; animation-delay:{idx * 70}ms">
-          <div class="text-[11px] font-mono uppercase tracking-[0.15em] text-[var(--accent)] mb-3">{esc(p.get("tag", ""))}</div>
-          <h2 class="text-xl font-semibold text-[var(--text)] mb-3">{title}{priv}</h2>
-          <div class="text-[var(--muted)] text-sm leading-relaxed [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:space-y-1
-                      [&_ul]:marker:text-[var(--accent)] [&_p]:mb-2 [&_code]:text-[var(--accent2)] [&_code]:font-mono
-                      [&_code]:text-[0.85em] [&_a]:text-[var(--accent2)] [&_a:hover]:underline [&_h3]:text-[var(--text)] [&_h3]:mt-3">{body_html}</div>
-          <div class="flex flex-wrap gap-2 mt-5">{site_link}{github_link}</div>
-        </article>""")
-
-    nav_links = "".join(
-        f'<a href="{href}" class="text-[var(--muted)] hover:text-[var(--accent)] transition-colors text-sm font-mono">{label}</a>'
-        for href, label in [("/", "about"), ("/#experience", "experience"), ("/#certifications", "certs"),
-                            ("/#skills", "skills"), ("/#resume", "resume")])
-
+            links.append(f'<a href="{esc(link)}">source <span aria-hidden="true">↗</span></a>')
+        cards.append(f"""<article class="project" style="animation-delay:{idx * 70}ms">
+<div class="project-tag">{esc(p.get('tag', ''))}</div>
+<h2>{title}{private}</h2>
+<div class="project-body">{blocks(p['body'])}</div>
+<div class="project-links">{''.join(links)}</div>
+</article>""")
+    nav = "".join(f'<a href="{href}">{label}</a>' for href, label in [
+        ("/", "about"), ("/#experience", "experience"), ("/#certifications", "certs"),
+        ("/#skills", "skills"), ("/#resume", "resume")])
     return f"""<!DOCTYPE html>
-<html lang="en" style="{css_vars}">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Projects — Paul Joseph Romeo</title>
 <meta name="description" content="Projects by Paul Joseph Romeo: detection tooling, security automation, and applied AI systems.">
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-  @keyframes fadeUp {{ from {{ opacity:0; transform:translateY(12px); }} to {{ opacity:1; transform:none; }} }}
-  @media (prefers-reduced-motion: reduce) {{ * {{ animation: none !important; transition: none !important; }} }}
-  body {{ background: radial-gradient(700px 350px at 75% 0%, rgba(79,195,247,0.06), transparent),
-                        radial-gradient(600px 300px at 15% 100%, rgba(61,220,151,0.05), transparent), var(--bg); }}
+<style>{CSS}
+.projects-intro{{padding:64px 0 40px}}.projects-intro h1{{font-size:2.25rem;margin:12px 0}}
+.projects-intro p,.project-body{{color:var(--muted)}}
+.projects-grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}}
+.project{{min-width:0;padding:28px;background:var(--card);border:1px solid var(--line);border-radius:12px;animation:fadeUp .5s ease-out both;transition:border-color .2s,transform .2s}}
+.project:hover{{border-color:var(--accent);transform:translateY(-2px)}}
+.project h2{{display:block;font-size:1.25rem;margin:12px 0}}.project h2::before{{content:none}}
+.project h2 a{{color:inherit}}.project h2 a:hover{{color:var(--accent2)}}
+.project-tag{{font: .7rem var(--mono);color:var(--accent);letter-spacing:.15em;text-transform:uppercase}}
+.project-body{{font-size:.875rem;overflow-wrap:anywhere}}.project-body p{{margin-bottom:8px}}
+.project-body ul{{padding-left:20px}}.project-body code{{color:var(--accent2)}}
+.project-links{{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}}
+.project-links a,.private{{font: .75rem var(--mono);border:1px solid var(--line);border-radius:6px;padding:5px 10px;overflow-wrap:anywhere}}
+.private{{font-size:.625rem;color:var(--muted);white-space:nowrap}}
+.projects-back{{text-align:center;padding:56px 0 80px;font-family:var(--mono)}}
+@keyframes fadeUp{{from{{opacity:0;transform:translateY(12px)}}to{{opacity:1;transform:none}}}}
+@media(max-width:720px){{.projects-grid{{grid-template-columns:1fr}}}}
+@media(prefers-reduced-motion:reduce){{.project{{animation:none;transition:none}}.project:hover{{transform:none}}}}
 </style>
 </head>
-<body class="text-[var(--text)] antialiased min-h-screen">
-<header class="sticky top-0 z-10 backdrop-blur-md bg-[var(--bg)]/90 border-b border-[var(--line)]">
-  <nav class="max-w-4xl mx-auto flex items-center gap-5 px-5 py-4 font-mono">
-    <a href="/" class="text-[var(--accent)] font-bold text-sm mr-auto">paul_romeo</a>
-    {nav_links}
-  </nav>
-</header>
-
-<main class="max-w-4xl mx-auto px-5 pb-20">
-  <div class="pt-16 pb-10">
-    <div class="text-[11px] font-mono uppercase tracking-[0.2em] text-[var(--accent)]">// projects</div>
-    <h1 class="text-4xl font-bold mt-3 tracking-tight">Things I've built.</h1>
-    <p class="text-[var(--muted)] mt-3 max-w-xl">Detection tooling, security automation, and applied AI systems —
-    mostly born from real incident-response work. {len(projects)} projects.</p>
-  </div>
-  <div class="grid gap-6 md:grid-cols-2">{''.join(cards)}
-  </div>
-  <div class="mt-14 text-center font-mono text-sm">
-    <a href="/" class="text-[var(--muted)] hover:text-[var(--accent)] transition-colors">← back to paul_romeo</a>
-  </div>
+<body>
+<header><div class="wrap"><nav><a class="brand" href="/">paul_romeo</a>{nav}</nav></div></header>
+<main class="wrap">
+<div class="projects-intro"><div class="project-tag">// projects</div>
+<h1>Things I've built.</h1><p>Detection tooling, security automation, and applied AI systems —
+mostly born from real incident-response work. {len(projects)} projects.</p></div>
+<div class="projects-grid">{''.join(cards)}</div>
+<div class="projects-back"><a href="/">← back to paul_romeo</a></div>
 </main>
-
-<footer class="border-t border-[var(--line)]">
-  <div class="max-w-4xl mx-auto px-5 py-6 text-center text-xs text-[var(--muted)] font-mono">
-    © 2026 Paul Joseph Romeo <span class="mx-2 opacity-40">|</span> built with markdown, python &amp; tailwind
-  </div>
-</footer>
+<footer>© 2026 Paul Joseph Romeo <span class="sep">|</span> built with markdown, python &amp; CSS</footer>
 </body></html>"""
 
 
@@ -343,9 +315,7 @@ def render():
 
     def xp_logo(r):
         org = r["title"].split("—")[0].strip() or "Employer"
-        logos = r.get("logo", "")
-        if isinstance(logos, str):
-            logos = [(logos, "")] if logos else []
+        logos = r["logo"]
         if logos:
             imgs = "".join(
                 '<img src="%s" alt="%s logo" loading="lazy">'
@@ -499,7 +469,7 @@ upd();
     with open(os.path.join(SITE, "index.html"), "w", encoding="utf-8") as f:
         f.write(page)
 
-    # ---- Projects page (Tailwind) ----
+    # ---- Projects page ----
     projects_page = render_projects_page(projects)
     os.makedirs(os.path.join(SITE, "projects"), exist_ok=True)
     with open(os.path.join(SITE, "projects", "index.html"), "w", encoding="utf-8") as f:
@@ -555,7 +525,6 @@ upd();
     with open(os.path.join(SITE, "llms.txt"), "w", encoding="utf-8") as f:
         f.write(llms)
     # copy static assets (logos) into site/
-    import shutil
     assets_src = os.path.join(ROOT, "assets")
     if os.path.isdir(assets_src):
         shutil.copytree(assets_src, os.path.join(SITE, "assets"), dirs_exist_ok=True)

@@ -11,10 +11,11 @@ certs = build.parse_certs(
     '| verify_url:https://example.com/verify | icon_text: T\n'
     '- **Other** | Issuer | 2025'
 )
-assert certs[0] == dict(name='Test', issuer='Issuer', year='2026', url='',
+assert certs[0] == dict(name='Test', issuer='Issuer', year='2026',
                        logo='test.svg', credential_id='ABC',
                        verify_url='https://example.com/verify', icon_text='T')
 assert 'credential_id' not in certs[1]
+assert build.parse_experience('## No logo')[0]['logo'] == []
 root = Path(__file__).resolve().parent
 with tempfile.TemporaryDirectory() as tmp:
     shutil.copytree(root, tmp, dirs_exist_ok=True,
@@ -26,7 +27,10 @@ with tempfile.TemporaryDirectory() as tmp:
     build.render()
     site = Path('site')
     assert (site / 'index.html').read_text().count('class="badge"') == 15
-    assert (site / 'projects/index.html').read_text().count('<article ') == 8
+    projects_html = (site / 'projects/index.html').read_text()
+    assert projects_html.count('<article ') == 8
+    assert '<script' not in projects_html
+    assert 'projects-grid' in projects_html and 'prefers-reduced-motion' in projects_html
     for source in ('Paul-Romeo-Resume.pdf', 'tools/Paul-Romeo-Resume.docx'):
         assert (site / Path(source).name).read_bytes() == Path(source).read_bytes()
     for name in ('robots.txt', 'sitemap.xml', 'llms.txt'):
