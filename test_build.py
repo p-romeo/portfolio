@@ -1,5 +1,6 @@
 """Run with python3 -B test_build.py; builds without existing output."""
 import os
+import re
 from pathlib import Path
 import shutil
 import tempfile
@@ -29,6 +30,12 @@ with tempfile.TemporaryDirectory() as tmp:
     assert (site / 'index.html').read_text().count('class="badge"') == 15
     projects_html = (site / 'projects/index.html').read_text()
     assert projects_html.count('<article ') == 8
+    home_html = (site / 'index.html').read_text()
+    nav_links = lambda page: re.findall(r'href="([^"]+)"', re.search(r'<header>.*?</header>', page).group())
+    assert nav_links(home_html) == nav_links(projects_html)
+    assert nav_links(home_html) == ['/', '/#about', '/#experience', '/#certifications', '/projects/', '/#skills', '/#resume']
+    assert 'aria-current="page"' in projects_html
+    assert build.FOOTER in home_html and build.FOOTER in projects_html
     assert '<script' not in projects_html
     assert 'projects-grid' in projects_html and 'prefers-reduced-motion' in projects_html
     for source in ('Paul-Romeo-Resume.pdf', 'tools/Paul-Romeo-Resume.docx'):

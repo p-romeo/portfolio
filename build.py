@@ -226,10 +226,23 @@ def esc(s):
     return html.escape(str(s))
 
 
+def render_header(current=""):
+    links = "".join(
+        f'<a href="{href}"' + (' class="active" aria-current="page"' if label == current else '')
+        + f'>{label}</a>'
+        for href, label in [("/#about", "about"), ("/#experience", "experience"),
+                            ("/#certifications", "certs"), ("/projects/", "projects"),
+                            ("/#skills", "skills"), ("/#resume", "resume")])
+    return f'<header><div class="wrap"><nav><a class="brand" href="/">paul_romeo</a>{links}</nav></div></header>'
+
+
+FOOTER = '<footer><div class="wrap">built with a tiny static generator <span class="sep">|</span> markdown in, html out <span class="sep">|</span> © 2026 Paul Joseph Romeo</div></footer>'
+
+
 def render_projects_page(projects):
     """Standalone projects page using the homepage's CSS foundation."""
     cards = []
-    for idx, p in enumerate(projects):
+    for p in projects:
         link, site = p.get("link", ""), p.get("site", "")
         title = esc(p.get("title", ""))
         if link and link != "private":
@@ -241,15 +254,12 @@ def render_projects_page(projects):
             links.append(f'<a href="{esc(site)}">{host} <span aria-hidden="true">↗</span></a>')
         if link and link != "private" and "github.com" in link:
             links.append(f'<a href="{esc(link)}">source <span aria-hidden="true">↗</span></a>')
-        cards.append(f"""<article class="project" style="animation-delay:{idx * 70}ms">
+        cards.append(f"""<article class="xp project">
 <div class="project-tag">{esc(p.get('tag', ''))}</div>
-<h2>{title}{private}</h2>
+<h3>{title}{private}</h3>
 <div class="project-body">{blocks(p['body'])}</div>
 <div class="project-links">{''.join(links)}</div>
 </article>""")
-    nav = "".join(f'<a href="{href}">{label}</a>' for href, label in [
-        ("/", "about"), ("/#experience", "experience"), ("/#certifications", "certs"),
-        ("/#skills", "skills"), ("/#resume", "resume")])
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -258,35 +268,29 @@ def render_projects_page(projects):
 <title>Projects — Paul Joseph Romeo</title>
 <meta name="description" content="Projects by Paul Joseph Romeo: detection tooling, security automation, and applied AI systems.">
 <style>{CSS}
-.projects-intro{{padding:64px 0 40px}}.projects-intro h1{{font-size:2.25rem;margin:12px 0}}
-.projects-intro p,.project-body{{color:var(--muted)}}
-.projects-grid{{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}}
-.project{{min-width:0;padding:28px;background:var(--card);border:1px solid var(--line);border-radius:12px;animation:fadeUp .5s ease-out both;transition:border-color .2s,transform .2s}}
-.project:hover{{border-color:var(--accent);transform:translateY(-2px)}}
-.project h2{{display:block;font-size:1.25rem;margin:12px 0}}.project h2::before{{content:none}}
-.project h2 a{{color:inherit}}.project h2 a:hover{{color:var(--accent2)}}
-.project-tag{{font: .7rem var(--mono);color:var(--accent);letter-spacing:.15em;text-transform:uppercase}}
-.project-body{{font-size:.875rem;overflow-wrap:anywhere}}.project-body p{{margin-bottom:8px}}
-.project-body ul{{padding-left:20px}}.project-body code{{color:var(--accent2)}}
-.project-links{{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}}
+.projects-grid{{display:grid;gap:14px}}
+.project{{margin:0;min-width:0}}.project h3{{margin:8px 0}}.project h3 a{{color:inherit}}
+.project h3 a:hover{{color:var(--accent2)}}
+.project-tag{{font: .75rem var(--mono);color:var(--accent);letter-spacing:.12em;text-transform:uppercase}}
+.project-body{{font-size:.9rem;color:var(--muted);overflow-wrap:anywhere}}
+.project-body p{{margin-bottom:8px}}.project-body ul{{padding-left:20px}}.project-body code{{color:var(--accent2)}}
+.project-links{{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}}
 .project-links a,.private{{font: .75rem var(--mono);border:1px solid var(--line);border-radius:6px;padding:5px 10px;overflow-wrap:anywhere}}
 .private{{font-size:.625rem;color:var(--muted);white-space:nowrap}}
-.projects-back{{text-align:center;padding:56px 0 80px;font-family:var(--mono)}}
-@keyframes fadeUp{{from{{opacity:0;transform:translateY(12px)}}to{{opacity:1;transform:none}}}}
-@media(max-width:720px){{.projects-grid{{grid-template-columns:1fr}}}}
-@media(prefers-reduced-motion:reduce){{.project{{animation:none;transition:none}}.project:hover{{transform:none}}}}
 </style>
 </head>
 <body>
-<header><div class="wrap"><nav><a class="brand" href="/">paul_romeo</a>{nav}</nav></div></header>
-<main class="wrap">
-<div class="projects-intro"><div class="project-tag">// projects</div>
-<h1>Things I've built.</h1><p>Detection tooling, security automation, and applied AI systems —
-mostly born from real incident-response work. {len(projects)} projects.</p></div>
+{render_header("projects")}
+<main>
+<div class="hero"><div class="wrap">
+<div class="kicker">// projects</div>
+<h1>Things I've built.</h1><p class="sub">Detection tooling, security automation, and applied AI systems —
+mostly born from real incident-response work. {len(projects)} projects.</p></div></div>
+<section><div class="wrap"><h2>Projects</h2>
 <div class="projects-grid">{''.join(cards)}</div>
-<div class="projects-back"><a href="/">← back to paul_romeo</a></div>
+</div></section>
 </main>
-<footer>© 2026 Paul Joseph Romeo <span class="sep">|</span> built with markdown, python &amp; CSS</footer>
+{FOOTER}
 </body></html>"""
 
 
@@ -296,10 +300,6 @@ def render():
     projects = parse_projects()
     skills = parse_skills(read("skills.md"))
     experience = parse_experience(read("experience.md"))
-
-    nav = "".join(f'<a href="#{sid}">{label}</a>' if not sid.startswith("/") else f'<a href="{sid}">{label}</a>' for sid, label in [
-        ("about", "about"), ("experience", "experience"), ("certifications", "certs"),
-        ("/projects/", "projects"), ("skills", "skills"), ("resume", "resume")])
 
     hero_tags = "".join(f'<span class="tag">{esc(t)}</span>' for t in [
         "B.S. Cybersecurity — WGU", "SSCP", "Security+", "CySA+", "PenTest+", "Incident Response", "SOC"])
@@ -374,8 +374,8 @@ if(!reduced&&'IntersectionObserver' in window){
  items.forEach(function(el){io.observe(el);});
 }else{items.forEach(function(el){el.classList.add('in');});}
 // active nav
-var links=[].slice.call(document.querySelectorAll('nav a[href^="#"]'));
-var map={};links.forEach(function(a){map[a.getAttribute('href').slice(1)]=a;});
+var links=[].slice.call(document.querySelectorAll('nav a[href^="/#"]'));
+var map={};links.forEach(function(a){map[a.getAttribute('href').slice(2)]=a;});
 if('IntersectionObserver' in window){
  var nio=new IntersectionObserver(function(es){es.forEach(function(e){
   var a=map[e.target.id];if(!a)return;
@@ -422,7 +422,7 @@ upd();
 </head>
 <body>
 <div id="progress" aria-hidden="true"></div>
-<header><div class="wrap"><nav><span class="brand">paul_romeo</span>{nav}</nav></div></header>
+{render_header()}
 
 <div class="hero" data-reveal><div class="wrap">
 <div class="kicker">// cybersecurity · defensive security</div>
@@ -462,7 +462,7 @@ upd();
 </div>
 </div></section>
 
-<footer><div class="wrap">built with a tiny static generator <span class="sep">|</span> markdown in, html out <span class="sep">|</span> © 2026 Paul Joseph Romeo</footer>
+{FOOTER}
 {JS}
 </body></html>"""
 
