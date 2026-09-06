@@ -239,6 +239,11 @@ def render_header(current=""):
 FOOTER = '<footer><div class="wrap">built with a tiny static generator <span class="sep">|</span> markdown in, html out <span class="sep">|</span> © 2026 Paul Joseph Romeo</div></footer>'
 
 
+FAVICONS = '''<link rel="icon" href="/assets/icons/favicon.ico" sizes="32x32">
+<link rel="icon" type="image/png" href="/assets/icons/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" sizes="180x180">'''
+
+
 def render_projects_page(projects):
     """Standalone projects page using the homepage's CSS foundation."""
     cards = []
@@ -263,6 +268,7 @@ def render_projects_page(projects):
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
+{FAVICONS}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Projects — Paul Joseph Romeo</title>
@@ -414,6 +420,7 @@ upd();
     page = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
+{FAVICONS}
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Paul Joseph Romeo — Cybersecurity &amp; IT</title>
