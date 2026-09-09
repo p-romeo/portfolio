@@ -5,4 +5,4 @@ link: https://github.com/p-romeo/fakeboot
 site: https://fakeboot.paulromeo.net
 weight: 1
 ---
-Interactive investigation microsite mapping the social graph of a fake shoe-repair storefront network — an impersonation e-commerce ring I uncovered while investigating scam shops impersonating real leather businesses. Built with Vite + TypeScript and an interactive vis-network graph: every storefront, registrar, hosting provider, and relationship is a node you can explore, with deep-linkable shop detail panels. Public recon only.
+An interactive map of a fake shoe-repair storefront network — an impersonation e-commerce ring I found while investigating scam shops knocking off real leather businesses. Pick a node and follow it: storefronts, registrars, hosting providers, and how they connect. Vite + TypeScript, vis-network graph, deep-linkable shop panels. Public recon only.

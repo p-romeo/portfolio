@@ -5,4 +5,4 @@ link: https://github.com/p-romeo/signal-vault
 site: https://signal-vault.paulromeo.net
 weight: 2
 ---
-Open-source, one-click scam and phishing analyzer (TypeScript): paste a suspicious email, text, URL, or phone number and get an evidence-backed report — **15 automated detectors** covering header parsing, SPF/DKIM/DMARC analysis, punycode and lookalike domains, direct-IP URLs, suspicious TLDs, and more, merged into a single investigation queue. The tooling side of my day-job incident response work.
+Paste a suspicious email, text, URL, or phone number and get an evidence-backed report. Open source, TypeScript, 15 automated detectors: header parsing, SPF/DKIM/DMARC, punycode and lookalike domains, direct-IP URLs, suspicious TLDs, and more, all merged into one investigation queue. It's the tooling side of my day-job incident response work.
