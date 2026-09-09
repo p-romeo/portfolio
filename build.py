@@ -259,7 +259,8 @@ def render_projects_page(projects):
             links.append(f'<a href="{esc(site)}">{host} <span aria-hidden="true">↗</span></a>')
         if link and link != "private" and "github.com" in link:
             links.append(f'<a href="{esc(link)}">source <span aria-hidden="true">↗</span></a>')
-        cards.append(f"""<article class="xp project">
+        featured = ' featured' if str(p.get("weight")) == '1' else ''
+        cards.append(f"""<article class="xp project{featured}">
 <div class="project-tag">{esc(p.get('tag', ''))}</div>
 <h3>{title}{private}</h3>
 <div class="project-body">{blocks(p['body'])}</div>
@@ -283,6 +284,14 @@ def render_projects_page(projects):
 .project-links{{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}}
 .project-links a,.private{{font: .75rem var(--mono);border:1px solid var(--line);border-radius:6px;padding:5px 10px;overflow-wrap:anywhere}}
 .private{{font-size:.625rem;color:var(--muted);white-space:nowrap}}
+/* featured (weight 1) project card: color + prominence */
+.project.featured{{border:1px solid color-mix(in srgb, var(--accent) 45%, var(--line));background:linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, transparent), transparent 55%), var(--bg2, #10151c);border-radius:10px;padding:16px;box-shadow:0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent), 0 12px 34px -18px color-mix(in srgb, var(--accent) 55%, transparent)}}
+.project.featured .project-tag{{color:var(--accent)}}
+.project.featured .project-tag::before{{content:"★ ";letter-spacing:0}}
+.project.featured h3{{font-size:1.25rem}}
+.project.featured h3 a:hover{{color:var(--accent)}}
+.project.featured .project-body{{color:var(--text, var(--muted));font-size:.92rem}}
+@media (prefers-reduced-motion: no-preference){{ .project.featured{{transition:box-shadow .25s ease}} .project.featured:hover{{box-shadow:0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent), 0 16px 42px -16px color-mix(in srgb, var(--accent) 65%, transparent)}} }}
 </style>
 </head>
 <body>
