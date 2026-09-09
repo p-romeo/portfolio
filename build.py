@@ -246,8 +246,22 @@ FAVICONS = '''<link rel="icon" href="/assets/icons/favicon.ico" sizes="32x32">
 
 def render_projects_page(projects):
     """Standalone projects page using the homepage's CSS foundation."""
+    # per-project accent colors: each card gets its own hue (border/glow/tag/title)
+    PROJECT_COLORS = [
+        "#3ddc97",  # green
+        "#4fc3f7",  # cyan
+        "#b388ff",  # purple
+        "#ff8a65",  # coral
+        "#ffd54f",  # amber
+        "#4dd0e1",  # teal
+        "#f06292",  # pink
+        "#aed581",  # lime
+        "#90a4ae",  # steel
+    ]
     cards = []
-    for p in projects:
+    for idx, p in enumerate(projects):
+        accent = PROJECT_COLORS[idx % len(PROJECT_COLORS)]
+        accent_style = f'style="--pc:{accent}"'
         link, site = p.get("link", ""), p.get("site", "")
         title = esc(p.get("title", ""))
         if link and link != "private":
@@ -260,7 +274,7 @@ def render_projects_page(projects):
         if link and link != "private" and "github.com" in link:
             links.append(f'<a href="{esc(link)}">source <span aria-hidden="true">↗</span></a>')
         featured = ' featured' if str(p.get("weight")) == '1' else ''
-        cards.append(f"""<article class="xp project{featured}">
+        cards.append(f"""<article class="xp project{featured}" {accent_style}>
 <div class="project-tag">{esc(p.get('tag', ''))}</div>
 <h3>{title}{private}</h3>
 <div class="project-body">{blocks(p['body'])}</div>
@@ -284,16 +298,29 @@ def render_projects_page(projects):
 .project-links{{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}}
 .project-links a,.private{{font: .75rem var(--mono);border:1px solid var(--line);border-radius:6px;padding:5px 10px;overflow-wrap:anywhere}}
 .private{{font-size:.625rem;color:var(--muted);white-space:nowrap}}
-/* featured (weight 1) project card: bold color treatment */
-.project.featured{{border:1.5px solid #3ddc97;background:linear-gradient(140deg, rgba(61,220,151,.16), rgba(79,195,247,.07) 60%, transparent), #131a22;border-radius:12px;padding:18px;box-shadow:0 0 24px -6px rgba(61,220,151,.35), inset 0 0 40px -20px rgba(61,220,151,.25)}}
-.project.featured .project-tag{{color:#3ddc97;font-weight:bold}}
-.project.featured .project-tag::before{{content:"★ ";letter-spacing:0}}
+/* per-project accent: each card sets --pc with its own hue */
+.project{{--pc:var(--accent);border-top:2px solid var(--pc);border-radius:10px 10px 6px 6px}}
+.project .project-tag{{color:var(--pc)}}
+.project h3 a:hover{{color:var(--pc)}}
+.project .project-links a{{border-color:color-mix(in srgb, var(--pc) 35%, var(--line));color:var(--pc)}}
+.project .project-links a:hover{{border-color:var(--pc)}}
+.project .project-body code{{color:var(--pc)}}
+/* per-project accent: each card sets --pc with its own hue */
+.project{{--pc:var(--accent);border-top:2px solid var(--pc);border-radius:10px 10px 6px 6px}}
+.project .project-tag{{color:var(--pc)}}
+.project h3 a:hover{{color:var(--pc)}}
+.project .project-links a{{border-color:color-mix(in srgb, var(--pc) 35%, var(--line));color:var(--pc)}}
+.project .project-links a:hover{{border-color:var(--pc)}}
+.project .project-body code{{color:var(--pc)}}
+/* featured (weight 1) card: bold glow treatment using its own hue */
+.project.featured{{border:1.5px solid var(--pc);background:linear-gradient(140deg, color-mix(in srgb, var(--pc) 16%, transparent), transparent 65%), #131a22;border-radius:12px;padding:18px;box-shadow:0 0 24px -6px var(--pc), inset 0 0 40px -20px var(--pc)}}
+.project.featured .project-tag{{color:var(--pc);font-weight:bold}}
+.project.featured .project-tag::before{{content:"\u2605 ";letter-spacing:0}}
 .project.featured h3{{font-size:1.3rem}}
-.project.featured h3 a{{color:#7fe8bb}}
+.project.featured h3 a{{color:var(--pc)}}
 .project.featured h3 a:hover{{color:#fff}}
 .project.featured .project-body{{color:#c9d6e2;font-size:.92rem}}
-.project.featured .project-links a{{border-color:rgba(61,220,151,.5);color:#7fe8bb}}
-@media (prefers-reduced-motion: no-preference){{ .project.featured{{transition:box-shadow .25s ease}} .project.featured:hover{{box-shadow:0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent), 0 16px 42px -16px color-mix(in srgb, var(--accent) 65%, transparent)}} }}
+.project.featured .project-links a{{border-color:var(--pc);color:var(--pc)}}
 </style>
 </head>
 <body>
