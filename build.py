@@ -298,7 +298,7 @@ def render_projects_page(projects):
 .project-body p{{margin-bottom:8px}}.project-body ul{{padding-left:20px}}.project-body code{{color:var(--accent2)}}
 .project-links{{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}}
 .project-links a,.private{{font: .75rem var(--mono);border:1px solid var(--line);border-radius:6px;padding:5px 10px;overflow-wrap:anywhere}}
-.private{{font-size:.625rem;color:var(--muted);white-space:nowrap}}
+.private{{font-size:.75rem;color:var(--muted);white-space:nowrap}}
 /* per-project accent: each card sets --pc with its own hue */
 .project{{--pc:var(--accent);border-top:2px solid var(--pc);border-radius:10px 10px 6px 6px}}
 .project .project-tag{{color:var(--pc)}}
