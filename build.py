@@ -346,14 +346,14 @@ def render():
     experience = parse_experience(read("experience.md"))
 
     hero_tags = "".join(f'<span class="tag">{esc(t)}</span>' for t in [
-        "B.S. Cybersecurity — WGU", "SSCP", "Security+", "CySA+", "PenTest+", "Incident Response", "SOC"])
+        "B.S. Cybersecurity — WGU", "SSCP", "Security+", "CySA+", "PenTest+", "Incident Response", "Security monitoring"])
 
     facts = """
 <dl class="facts">
 <dt>Currently</dt><dd>IT Director &amp; Security Manager, Belmont Leather Co.</dd>
 <dt>Education</dt><dd>B.S. Cybersecurity &amp; Information Assurance, WGU — graduated Aug 2026</dd>
 <dt>Incident Response</dt><dd>Phishing &amp; BEC investigation; attacker infrastructure takedowns</dd>
-<dt>Focus</dt><dd>Incident response &middot; SOC operations &middot; Detection engineering</dd>
+<dt>Focus</dt><dd>Incident response &middot; Security monitoring &middot; Detection engineering</dd>
 <dt>Founder</dt><dd>Shoe and Boot Accessories 4 U (Amazon / eBay / BigCommerce)</dd>
 </dl>"""
 
@@ -462,7 +462,7 @@ upd();
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Paul Joseph Romeo — Cybersecurity &amp; IT</title>
-<meta name="description" content="Portfolio of Paul Joseph Romeo: IT Director &amp; Security Manager. SSCP, Security+, incident response, SOC operations, detection engineering.">
+<meta name="description" content="Portfolio of Paul Joseph Romeo: IT Director &amp; Security Manager. SSCP, Security+, incident response, security monitoring, detection engineering.">
 <style>{CSS}</style>
 </head>
 <body>
