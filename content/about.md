@@ -4,4 +4,4 @@ My favorite part is incident response. When phishing or BEC hits the company, I 
 
 That casework turned into projects: [Signal Vault](https://github.com/p-romeo/signal-vault), a scam/phishing triage engine built from real incidents, plus a CTF toolkit.
 
-Credentials: B.S. Cybersecurity & Information Assurance from WGU (Aug 2026), Security+, CySA+, PenTest+, SSCP — full list below. On the e-commerce side, platform work I led contributed to 389% sales growth and $1.2M in new revenue between 2024 and 2026, so security decisions here get made with the business in mind.
+Credentials: B.S. Cybersecurity & Information Assurance from WGU (Aug 2026), Security+, CySA+, PenTest+, SSCP. Full list below. On the e-commerce side, platform work I led contributed to 389% sales growth and $1.2M in new revenue between 2024 and 2026, so security decisions here get made with the business in mind.
