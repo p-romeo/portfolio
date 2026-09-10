@@ -212,6 +212,7 @@ nav a.active{color:var(--accent);border-bottom:1px solid var(--accent)}
 nav a.active::after{content:'_';animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 .typed-cursor{display:inline-block;color:var(--accent);animation:blink 1s steps(1) infinite}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
  @media(prefers-reduced-motion:reduce){
  html{scroll-behavior:auto}
  [data-reveal]{opacity:1;transform:none}
