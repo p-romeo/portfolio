@@ -352,7 +352,7 @@ def render():
 <dl class="facts">
 <dt>Currently</dt><dd>IT Director &amp; Security Manager, Belmont Leather Co.</dd>
 <dt>Education</dt><dd>B.S. Cybersecurity &amp; Information Assurance, WGU — graduated Aug 2026</dd>
-<dt>Incident Response</dt><dd>Phishing &amp; BEC investigation; attacker infrastructure takedowns</dd>
+<dt>Incident Response</dt><dd>Phishing defense &amp; email security; detection tooling; working toward full IR role</dd>
 <dt>Focus</dt><dd>Incident response &middot; Security monitoring &middot; Detection engineering</dd>
 <dt>Founder</dt><dd>Shoe and Boot Accessories 4 U (Amazon / eBay / BigCommerce)</dd>
 </dl>"""
@@ -428,7 +428,7 @@ if('IntersectionObserver' in window){
  Object.keys(map).forEach(function(id){var s=document.getElementById(id);if(s)nio.observe(s);});
 }
 // hero typing
-var roles=['phishing investigation','EDR management','abuse-desk takedowns','SIEM & detection'];
+var roles=['phishing defense','EDR management','security monitoring','SIEM & detection'];
 var el=document.getElementById('typed');
 if(!reduced&&el){
  var ri=0,ci=0,del=false;
@@ -441,7 +441,7 @@ if(!reduced&&el){
   else ci+=del?-1:1;
   setTimeout(tick,t);
  })();
-}else if(el){el.textContent='phishing investigation · EDR · takedowns';}
+}else if(el){el.textContent='phishing defense · EDR · security monitoring';}
 // progress bar
 var bar=document.getElementById('progress'),raf=0;
 function upd(){
@@ -472,7 +472,7 @@ upd();
 <div class="hero" data-reveal><div class="wrap">
 <div class="kicker">// cybersecurity · defensive security</div>
 <h1>Paul Joseph Romeo</h1>
-<p class="sub">Security manager who does the work — incident response, takedowns, endpoint &amp; network defense.</p>
+<p class="sub">Security manager who does the work — phishing defense, endpoint &amp; network security, and detection tooling.</p>
 <p class="sub" style="font-family:var(--mono);color:var(--accent);font-size:1rem">&gt; <span id="typed">security manager</span><span class="typed-cursor">▌</span></p>
 <div class="tags">{hero_tags}</div>
 </div></div>
@@ -554,7 +554,7 @@ upd();
         "# Paul Joseph Romeo — Cybersecurity & IT",
         "",
         "> Security manager at Belmont Leather Co: incident response, phishing/BEC",
-        "> investigation and attacker-infrastructure takedowns, endpoint & network defense.",
+        "> phishing defense, endpoint & network security, and building detection tooling.",
         "",
         "## Pages",
         "",

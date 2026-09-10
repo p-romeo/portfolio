@@ -1,8 +1,8 @@
 ## Endpoint & Email Security
 ESET EDR administration (~15 endpoints), ESET Cloud Protect email filtering, Windows & Active Directory administration, endpoint hardening, patch management, backups & disaster recovery
 
-## Incident Response & Detection
-Wazuh SIEM deployment (WGU capstone) & small-scale operation, Duo MFA rollout, phishing & BEC investigation, infrastructure takedowns via registrar/host/abuse-desk reporting, log analysis
+## Detection & Monitoring
+Wazuh SIEM deployment (WGU capstone) & small-scale operation, Duo MFA rollout, phishing defense via ESET Cloud Protect, log analysis
 
 ## Network & Infrastructure
 UniFi network administration, UniFi Protect surveillance (10 cameras), TrueNAS file storage/SMB, TCP/IP, firewalls & VPNs, DNS, VLANs, Wi-Fi infrastructure, network segmentation
