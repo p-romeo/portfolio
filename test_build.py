@@ -36,8 +36,9 @@ with tempfile.TemporaryDirectory() as tmp:
     assert nav_links(home_html) == ['/', '/#about', '/#experience', '/#certifications', '/projects/', '/#skills', '/#resume']
     assert 'aria-current="page"' in projects_html
     assert build.FOOTER in home_html and build.FOOTER in projects_html
-    assert '<script' not in projects_html
     assert 'projects-grid' in projects_html and 'prefers-reduced-motion' in projects_html
+    # projects page now carries exactly one script: the sink-tilt interaction (reduced-motion gated)
+    assert projects_html.count('<script') == 1 and 'matchMedia' in projects_html
     for source in ('Paul-Romeo-Resume.pdf', 'tools/Paul-Romeo-Resume.docx'):
         assert (site / Path(source).name).read_bytes() == Path(source).read_bytes()
     for name in ('robots.txt', 'sitemap.xml', 'llms.txt'):
