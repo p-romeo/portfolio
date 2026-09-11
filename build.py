@@ -141,6 +141,64 @@ def parse_skills(md):
 
 # ---------- render ----------
 
+# per-card accent palette: each card gets its own hue (projects, badges, xp, skill groups)
+PROJECT_COLORS = [
+    "#3ddc97",  # green
+    "#4fc3f7",  # cyan
+    "#b388ff",  # purple
+    "#ff8a65",  # coral
+    "#ffd54f",  # amber
+    "#4dd0e1",  # teal
+    "#f06292",  # pink
+    "#aed581",  # lime
+    "#90a4ae",  # steel
+]
+
+# sink-tilt (adapted from bencho.dev "Tilt card", MIT): cards sink AWAY from the
+# cursor instead of lifting; a shadow-dent tracks the pointer and the far rim
+# catches light. Pointer-fine + reduced-motion-gated.
+SINK_TILT_JS = """<script>
+(function(){
+  var fine = matchMedia('(hover:hover) and (pointer:fine)').matches
+          && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!fine) return;
+  var TILT = 4, SHADOW_LIT = '0 10px 28px -12px rgba(0,0,0,.55)';
+  document.querySelectorAll('.project,.badge,.xp').forEach(function(card){
+    var tx = 0, ty = 0, cx = 0, cy = 0, raf = null, on = false;
+    function frame(){
+      cx += (tx - cx) * 0.18; cy += (ty - cy) * 0.18;
+      var rx = (-cy) * TILT, ry = cx * TILT;
+      card.style.transform = 'perspective(800px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg)';
+      var X = ((cx + 1) * 50).toFixed(1), Y = ((cy + 1) * 50).toFixed(1);
+      card.style.backgroundImage =
+        'radial-gradient(42% 34% at ' + X + '% ' + Y + '%, rgba(0,0,0,.28), transparent),' +
+        'radial-gradient(52% 42% at ' + (100 - X) + '% ' + (100 - Y) + '%, rgba(255,255,255,.07), transparent)';
+      card.style.boxShadow = on ? '0 6px 16px -10px rgba(0,0,0,.5)' : SHADOW_LIT;
+      if (Math.abs(tx - cx) <= .001 && Math.abs(ty - cy) <= .001 && !on) {
+        raf = null; card.style.transform = ''; card.style.backgroundImage = ''; card.style.boxShadow = '';
+      } else if (Math.abs(tx - cx) > .001 || Math.abs(ty - cy) > .001) {
+        raf = requestAnimationFrame(frame);
+      } else raf = null;
+    }
+    function kick(){ if (!raf) raf = requestAnimationFrame(frame); }
+    card.addEventListener('pointerenter', function(){
+      on = true; card.classList.add('sink-active'); kick();
+    });
+    card.addEventListener('pointermove', function(e){
+      var r = card.getBoundingClientRect();
+      tx = ((e.clientX - r.left) / r.width) * 2 - 1;
+      ty = ((e.clientY - r.top) / r.height) * 2 - 1;
+      kick();
+    });
+    card.addEventListener('pointerleave', function(){
+      on = false; tx = 0; ty = 0; card.classList.remove('sink-active');
+      card.style.backgroundImage = ''; card.style.transform = '';
+      card.style.boxShadow = ''; kick();
+    });
+  });
+})();
+</script>"""
+
 CSS = """:root{--bg:#0b0f14;--bg2:#10161e;--card:#131a23;--line:#223042;--text:#d7e2ee;
 --muted:#8aa0b6;--accent:#3ddc97;--accent2:#4fc3f7;--mono:'SFMono-Regular',ui-monospace,Menlo,Consolas,monospace}
 *{margin:0;padding:0;box-sizing:border-box}
@@ -206,8 +264,13 @@ html{scroll-padding-top:64px}
 #progress{position:fixed;top:0;left:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--accent);z-index:20;box-shadow:0 0 6px rgba(61,220,151,.6);will-change:transform}
 [data-reveal]{opacity:0;transform:translateY(18px)}
 [data-reveal].in{opacity:1;transform:none;transition:opacity .5s ease,transform .5s ease;transition-delay:var(--d,0ms)}
-.badge,.xp{transition:border-color .2s,transform .2s,box-shadow .2s}
-.badge:hover,.xp:hover{border-color:var(--accent);box-shadow:0 4px 18px rgba(61,220,151,.15)}
+.badge,.xp{transition:border-color .2s,transform .2s,box-shadow .2s;transform-style:preserve-3d;will-change:transform}
+.badge{--pc:var(--accent);border-top:2px solid var(--pc)}
+.badge .verify-link:hover{color:var(--pc);border-bottom-color:var(--pc)}
+.badge:hover,.xp:hover{border-color:var(--pc);box-shadow:0 4px 18px rgba(61,220,151,.15)}
+.xp{--pc:var(--accent);border-top:2px solid var(--pc)}
+.skill-group h3{color:var(--pc)}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){.sink-active{transition:transform .05s linear,box-shadow .05s linear}}
 nav a.active{color:var(--accent);border-bottom:1px solid var(--accent)}
 nav a.active::after{content:'_';animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
@@ -248,17 +311,6 @@ FAVICONS = '''<link rel="icon" href="/assets/icons/favicon.ico" sizes="32x32">
 def render_projects_page(projects):
     """Standalone projects page using the homepage's CSS foundation."""
     # per-project accent colors: each card gets its own hue (border/glow/tag/title)
-    PROJECT_COLORS = [
-        "#3ddc97",  # green
-        "#4fc3f7",  # cyan
-        "#b388ff",  # purple
-        "#ff8a65",  # coral
-        "#ffd54f",  # amber
-        "#4dd0e1",  # teal
-        "#f06292",  # pink
-        "#aed581",  # lime
-        "#90a4ae",  # steel
-    ]
     cards = []
     for idx, p in enumerate(projects):
         accent = PROJECT_COLORS[idx % len(PROJECT_COLORS)]
@@ -334,51 +386,7 @@ mostly born from real incident-response work. {len(projects)} projects.</p></div
 </div></section>
 </main>
 {FOOTER}
-<script>
-/* sink-tilt (adapted from bencho.dev "Tilt card", MIT): the card sinks AWAY from
-   the cursor instead of lifting; a dark dent-gradient tracks the pointer and the
-   far rim catches light. Springs on position give it mass. Pointer-fine +
-   reduced-motion-gated, matches the site's interaction layer rules. */
-(function(){{
-  var fine = matchMedia('(hover:hover) and (pointer:fine)').matches
-          && !matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!fine) return;
-  var TILT = 4, SHADOW_LIT = '0 10px 28px -12px rgba(0,0,0,.55)';
-  document.querySelectorAll('.project').forEach(function(card){{
-    var tx = 0, ty = 0, cx = 0, cy = 0, raf = null, on = false;
-    function frame(){{
-      cx += (tx - cx) * 0.18; cy += (ty - cy) * 0.18;
-      var rx = (-cy) * TILT, ry = cx * TILT;
-      card.style.transform = 'perspective(800px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg)';
-      var X = ((cx + 1) * 50).toFixed(1), Y = ((cy + 1) * 50).toFixed(1);
-      card.style.backgroundImage =
-        'radial-gradient(42% 34% at ' + X + '% ' + Y + '%, rgba(0,0,0,.28), transparent),' +
-        'radial-gradient(52% 42% at ' + (100 - X) + '% ' + (100 - Y) + '%, rgba(255,255,255,.07), transparent)';
-      card.style.boxShadow = on ? '0 6px 16px -10px rgba(0,0,0,.5)' : SHADOW_LIT;
-      if (Math.abs(tx - cx) <= .001 && Math.abs(ty - cy) <= .001 && !on) {{
-        raf = null; card.style.transform = ''; card.style.backgroundImage = ''; card.style.boxShadow = '';
-      }} else if (Math.abs(tx - cx) > .001 || Math.abs(ty - cy) > .001) {{
-        raf = requestAnimationFrame(frame);
-      }} else raf = null;
-    }}
-    function kick(){{ if (!raf) raf = requestAnimationFrame(frame); }}
-    card.addEventListener('pointerenter', function(){{
-      on = true; card.classList.add('sink-active'); kick();
-    }});
-    card.addEventListener('pointermove', function(e){{
-      var r = card.getBoundingClientRect();
-      tx = ((e.clientX - r.left) / r.width) * 2 - 1;
-      ty = ((e.clientY - r.top) / r.height) * 2 - 1;
-      kick();
-    }});
-    card.addEventListener('pointerleave', function(){{
-      on = false; tx = 0; ty = 0; card.classList.remove('sink-active');
-      card.style.backgroundImage = ''; card.style.transform = '';
-      card.style.boxShadow = ''; kick();
-    }});
-  }});
-}})();
-</script>
+{SINK_TILT_JS}
 </body></html>"""
 
 
@@ -414,7 +422,7 @@ def render():
         return ""
 
     experience_html = "".join(
-        f'<div class="xp" data-reveal style="--d:{i * 40}ms"><div class="xp-head">{xp_logo(r)}<h3>{esc(r["title"])}</h3></div>'
+        f'<div class="xp" data-reveal style="--d:{i * 40}ms;--pc:{PROJECT_COLORS[i % len(PROJECT_COLORS)]}"><div class="xp-head">{xp_logo(r)}<h3>{esc(r["title"])}</h3></div>'
         f'<p>{inline(r["body"])}</p></div>'
         for i, r in enumerate(experience))
 
@@ -433,7 +441,8 @@ def render():
         cid_line = ''
         if b.get("credential_id"):
             cid_line = '<span class="cid">ID: %s</span>' % esc(b["credential_id"])
-        return (f'<div class="badge" data-reveal style="--d:{i * 40}ms">{badge_icon(b)}'
+        pc = PROJECT_COLORS[i % len(PROJECT_COLORS)]
+        return (f'<div class="badge" data-reveal style="--d:{i * 40}ms;--pc:{pc}">{badge_icon(b)}'
                 f'<div><b>{title}</b><span>{esc(b["issuer"])} · {esc(b["year"])}</span>'
                 f'{cid_line}</div></div>')
 
@@ -445,7 +454,7 @@ def render():
     badges_html = "".join(badge_card(i, b) for i, b in enumerate(certs))
 
     skills_html = "".join(
-        f'<div class="skill-group" data-reveal style="--d:{i * 40}ms"><h3>{esc(g["category"])}</h3><div class="chips">'
+        f'<div class="skill-group" data-reveal style="--d:{i * 40}ms;--pc:{PROJECT_COLORS[i % len(PROJECT_COLORS)]}"><h3>{esc(g["category"])}</h3><div class="chips">'
         + "".join(f'<span class="chip">{esc(i)}</span>' for i in g["items"])
         + "</div></div>" for i, g in enumerate(skills))
 
@@ -553,6 +562,7 @@ upd();
 
 {FOOTER}
 {JS}
+{SINK_TILT_JS}
 </body></html>"""
 
     with open(os.path.join(SITE, "index.html"), "w", encoding="utf-8") as f:
