@@ -30,6 +30,8 @@ with tempfile.TemporaryDirectory() as tmp:
     assert (site / 'index.html').read_text().count('class="badge"') == 15
     projects_html = (site / 'projects/index.html').read_text()
     assert projects_html.count('<article ') == 7
+    assert 'real incident-response work' not in projects_html
+    assert 'incident response, phishing/BEC' not in (site / 'llms.txt').read_text()
     home_html = (site / 'index.html').read_text()
     nav_links = lambda page: re.findall(r'href="([^"]+)"', re.search(r'<header>.*?</header>', page).group())
     assert nav_links(home_html) == nav_links(projects_html)
@@ -44,4 +46,4 @@ with tempfile.TemporaryDirectory() as tmp:
     for name in ('robots.txt', 'sitemap.xml', 'llms.txt'):
         assert 'https://paulromeo.net/' in (site / name).read_text()
     os.chdir(root)
-print('PASS: certificate metadata, clean build, 15 badges, 8 projects, downloads, discovery files')
+print('PASS: certificate metadata, clean build, 15 badges, 7 projects, downloads, discovery files')
