@@ -20,4 +20,20 @@ python3 build.py        # renders site/index.html
 git push                # GitHub Pages workflow deploys site/ automatically
 ```
 
-Drop `Paul-Romeo-Resume.pdf` into `site/` (or update the link in `build.py`) for the résumé download.
+Keep `Paul-Romeo-Resume.pdf` in the repository root and the Word source at
+`tools/Paul-Romeo-Resume.docx`. The build copies both into `site/`; never edit
+generated output. Missing downloads fail the build.
+
+## Checks
+
+```bash
+python3 -B test_build.py
+python3 -B tools/test_resume.py
+python3 -B build.py
+python3 -B scripts/audit_static.py
+```
+
+Browser QA requires Playwright (QA only, not a build dependency). Serve `site/`
+locally, then run `scripts/audit_ui.py` and `scripts/audit_interactions.py` with
+the Python environment containing Playwright. Both accept a base URL and an
+output directory as positional arguments and exit nonzero on failed checks.

@@ -228,7 +228,7 @@ h2::before{content:'//';font-family:var(--mono);color:var(--accent);font-size:1r
 .facts{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;font-size:.9rem}
 .facts dt{font-family:var(--mono);font-size:.72rem;text-transform:uppercase;color:var(--accent);letter-spacing:.1em;margin-top:12px}
 .facts dt:first-child{margin-top:0}.facts dd{color:var(--muted)}
-.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:14px}
 .badge{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;transition:border-color .2s,transform .2s}
 .badge:hover{border-color:var(--accent);transform:translateY(-2px)}
 .badge .icon{width:56px;height:44px;flex:none;border-radius:9px;display:flex;align-items:center;justify-content:center;background:#f5f7fa;border:1px solid var(--line);font-family:var(--mono);font-weight:700;color:var(--accent);font-size:.95rem;padding:6px}
@@ -261,8 +261,10 @@ footer{padding:32px 0;font-family:var(--mono);font-size:.78rem;color:var(--muted
 footer .sep{color:var(--line)}
 /* --- interactive polish --- */
 html{scroll-padding-top:64px}
+@media(max-width:720px){html{scroll-padding-top:144px}}
 #progress{position:fixed;top:0;left:0;height:2px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:var(--accent);z-index:20;box-shadow:0 0 6px rgba(61,220,151,.6);will-change:transform}
-[data-reveal]{opacity:0;transform:translateY(18px)}
+[data-reveal]{opacity:1}
+[data-reveal].reveal-pending{opacity:0;transform:translateY(18px)}
 [data-reveal].in{opacity:1;transform:none;transition:opacity .5s ease,transform .5s ease;transition-delay:var(--d,0ms)}
 .badge,.xp{transition:border-color .2s,transform .2s,box-shadow .2s;transform-style:preserve-3d;will-change:transform}
 .badge{--pc:var(--accent);border-top:2px solid var(--pc)}
@@ -278,7 +280,7 @@ nav a.active::after{content:'_';animation:blink 1s steps(1) infinite}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
  @media(prefers-reduced-motion:reduce){
  html{scroll-behavior:auto}
- [data-reveal]{opacity:1;transform:none}
+ [data-reveal],[data-reveal].reveal-pending{opacity:1;transform:none}
  [data-reveal].in{transition:none}
  nav a.active::after,.typed-cursor{animation:none}
  *{scroll-behavior:auto!important}
@@ -340,7 +342,7 @@ def render_projects_page(projects):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Projects — Paul Joseph Romeo</title>
-<meta name="description" content="Projects by Paul Joseph Romeo: detection tooling, security automation, and applied AI systems.">
+<meta name="description" content="AI-assisted apps and tools for work, hobbies, and everyday tasks, maintained by Paul Joseph Romeo.">
 <style>{CSS}
 .projects-grid{{display:grid;gap:14px}}
 .project{{margin:0;min-width:0}}.project h3{{margin:8px 0}}.project h3 a{{color:inherit}}
@@ -379,8 +381,8 @@ def render_projects_page(projects):
 <main>
 <div class="hero"><div class="wrap">
 <div class="kicker">// projects</div>
-<h1>Things I've built.</h1><p class="sub">Detection tooling, security automation, and applied AI systems —
-mostly born from real incident-response work. {len(projects)} projects.</p></div></div>
+<h1>Projects.</h1><p class="sub">AI-assisted apps and tools for work, hobbies, and everyday tasks.
+{len(projects)} projects.</p></div></div>
 <section><div class="wrap"><h2>Projects</h2>
 <div class="projects-grid">{''.join(cards)}</div>
 </div></section>
@@ -448,9 +450,8 @@ def render():
 
     import shutil
     os.makedirs(SITE, exist_ok=True)
-    shutil.copy('tools/Paul-Romeo-Resume.docx', 'site/Paul-Romeo-Resume.docx')
-    if os.path.exists('Paul-Romeo-Resume.pdf'):
-        shutil.copy('Paul-Romeo-Resume.pdf', 'site/Paul-Romeo-Resume.pdf')
+    for source in ('tools/Paul-Romeo-Resume.docx', 'Paul-Romeo-Resume.pdf'):
+        shutil.copy(os.path.join(ROOT, source), os.path.join(SITE, os.path.basename(source)))
     badges_html = "".join(badge_card(i, b) for i, b in enumerate(certs))
 
     skills_html = "".join(
@@ -468,7 +469,7 @@ if(!reduced&&'IntersectionObserver' in window){
  var io=new IntersectionObserver(function(es){es.forEach(function(e){
   if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
  });},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
- items.forEach(function(el){io.observe(el);});
+ items.forEach(function(el){el.classList.add('reveal-pending');io.observe(el);});
 }else{items.forEach(function(el){el.classList.add('in');});}
 // active nav
 var links=[].slice.call(document.querySelectorAll('nav a[href^="/#"]'));
@@ -521,7 +522,7 @@ upd();
 <body>
 <div id="progress" aria-hidden="true"></div>
 {render_header()}
-
+<main>
 <div class="hero" data-reveal><div class="wrap">
 <div class="kicker">// cybersecurity · defensive security</div>
 <h1>Paul Joseph Romeo</h1>
@@ -560,6 +561,7 @@ upd();
 </div>
 </div></section>
 
+</main>
 {FOOTER}
 {JS}
 {SINK_TILT_JS}
@@ -607,8 +609,8 @@ upd();
     llms = "\n".join([
         "# Paul Joseph Romeo — Cybersecurity & IT",
         "",
-        "> Security manager at Belmont Leather Co: incident response, phishing/BEC",
-        "> phishing defense, endpoint & network security, and building detection tooling.",
+        "> Security manager at Belmont Leather Co: phishing defense,",
+        "> endpoint & network security; working toward a full incident-response role.",
         "",
         "## Pages",
         "",
