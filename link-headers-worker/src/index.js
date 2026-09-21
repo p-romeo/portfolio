@@ -166,10 +166,46 @@ export default {
 
     const response = await fetch(request);
     const ct = response.headers.get("content-type") || "";
+
+    // www → apex 301 (single copy for crawlers; canonical tags also added site-side)
+    if (url.hostname === "www.paulromeo.net") {
+      return Response.redirect("https://paulromeo.net" + url.pathname + url.search, 301);
+    }
+
+    // Serve a minimal MCP endpoint so the injected WebMCP bridge's tools/list
+    // doesn't 404 (belt-and-braces; the bridge tag is stripped below anyway).
+    if (url.pathname === "/mcp") {
+      return new Response(
+        JSON.stringify({ jsonrpc: "2.0", id: null, result: { tools: [] } }) + "\n",
+        { headers: { "content-type": "application/json", "cache-control": "no-store" } }
+      );
+    }
+
+    // Security headers for HTML responses
+    const CSP =
+      "default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; style-src 'self' 'unsafe-inline'; " +
+      "img-src 'self' data: https://tryhackme.com; connect-src 'self'; " +
+      "font-src 'self'; object-src 'none'; frame-ancestors 'self'; base-uri 'self'";
+
+    if (response.ok && ct.includes("text/html")) {
+      let html = await response.text();
+      // strip Cloudflare-injected WebMCP bridge tag — it fires tools/list at
+      // /mcp on every load and the site defines no tool packs
+      html = html.replace(/<script[^>]*\.webmcp\/bridge\.js[^>]*><\/script>\s*/g, "");
+      const res = new Response(html, response);
+      res.headers.append("Link", LINK_HEADERS[0]);
+      res.headers.append("Link", LINK_HEADERS[1]);
+      res.headers.set("Content-Security-Policy", CSP);
+      res.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+      res.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+      res.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+      res.headers.set("X-Content-Type-Options", "nosniff");
+      return res;
+    }
     if (!response.ok || !ct.includes("text/html")) return response;
 
-    const res = new Response(response.body, response);
-    for (const link of LINK_HEADERS) res.headers.append("Link", link);
-    return res;
+    const res2 = new Response(response.body, response);
+    for (const link of LINK_HEADERS) res2.headers.append("Link", link);
+    return res2;
   },
 };
