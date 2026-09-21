@@ -90,3 +90,5 @@ nav a.active::after{content:'_';animation:blink 1s steps(1) infinite}
   nav .brand{grid-column:1 / -1}
 }
 @media(max-width:720px){.nav-social{display:contents}}
+
+nav .nav-social{display:flex;gap:16px;margin-left:auto}

@@ -36,7 +36,7 @@ const aboutHtml = about.split('\n\n').map((p) => `<p>${esc(p.trim()).replace(/\n
 
 const facts = `
 <dl class="facts">
-<dt>Currently</dt><dd>IT Director &amp; Security Manager, Belmont Leather Co.</dd>
+<dt>Currently</dt><dd>IT &amp; Security Administrator, Belmont Leather Co.</dd>
 <dt>Education</dt><dd>B.S. Cybersecurity &amp; Information Assurance, WGU — graduated Aug 2026</dd>
 <dt>Incident Response</dt><dd>Phishing defense &amp; email security; detection tooling; working toward full IR role</dd>
 <dt>Focus</dt><dd>Incident response &middot; Security monitoring &middot; Detection engineering</dd>
@@ -56,9 +56,25 @@ const jobs = [
   },
   {
     role: 'Owner', org: 'Shoe and Boot Accessories 4 U', dates: '',
-    logo: '',
+    logo: '/assets/logos/sba4u.webp',
     bullets: [
       'Founder-led e-commerce reseller on Amazon, eBay, and BigCommerce — leather and shoe-care products including Saphir and Angelus lines.',
+    ],
+  },
+  {
+    role: 'Theater Technician (Part-time)', org: 'Rowan University', dates: '2018 – 2020',
+    logo: '/assets/logos/rowan.png',
+    bullets: [
+      'Operated and maintained lighting, sound, and life-safety systems across 20+ live productions, troubleshooting failures under show-time pressure.',
+      'Coordinated setup and teardown with student and faculty crews for rehearsals, performances, and campus events.',
+    ],
+  },
+  {
+    role: 'IT Help Desk Technician & Media Services Specialist', org: 'Southern New Hampshire University', dates: '2016 – 2018',
+    logo: '/assets/logos/snhu.png',
+    bullets: [
+      'Delivered Tier 1/2 support to 200+ users: malware removal, security policy enforcement, hardware/software triage, and account administration.',
+      'Maintained classroom and AV technology across campus, supporting lectures, media playback, and hybrid events.',
     ],
   },
 ];
@@ -100,7 +116,7 @@ const expHtml = jobs.map((j) => `
   <div class="hero" data-reveal><div class="wrap">
     <div class="kicker">// cybersecurity · defensive security</div>
     <h1>Paul Joseph Romeo</h1>
-    <p class="sub">Security manager who does the work — phishing defense, endpoint &amp; network security, and detection tooling.</p>
+    <p class="sub">IT &amp; security administrator who does the work — phishing defense, endpoint &amp; network security, and detection tooling.</p>
     <p class="sub" style="font-family:var(--mono);color:var(--accent);font-size:1rem">&gt; <span id="typed">security manager</span><span class="typed-cursor">▌</span></p>
     <div class="tags" set:html={heroTags} />
   </div></div>

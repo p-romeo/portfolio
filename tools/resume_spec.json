@@ -147,15 +147,15 @@
     {
       "type": "bullet_list",
       "items": [
-        "CompTIA PenTest+ (PT0-003) — ID e3a26d1b0a1944db8e569cfa0ce20432 (Apr 2026 - Apr 2029)",
-        "CompTIA CySA+ — ID RWEXWLLS9NRE5JE2 (Aug 2025 - Aug 2028)",
-        "ISC2 SSCP — ID 1123939 (Jul 2025)",
-        "CompTIA Project+ — ID K1MYZLGS02V415QJ (Jul 2025)",
-        "LPI Linux Essentials — ID LPI000661841 (Aug 2025)",
-        "CompTIA Security+ — ID 2SY3TK06GJ44Q4WQ (Jul 2024 - Jul 2027)",
-        "CompTIA Network+ — ID N0BPXTXZFFV4QM3T (Jun 2024 - Jun 2027)",
-        "CompTIA A+ — ID G33N7H5ZJERE1F5W (Jun 2024 - Jun 2027)",
-        "ITIL 4 Foundation — ID GR671719240PR (Dec 2024 - Dec 2027)"
+        "CompTIA PenTest+ (PT0-003) \u2014 ID e3a26d1b0a1944db8e569cfa0ce20432 (Apr 2026 - Apr 2029)",
+        "CompTIA CySA+ \u2014 ID RWEXWLLS9NRE5JE2 (Aug 2025 - Aug 2028)",
+        "ISC2 SSCP \u2014 ID 1123939 (Jul 2025)",
+        "CompTIA Project+ \u2014 ID K1MYZLGS02V415QJ (Jul 2025)",
+        "LPI Linux Essentials \u2014 ID LPI000661841 (Aug 2025)",
+        "CompTIA Security+ \u2014 ID 2SY3TK06GJ44Q4WQ (Jul 2024 - Jul 2027)",
+        "CompTIA Network+ \u2014 ID N0BPXTXZFFV4QM3T (Jun 2024 - Jun 2027)",
+        "CompTIA A+ \u2014 ID G33N7H5ZJERE1F5W (Jun 2024 - Jun 2027)",
+        "ITIL 4 Foundation \u2014 ID GR671719240PR (Dec 2024 - Dec 2027)"
       ]
     },
     {
@@ -168,10 +168,10 @@
       "style": "JobTitle",
       "runs": [
         {
-          "text": "Systems Administrator & Security Administrator"
+          "text": "IT & Security Administrator"
         },
         {
-          "text": " — Belmont Leather Company"
+          "text": " \u2014 Belmont Leather Company"
         }
       ]
     },
@@ -198,7 +198,7 @@
           "text": "Theater Technician (Part-time)"
         },
         {
-          "text": " — Rowan University"
+          "text": " \u2014 Rowan University"
         }
       ]
     },
@@ -222,7 +222,7 @@
           "text": "IT Help Desk Technician & Media Services Specialist"
         },
         {
-          "text": " — Southern New Hampshire University"
+          "text": " \u2014 Southern New Hampshire University"
         }
       ]
     },
@@ -251,7 +251,7 @@
           "text": "OSINT Fraud Network Investigation"
         },
         {
-          "text": " — Independent"
+          "text": " \u2014 Independent"
         }
       ]
     },
@@ -263,9 +263,9 @@
     {
       "type": "bullet_list",
       "items": [
-        "Identified and dismantled a network of 15 fraudulent websites and 5 payment processors impersonating real small businesses.",
-        "Traced the full operation to a single threat actor using WHOIS data, Burp Suite, DNS analysis, and a shared admin handle found in page source.",
-        "Filed coordinated takedowns that took down the entire operation."
+        "Identified a network of 14 fraudulent websites and 8 payment processors impersonating real small businesses.",
+        "Traced the operation to a single threat actor using WHOIS data, Burp Suite, DNS analysis, and a shared admin handle found in page source.",
+        "Reported the full network to registrars, the FTC (confirmed, control on file), and Google Ads/Maps with evidence; corrections filed and takedowns in progress. Public case file: fakeboot.paulromeo.net."
       ]
     },
     {
@@ -282,7 +282,7 @@
           "bold": true
         },
         {
-          "text": " — Western Governors University, August 2026"
+          "text": " \u2014 Western Governors University, August 2026"
         }
       ]
     }

@@ -8,7 +8,7 @@
     var io = new IntersectionObserver(function (es) { es.forEach(function (e) {
       if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
     }); }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
-    items.forEach(function (el) { el.classList.add('reveal-pending'); io.observe(el); });
+    items.forEach(function (el) { if (el.getBoundingClientRect().top < innerHeight * 0.85) { el.classList.add('in'); } else { el.classList.add('reveal-pending'); io.observe(el); } });
   } else { items.forEach(function (el) { el.classList.add('in'); }); }
   // active nav
   var links = [].slice.call(document.querySelectorAll('nav a[href^="/#"]'));
@@ -21,7 +21,7 @@
     Object.keys(map).forEach(function (id) { var s = document.getElementById(id); if (s) nio.observe(s); });
   }
   // hero typing
-  var roles = ['phishing defense', 'EDR management', 'security monitoring', 'SIEM & detection'];
+  var roles = ['IT & security admin', 'phishing defense', 'EDR management', 'security monitoring'];
   var el = document.getElementById('typed');
   if (!reduced && el) {
     var ri = 0, ci = 0, del = false;
@@ -46,3 +46,8 @@
   addEventListener('scroll', function () { if (!raf) raf = requestAnimationFrame(upd); }, { passive: true });
   upd();
 })();
+// anchor-jump failsafe: never leave the target section blank
+addEventListener('hashchange', function () {
+  var t = document.getElementById(location.hash.slice(1));
+  if (t) t.querySelectorAll('[data-reveal]').forEach(function (el) { el.classList.add('in'); });
+});

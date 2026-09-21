@@ -2,12 +2,12 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 
 export const GET: APIRoute = async () => {
-  const projects = await getCollection('projects');
+  const projects = (await getCollection('projects')).filter((p) => !p.data.hidden);
   const titles = projects.map((p) => p.data.title).join(', ');
   const llms = [
     '# Paul Joseph Romeo — Cybersecurity & IT',
     '',
-    '> Security manager at Belmont Leather Co: phishing defense,',
+    '> IT & security administrator at Belmont Leather Co: phishing defense,',
     '> endpoint & network security; working toward a full incident-response role.',
     '',
     '## Pages',
