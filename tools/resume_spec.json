@@ -241,6 +241,36 @@
     {
       "type": "paragraph",
       "style": "SectionHeader",
+      "text": "PROJECTS"
+    },
+    {
+      "type": "paragraph",
+      "style": "JobTitle",
+      "runs": [
+        {
+          "text": "OSINT Fraud Network Investigation"
+        },
+        {
+          "text": " — Independent"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "JobMeta",
+      "text": "September 2026"
+    },
+    {
+      "type": "bullet_list",
+      "items": [
+        "Identified and dismantled a network of 15 fraudulent websites and 5 payment processors impersonating real small businesses.",
+        "Traced the full operation to a single threat actor using WHOIS data, Burp Suite, DNS analysis, and a shared admin handle found in page source.",
+        "Filed coordinated takedowns that took down the entire operation."
+      ]
+    },
+    {
+      "type": "paragraph",
+      "style": "SectionHeader",
       "text": "EDUCATION"
     },
     {
