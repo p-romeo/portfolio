@@ -23,26 +23,26 @@ ACCENT = (30, 70, 120)
 def h1(text):
     pdf.set_font("liberation", "B", 20)
     pdf.set_text_color(*DARK)
-    pdf.cell(0, 22, text, new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 20, text, new_x="LMARGIN", new_y="NEXT")
 
 def contact_line(text):
     pdf.set_font("liberation", "", 10)
     pdf.set_text_color(70, 78, 90)
-    pdf.cell(0, 13, text,
+    pdf.cell(0, 11.5, text,
              new_x="LMARGIN", new_y="NEXT")
-    pdf.ln(4)
+    pdf.ln(2)
 
 def section(title):
     y = pdf.get_y() + 2
     pdf.set_font("liberation", "B", 12)
     pdf.set_text_color(*ACCENT)
-    pdf.cell(0, 14, title.upper(), new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 13, title.upper(), new_x="LMARGIN", new_y="NEXT")
     pdf.set_draw_color(*ACCENT)
     pdf.set_line_width(0.7)
-    pdf.line(40, y + 14, 40 + W, y + 14)
-    pdf.ln(3.5)
+    pdf.line(40, y + 13, 40 + W, y + 13)
+    pdf.ln(2.5)
 
-def para(text, size=10, style="", h=13):
+def para(text, size=10, style="", h=11.5):
     pdf.set_font("liberation", style, size)
     pdf.set_text_color(*DARK)
     pdf.multi_cell(W, h, text, new_x="LMARGIN", new_y="NEXT", align="L")
@@ -53,20 +53,20 @@ def skill_line(label, text):
     lw = pdf.get_string_width(label) + 2
     pdf.cell(lw, 13, label)
     pdf.set_font("liberation", "", 10)
-    pdf.multi_cell(W - lw, 13, text, new_x="LMARGIN", new_y="NEXT", align="L")
+    pdf.multi_cell(W - lw, 11.5, text, new_x="LMARGIN", new_y="NEXT", align="L")
 
 def bullet(text):
     pdf.set_font("liberation", "", 10)
     pdf.set_text_color(*DARK)
-    pdf.cell(10, 13, "-")
-    pdf.multi_cell(W - 10, 13, text, new_x="LMARGIN", new_y="NEXT", align="L")
+    pdf.cell(10, 11.5, "-")
+    pdf.multi_cell(W - 10, 11.5, text, new_x="LMARGIN", new_y="NEXT", align="L")
 
 def job(title_org, dates):
     pdf.set_font("liberation", "B", 11)
     pdf.set_text_color(*DARK)
-    pdf.cell(W - 130, 14, f"{title_org}")
+    pdf.cell(W - 130, 11.5, f"{title_org}")
     pdf.set_font("liberation", "", 10)
-    pdf.cell(0, 13, dates, align="R", new_x="LMARGIN", new_y="NEXT")
+    pdf.cell(0, 12, dates, align="R", new_x="LMARGIN", new_y="NEXT")
 
 with Path(__file__).with_name("resume_spec.json").open(encoding="utf-8") as source:
     blocks = iter(json.load(source)["blocks"])
@@ -84,7 +84,7 @@ for block in blocks:
         section(text)
     elif style == "JobTitle":
         if job_seen:
-            pdf.ln(3)
+            pdf.ln(2)
         job_seen = True
         meta = next(blocks)
         assert meta["style"] == "JobMeta", "Job title must be followed by dates"
@@ -94,8 +94,8 @@ for block in blocks:
             if current_section == "CERTIFICATIONS":
                 pdf.set_font("liberation", "", 9.5)
                 pdf.set_text_color(*DARK)
-                pdf.cell(10, 12, "-")
-                pdf.multi_cell(W - 10, 12, item, new_x="LMARGIN", new_y="NEXT", align="L")
+                pdf.cell(10, 11.5, "-")
+                pdf.multi_cell(W - 10, 11.5, item, new_x="LMARGIN", new_y="NEXT", align="L")
             else:
                 bullet(item)
     elif current_section == "CORE SKILLS":
@@ -105,7 +105,7 @@ for block in blocks:
         if style == "JobMeta":
             para(text, size=9)
         else:
-            para(text, style="B", h=12)
+            para(text, style="B", h=11.5)
     else:
         para(text)
 
