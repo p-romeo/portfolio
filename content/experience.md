@@ -1,3 +1,0 @@
-## IT & Security Administrator — Belmont Leather Co.
-
-Sole IT & security administrator: ESET EDR (~15 endpoints), UniFi network + 10-camera Protect, TrueNAS storage, BigCommerce platform. Handle phishing defense — email filtering, user reporting pipelines, and blocking attempts across the company.

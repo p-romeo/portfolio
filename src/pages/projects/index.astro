@@ -1,0 +1,74 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+const PROJECT_COLORS = ['#3ddc97', '#4fc3f7', '#b388ff', '#ff8a65', '#ffd54f', '#4dd0e1', '#f06292', '#aed581', '#90a4ae'];
+const projects = (await getCollection('projects'))
+  .filter((p) => !p.data.hidden)
+  .sort((a, b) => Number(a.data.weight ?? 99) - Number(b.data.weight ?? 99));
+
+const esc = (s = '') => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+const cards = projects.map((p, idx) => {
+  const d = p.data;
+  const accent = PROJECT_COLORS[idx % PROJECT_COLORS.length];
+  const featured = String(d.weight) === "1";
+  const title = d.link && d.link !== 'private' ? `<a href="${esc(d.link)}">${esc(d.title)}</a>` : esc(d.title);
+  const priv = d.link === 'private' ? ' <span class="private">private repo</span>' : '';
+  const links: string[] = [];
+  if (d.site) {
+    const host = esc(d.site.split('//').pop()!.split('/')[0]);
+    links.push(`<a href="${esc(d.site)}">${host} <span aria-hidden="true">↗</span></a>`);
+  }
+  if (d.link && d.link !== 'private' && d.link.includes('github.com')) {
+    links.push(`<a href="${esc(d.link)}">source <span aria-hidden="true">↗</span></a>`);
+  }
+  const body = p.body ? p.body.trim().split(/\n\n+/).map((para) => `<p>${esc(para).replace(/\n/g, ' ')}</p>`).join('') : '';
+  return `<article class="xp project${featured ? ' featured' : ''}" style="--pc:${accent}">
+<div class="project-tag">${esc(d.tag)}</div>
+<h3>${title}${priv}</h3>
+<div class="project-body">${body}</div>
+<div class="project-links">${links.join('')}</div>
+</article>`;
+}).join('');
+---
+<Base title="Projects — Paul Joseph Romeo"
+  description="AI-assisted apps and tools for work, hobbies, and everyday things, maintained by Paul Joseph Romeo."
+  path="/projects/">
+  <Fragment slot="nav">
+    <a href="/#about">about</a><a href="/#experience">experience</a><a href="/#certifications">certs</a><a href="/projects/" class="active" aria-current="page">projects</a><a href="/#skills">skills</a><a href="/#resume">resume</a>
+  </Fragment>
+  <div class="hero"><div class="wrap">
+    <div class="kicker">// projects</div>
+    <h1>Projects.</h1>
+    <p class="sub">AI-assisted apps and tools for work, hobbies, and everyday tasks. {projects.length} projects.</p>
+  </div></div>
+  <section><div class="wrap">
+    <div class="projects-grid" set:html={cards} />
+  </div></section>
+</Base>
+
+<style is:global>
+.projects-grid{display:grid;gap:14px}
+.project{margin:0;min-width:0}.project h3{margin:8px 0}.project h3 a{color:inherit}
+.project h3 a:hover{color:var(--accent2)}
+.project-tag{font:.75rem var(--mono);color:var(--accent);letter-spacing:.12em;text-transform:uppercase}
+.project-body{font-size:.9rem;color:var(--muted);overflow-wrap:anywhere}
+.project-body p{margin-bottom:8px}.project-body ul{padding-left:20px}.project-body code{color:var(--accent2)}
+.project-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.project-links a,.private{font:.75rem var(--mono);border:1px solid var(--line);border-radius:6px;padding:5px 10px;overflow-wrap:anywhere}
+.private{font-size:.75rem;color:var(--muted);white-space:nowrap}
+.project{--pc:var(--accent);border-top:2px solid var(--pc);border-radius:10px 10px 6px 6px}
+.project .project-tag{color:var(--pc)}
+.project h3 a:hover{color:var(--pc)}
+.project .project-links a{border-color:color-mix(in srgb, var(--pc) 35%, var(--line));color:var(--pc)}
+.project .project-links a:hover{border-color:var(--pc)}
+.project .project-body code{color:var(--pc)}
+.project{transform-style:preserve-3d;transition:transform .15s ease-out, box-shadow .15s ease-out;will-change:transform}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+.project.sink-active{transition:transform .05s linear, box-shadow .05s linear;cursor:default}}
+.project.featured{border:1.5px solid var(--pc);background:linear-gradient(140deg, color-mix(in srgb, var(--pc) 16%, transparent), transparent 65%), #131a22;border-radius:12px;padding:18px;box-shadow:0 0 24px -6px var(--pc), inset 0 0 40px -20px var(--pc)}
+.project.featured .project-tag{color:var(--pc);font-weight:bold}
+.project.featured .project-tag::before{content:"★ ";letter-spacing:0}
+.project.featured h3{font-size:1.3rem}
+</style>

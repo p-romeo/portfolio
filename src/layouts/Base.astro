@@ -1,0 +1,49 @@
+---
+import '../styles/site.css';
+
+
+interface Props { title: string; description: string; path: string; }
+const { title, description, path } = Astro.props;
+const canonical = `https://paulromeo.net${path}`;
+const ogImage = 'https://paulromeo.net/assets/icons/apple-touch-icon.png';
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" href="/assets/icons/favicon.ico" sizes="32x32">
+  <link rel="icon" type="image/png" href="/assets/icons/favicon-32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" sizes="180x180">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{title}</title>
+  <meta name="description" content={description}>
+  <link rel="canonical" href={canonical}>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Paul Joseph Romeo">
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:url" content={canonical}>
+  <meta property="og:image" content={ogImage}>
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content={title}>
+  <meta name="twitter:description" content={description}>
+  <meta name="twitter:image" content={ogImage}>
+</head>
+<body>
+<div id="progress" aria-hidden="true"></div>
+<header><div class="wrap">
+  <nav>
+    <a class="brand" href="/">paul_romeo</a>
+    <slot name="nav" />
+    <span class="nav-social">
+      <a href="https://github.com/p-romeo" rel="me noopener" aria-label="GitHub">GitHub</a>
+      <a href="https://www.linkedin.com/in/paul-romeo" rel="me noopener" aria-label="LinkedIn">LinkedIn</a>
+    </span>
+  </nav>
+</div></header>
+<main><slot /></main>
+<footer><div class="wrap">built with astro <span class="sep">|</span> markdown in, html out <span class="sep">|</span> © 2026 Paul Joseph Romeo</div></footer>
+<script src="../scripts/page.js"></script>
+<script src="../scripts/sink-tilt.js"></script>
+</body>
+</html>

@@ -19,15 +19,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Check site and resume content
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Build site (Astro)
         run: |
-          python3 -B test_build.py
-          python3 -B tools/test_resume.py
-      - name: Build site
-        run: python3 build.py
+          npm ci
+          npx astro build
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: dist
   deploy:
     needs: build
     runs-on: ubuntu-latest

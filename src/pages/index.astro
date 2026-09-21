@@ -1,0 +1,137 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+
+const PROJECT_COLORS = ['#3ddc97', '#4fc3f7', '#b388ff', '#ff8a65', '#ffd54f', '#4dd0e1', '#f06292', '#aed581', '#90a4ae'];
+
+// ---- certifications (same markdown source format as before) ----
+import certMd from '/src/content/certifications.md.txt?raw';
+const certs: Record<string, string>[] = [];
+for (const line of certMd.split('\n')) {
+  const m = line.match(/^- +\*\*(.+?)\*\* *\|([^|]+?)\|\s*([^|]+?)\s*(?:\|\s*(.+?)\s*)?$/);
+  if (!m) continue;
+  const b: Record<string, string> = { name: m[1], issuer: m[2].trim(), year: m[3] };
+  const extra = (m[4] || '').split('|');
+  for (const f of ['logo', 'credential_id', 'verify_url']) {
+    const v = extra.find((x) => x.trim().startsWith(f + ':'));
+    if (v) b[f] = v.trim().slice(f.length + 1);
+  }
+  certs.push(b);
+}
+
+// ---- skills (## heading + one paragraph of comma-separated items) ----
+import skillsMd from '/src/content/skills.md.txt?raw';
+const skills: { category: string; items: string[] }[] = [];
+for (const block of skillsMd.split('\n## ')) {
+  const [head, ...rest] = block.split('\n');
+  if (!rest.length || !head.trim()) continue;
+  const category = head.replace(/^##\s*/, '').trim();
+  const items = rest.join(' ').split(',').map((s) => s.trim()).filter(Boolean);
+  skills.push({ category, items });
+}
+
+import about from '/src/content/about.md.txt?raw';
+const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const aboutHtml = about.split('\n\n').map((p) => `<p>${esc(p.trim()).replace(/\n/g, ' ')}</p>`).join('');
+
+const facts = `
+<dl class="facts">
+<dt>Currently</dt><dd>IT Director &amp; Security Manager, Belmont Leather Co.</dd>
+<dt>Education</dt><dd>B.S. Cybersecurity &amp; Information Assurance, WGU — graduated Aug 2026</dd>
+<dt>Incident Response</dt><dd>Phishing defense &amp; email security; detection tooling; working toward full IR role</dd>
+<dt>Focus</dt><dd>Incident response &middot; Security monitoring &middot; Detection engineering</dd>
+<dt>Founder</dt><dd>Shoe and Boot Accessories 4 U (Amazon / eBay / BigCommerce)</dd>
+</dl>`;
+
+// ---- experience (dates restored; owner entry added) ----
+const jobs = [
+  {
+    role: 'IT & Security Administrator', org: 'Belmont Leather Co.', dates: '2021 – Present',
+    logo: '/assets/logos/belmont.webp',
+    bullets: [
+      'Sole IT & security administrator: ESET EDR (~15 endpoints), UniFi network + 10-camera Protect, TrueNAS storage, BigCommerce platform.',
+      'Handle phishing defense — email filtering, user reporting pipelines, and blocking attempts across the company.',
+      'Platform work contributed to 389% sales growth and $1.2M in new revenue between 2024 and 2026.',
+    ],
+  },
+  {
+    role: 'Owner', org: 'Shoe and Boot Accessories 4 U', dates: '',
+    logo: '',
+    bullets: [
+      'Founder-led e-commerce reseller on Amazon, eBay, and BigCommerce — leather and shoe-care products including Saphir and Angelus lines.',
+    ],
+  },
+];
+
+const heroTags = ['B.S. Cybersecurity — WGU', 'SSCP', 'Security+', 'CySA+', 'PenTest+', 'Incident Response', 'Security monitoring']
+  .map((t) => `<span class="tag">${t}</span>`).join('');
+
+const badgesHtml = certs.map((b, i) => {
+  const pc = PROJECT_COLORS[i % PROJECT_COLORS.length];
+  const title = b.verify_url
+    ? `<a href="${b.verify_url}" target="_blank" rel="noopener" class="verify-link">${esc(b.name)}</a>`
+    : esc(b.name);
+  const cid = b.credential_id ? `<span class="cid">ID: ${esc(b.credential_id)}</span>` : '';
+  const logo = b.logo ? `<img src="/${b.logo.replace(/^\/+/, '')}" alt="${esc(b.issuer)} logo" loading="lazy">` : '';
+  return `<div class="badge" data-reveal style="--d:${i * 40}ms;--pc:${pc}"><div class="xp-logo">${logo}</div><div><b>${title}</b><span>${esc(b.issuer)} · ${esc(b.year)}</span>${cid}</div></div>`;
+}).join('');
+
+const skillsHtml = skills.map((g, i) =>
+  `<div class="skill-group" data-reveal style="--d:${i * 40}ms;--pc:${PROJECT_COLORS[i % PROJECT_COLORS.length]}"><h3>${esc(g.category)}</h3><div class="chips">`
+  + g.items.map((it) => `<span class="chip">${esc(it)}</span>`).join('')
+  + '</div></div>').join('');
+
+const expHtml = jobs.map((j) => `
+<div class="xp" data-reveal>
+  ${j.logo ? `<div class="xp-logo"><img src="${j.logo}" alt="${esc(j.org)} logo" loading="lazy"></div>` : ''}
+  <div>
+    <b>${esc(j.role)} — ${esc(j.org)}</b>
+    ${j.dates ? `<span class="xp-dates">${esc(j.dates)}</span>` : ''}
+    ${j.bullets.map((b) => `<p>${esc(b)}</p>`).join('')}
+  </div>
+</div>`).join('');
+---
+<Base title="Paul Joseph Romeo — Cybersecurity &amp; IT"
+  description="Portfolio of Paul Joseph Romeo: IT Director &amp; Security Manager. SSCP, Security+, incident response, security monitoring, detection engineering."
+  path="/">
+  <Fragment slot="nav">
+    <a href="/#about">about</a><a href="/#experience">experience</a><a href="/#certifications">certs</a><a href="/projects/">projects</a><a href="/#skills">skills</a><a href="/#resume">resume</a>
+  </Fragment>
+  <div class="hero" data-reveal><div class="wrap">
+    <div class="kicker">// cybersecurity · defensive security</div>
+    <h1>Paul Joseph Romeo</h1>
+    <p class="sub">Security manager who does the work — phishing defense, endpoint &amp; network security, and detection tooling.</p>
+    <p class="sub" style="font-family:var(--mono);color:var(--accent);font-size:1rem">&gt; <span id="typed">security manager</span><span class="typed-cursor">▌</span></p>
+    <div class="tags" set:html={heroTags} />
+  </div></div>
+
+  <section id="about"><div class="wrap" data-reveal>
+    <h2>About</h2>
+    <div class="about-grid"><div set:html={aboutHtml} />{facts && <Fragment set:html={facts} />}</div>
+  </div></section>
+
+  <section id="experience"><div class="wrap">
+    <h2>Experience</h2>
+    <div set:html={expHtml} />
+  </div></section>
+
+  <section id="certifications"><div class="wrap">
+    <h2>Certifications</h2>
+    <div class="badges" set:html={badgesHtml} />
+  </div></section>
+
+  <section id="skills"><div class="wrap">
+    <h2>Skills</h2>
+    <div set:html={skillsHtml} />
+  </div></section>
+
+  <section id="resume"><div class="wrap" data-reveal>
+    <h2>Résumé</h2>
+    <div class="resume-card">
+      <div><b>Download a copy</b><br><span style="color:var(--muted);font-size:.9rem">PDF résumé, kept current.</span></div>
+      <a class="btn" href="/Paul-Romeo-Resume.pdf" download>↓ Download PDF</a>
+      <a class="btn ghost" href="/Paul-Romeo-Resume.docx" download>↓ Download Word</a>
+      <a class="btn ghost" href="mailto:pauljromeo@proton.me">✉ Contact me</a>
+    </div>
+  </div></section>
+</Base>
