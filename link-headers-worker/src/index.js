@@ -184,7 +184,7 @@ export default {
     // Security headers for HTML responses
     const CSP =
       "default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; style-src 'self' 'unsafe-inline'; " +
-      "img-src 'self' data: https://tryhackme.com; connect-src 'self'; " +
+      "img-src 'self' data: https://tryhackme.com; " +
       "font-src 'self'; object-src 'none'; frame-ancestors 'self'; base-uri 'self'";
 
     if (response.ok && ct.includes("text/html")) {
