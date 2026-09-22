@@ -86,7 +86,7 @@ nav a.active::after{content:'_';animation:blink 1s steps(1) infinite}
 }
 /* mobile nav: keep links on one row, no orphaned "resume" */
 @media(max-width:720px){
-  nav{display:grid;grid-template-columns:repeat(4,auto);justify-content:space-between;gap:10px 16px}
+  nav{display:grid;grid-template-columns:repeat(4,auto);justify-content:space-between;gap:8px 12px;font-size:.72rem}
   nav .brand{grid-column:1 / -1}
 }
 @media(max-width:720px){.nav-social{display:contents}}

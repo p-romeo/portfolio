@@ -64,9 +64,19 @@ def bullet(text):
 def job(title_org, dates):
     pdf.set_font("liberation", "B", 11)
     pdf.set_text_color(*DARK)
-    pdf.cell(W - 130, 11.5, f"{title_org}")
-    pdf.set_font("liberation", "", 10)
-    pdf.cell(0, 12, dates, align="R", new_x="LMARGIN", new_y="NEXT")
+    if pdf.get_string_width(title_org) > W - 130:
+        # long title: shrink to fit on one line beside the dates
+        size = 11
+        while size > 8 and pdf.get_string_width(title_org) > W - 130:
+            size -= 0.5
+            pdf.set_font("liberation", "B", size)
+        pdf.cell(W - 130, 11.5, f"{title_org}")
+        pdf.set_font("liberation", "", 10)
+        pdf.cell(0, 12, dates, align="R", new_x="LMARGIN", new_y="NEXT")
+    else:
+        pdf.cell(W - 130, 11.5, f"{title_org}")
+        pdf.set_font("liberation", "", 10)
+        pdf.cell(0, 12, dates, align="R", new_x="LMARGIN", new_y="NEXT")
 
 with Path(__file__).with_name("resume_spec.json").open(encoding="utf-8") as source:
     blocks = iter(json.load(source)["blocks"])

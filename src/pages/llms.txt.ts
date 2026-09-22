@@ -2,7 +2,9 @@ import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 
 export const GET: APIRoute = async () => {
-  const projects = (await getCollection('projects')).filter((p) => !p.data.hidden);
+  const projects = (await getCollection('projects'))
+  .filter((p) => !p.data.hidden)
+  .sort((a, b) => Number(a.data.weight ?? 99) - Number(b.data.weight ?? 99));
   const titles = projects.map((p) => p.data.title).join(', ');
   const llms = [
     '# Paul Joseph Romeo — Cybersecurity & IT',
