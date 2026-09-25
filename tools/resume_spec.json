@@ -70,7 +70,7 @@
     {
       "type": "paragraph",
       "style": "ContactLine",
-      "text": "Union, NJ  |  pauljromeo@proton.me  |  linkedin.com/in/paul-romeo  |  github.com/p-romeo"
+      "text": "Union, NJ  |  paul@paulromeo.net  |  linkedin.com/in/paul-romeo  |  github.com/p-romeo"
     },
     {
       "type": "paragraph",
@@ -80,7 +80,7 @@
     {
       "type": "paragraph",
       "style": "Body",
-      "text": "Security-focused IT professional who owns security and IT operations end-to-end for a multi-channel e-commerce company. Leads incident response and phishing/BEC investigations through to attacker-infrastructure takedowns; administers ESET EDR, UniFi networking and Protect surveillance, and TrueNAS storage. B.S. in Cybersecurity & Information Assurance (WGU, August 2026) backed by nine industry certifications including Security+, CySA+, PenTest+, and ISC2 SSCP."
+      "text": "Security-focused IT professional who handles all security and IT for a 4-person family business. Runs phishing/BEC investigations from detection through takedown reports to registrars and hosts; administers ESET EDR, UniFi networking and Protect surveillance, and TrueNAS storage. B.S. in Cybersecurity & Information Assurance (WGU, August 2026) backed by nine industry certifications including Security+, CySA+, PenTest+, and ISC2 SSCP."
     },
     {
       "type": "paragraph",
@@ -96,7 +96,7 @@
           "bold": true
         },
         {
-          "text": "EDR Administration (ESET EDR / Cloud Protect) | Phishing & BEC Investigation | Attacker-Infrastructure Takedowns | Log Analysis | Wazuh SIEM | Duo MFA | Vulnerability Management | Endpoint Hardening | Patch Management"
+          "text": "EDR Administration (ESET EDR / Cloud Protect) | Incident Response | Phishing & BEC Investigation | Attacker-Infrastructure Takedowns | Log Analysis | Wazuh SIEM | Duo MFA | Vulnerability Management | Endpoint Hardening | Patch Management"
         }
       ]
     },
@@ -109,7 +109,7 @@
           "bold": true
         },
         {
-          "text": "UniFi Networking | VLANs & Segmentation | TCP/IP, DNS, Wi-Fi | TrueNAS / SMB Storage | Backup & Disaster Recovery | Windows & Active Directory"
+          "text": "UniFi Networking | VLANs & Segmentation | TCP/IP, DNS, Wi-Fi | TrueNAS / SMB Storage | Backup & Disaster Recovery | Windows"
         }
       ]
     },
@@ -183,11 +183,12 @@
     {
       "type": "bullet_list",
       "items": [
-        "Own security and IT operations end-to-end as the company's sole internal administrator: workstations, printers, network devices, storage, and backups.",
+        "Sole IT and security person at a 4-person family business: workstations, printers, network devices, storage, and backups.",
         "Administer ESET EDR and ESET Cloud Protect across ~15 endpoints; built automated threat alerting, weekly CVE exposure reviews, and endpoint update management.",
-        "Lead phishing and BEC incident response end-to-end, filing registrar/host/abuse-desk takedowns against live campaigns (ClickFix malware lures, BEC impersonation attempts, SSA/ScreenConnect lures, and brand-impersonation waves).",
-        "Designed and deployed core infrastructure: a UniFi network with VLAN segmentation, a 10-camera UniFi Protect surveillance system, and TrueNAS storage with SMB shares and scheduled cloud backup.",
-        "Drove e-commerce growth on BigCommerce integrated with point-of-sale: 389% sales growth and $1.2M in new revenue; cut $12K in costs through POS/e-commerce integration and added $32K/year via customer-relationship systems."
+        "Reimage, rebuild, and harden endpoints; restore systems and files from TrueNAS backups after incidents.",
+        "Investigate phishing and BEC attempts \u2014 triage indicators of compromise (IOCs), then file registrar/host/abuse-desk takedowns against attacker infrastructure (ClickFix malware lures, BEC impersonation attempts, SSA/ScreenConnect lures, and brand-impersonation waves).",
+        "Set up the company's infrastructure: a UniFi network with VLAN segmentation, a 10-camera UniFi Protect surveillance system, and TrueNAS storage with SMB shares and scheduled cloud backup.",
+        "Handle the company's e-commerce platform alongside IT (BigCommerce + POS integration)."
       ]
     },
     {
