@@ -16,7 +16,7 @@ export const GET: APIRoute = async () => {
     '',
     '- [Home](https://paulromeo.net/): about, experience, certifications, skills, résumé',
     `- [Projects](https://paulromeo.net/projects/): ${titles}`,
-    '- [Résumé (PDF)](https://paulromeo.net/Paul-Romeo-Resume.pdf): current résumé, kept up to date',
+    '- [Résumé (PDF)](https://paulromeo.net/Paul-Romeo-Resume.pdf?v=202609252010): current résumé, kept up to date',
     '',
     '## Contact',
     '',
