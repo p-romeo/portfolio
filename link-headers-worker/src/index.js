@@ -167,6 +167,13 @@ export default {
     const response = await fetch(request);
     const ct = response.headers.get("content-type") || "";
 
+    // Resume downloads: keep fresh (Pages pins 10-min cache and has no purge API)
+    if (url.pathname.startsWith("/Paul-Romeo-Resume.")) {
+      const res = new Response(response.body, response);
+      res.headers.set("Cache-Control", "public, max-age=60");
+      return res;
+    }
+
     // www → apex 301 (single copy for crawlers; canonical tags also added site-side)
     if (url.hostname === "www.paulromeo.net") {
       return Response.redirect("https://paulromeo.net" + url.pathname + url.search, 301);
