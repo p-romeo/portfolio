@@ -8,5 +8,6 @@
 - **SSCP** | ISC2 | Issued Jul 2025 | logo:assets/logos/isc2.svg | credential_id:1123939 | verify_url:https://www.isc2.org/verify
 - **ITIL 4 Foundation** | PeopleCert | Issued Dec 3 2024 · expires Dec 3 2027 | logo:assets/logos/peoplecert.svg | credential_id:GR671719240PR | verify_url:https://www.peoplecert.org/for-corporations/certificate-verification-service
 - **LPI Linux Essentials** | Linux Professional Institute | Issued Aug 5 2025 | logo:assets/logos/lpi.png | credential_id:LPI000661841 | verify_url:https://lpi.org/v/LPI000661841/grcznusuq7
+- **Pokémon Professor — Pokémon TCG** | Professor University | issued Feb 16 2026 · expires Feb 16 2027 | logo:assets/logos/pokeball.svg | credential_id:b176ec3f-fa3e-4b40-83a9-55d8da47fefa | verify_url:assets/certs/pokemon-professor.pdf
 
 *Security+, Network+, A+, and Project+ were earned together as part of WGU's stackable certification track (B.S. Cybersecurity & Information Assurance).*
