@@ -167,11 +167,15 @@ export default {
     const response = await fetch(request);
     const ct = response.headers.get("content-type") || "";
 
-    // Resume downloads: keep fresh (Pages pins 10-min cache and has no purge API)
+    // Header hygiene: drop obsolete headers; restrict CORS to the public API only
+    const CORS_PATHS = ["/status", "/openapi.json", "/.well-known/api-catalog", "/mcp"];
+    const cleaned = new Response(response.body, response);
+    cleaned.headers.delete("Expect-CT");
+    cleaned.headers.delete("X-XSS-Protection");
+    if (!CORS_PATHS.includes(url.pathname)) cleaned.headers.delete("Access-Control-Allow-Origin");
     if (url.pathname.startsWith("/Paul-Romeo-Resume.")) {
-      const res = new Response(response.body, response);
-      res.headers.set("Cache-Control", "public, max-age=60");
-      return res;
+      cleaned.headers.set("Cache-Control", "public, max-age=60");
+      return cleaned;
     }
 
     // www → apex 301 (single copy for crawlers; canonical tags also added site-side)

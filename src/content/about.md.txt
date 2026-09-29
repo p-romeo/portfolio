@@ -4,6 +4,6 @@ Phishing and BEC attempts hit the company regularly — ClickFix social engineer
 
 That exposure is what drives my projects — tools built from real problems my company and I run into.
 
-Credentials: B.S. Cybersecurity & Information Assurance from WGU (Aug 2026), Security+, CySA+, PenTest+, SSCP. Full list below. On the e-commerce side, platform work I led contributed to 389% sales growth and $1.2M in new revenue between 2024 and 2026, so security decisions here get made with the business in mind.
+Credentials: B.S. Cybersecurity & Information Assurance from WGU (Aug 2026), Security+, CySA+, PenTest+, SSCP. Full list below. I also run the company's BigCommerce + POS e-commerce platform, so security decisions here get made with the business in mind.
 
 My direction is incident response. I've built the foundation — Wazuh SIEM, detection tooling, CTF work — and I'm actively working toward a full IR role.

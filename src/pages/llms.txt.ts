@@ -20,7 +20,7 @@ export const GET: APIRoute = async () => {
     '',
     '## Contact',
     '',
-    '- Email: pauljromeo@proton.me',
+    '- Email: paul@paulromeo.net',
     '',
   ].join('\n');
   return new Response(llms, { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });

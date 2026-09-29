@@ -51,7 +51,7 @@ const jobs = [
     bullets: [
       'Sole IT & security administrator: ESET EDR (~15 endpoints), UniFi network + 10-camera Protect, TrueNAS storage, BigCommerce platform.',
       'Handle phishing defense — email filtering, user reporting pipelines, and blocking attempts across the company.',
-      'Platform work contributed to 389% sales growth and $1.2M in new revenue between 2024 and 2026.',
+      'Run the BigCommerce + POS e-commerce platform alongside security operations.',
     ],
   },
   {
@@ -88,7 +88,7 @@ const badgesHtml = certs.map((b, i) => {
     ? `<a href="${b.verify_url}" target="_blank" rel="noopener" class="verify-link">${esc(b.name)}</a>`
     : esc(b.name);
   const cid = b.credential_id ? `<span class="cid">ID: ${esc(b.credential_id)}</span>` : '';
-  const logo = b.logo ? `<img src="/${b.logo.replace(/^\/+/, '')}" alt="${esc(b.issuer)} logo" loading="lazy">` : '';
+  const logo = b.logo ? `<img src="${/^https?:/i.test(b.logo) ? b.logo : '/' + b.logo.replace(/^\/+/, '')}" alt="${esc(b.issuer)} logo" loading="lazy">` : '';
   return `<div class="badge" data-reveal style="--d:${i * 40}ms;--pc:${pc}"><div class="xp-logo">${logo}</div><div><b>${title}</b><span>${esc(b.issuer)} · ${esc(b.year)}</span>${cid}</div></div>`;
 }).join('');
 
@@ -141,13 +141,19 @@ const expHtml = jobs.map((j) => `
     <div set:html={skillsHtml} />
   </div></section>
 
+  <section id="case-study"><div class="wrap" data-reveal>
+    <h2>Case study: OSINT fraud-network takedown</h2>
+    <p>Independent investigation, September 2026. Mapped a network of <b>14 fraudulent websites</b> backed by <b>8 payment processors</b>, all impersonating real small businesses. Traced the whole operation to a single threat actor using WHOIS records, Burp Suite, DNS analysis, and a shared admin handle found in page source.</p>
+    <p>Reported the full network with evidence to the registrars, the FTC (confirmed, control on file), and Google Ads/Maps. Corrections filed; takedowns in progress. Public case file: <a href="https://fakeboot.paulromeo.net" rel="noopener">fakeboot.paulromeo.net</a>.</p>
+  </div></section>
+
   <section id="resume"><div class="wrap" data-reveal>
     <h2>Résumé</h2>
     <div class="resume-card">
       <div><b>Download a copy</b><br><span style="color:var(--muted);font-size:.9rem">PDF résumé, kept current.</span></div>
       <a class="btn" href="/Paul-Romeo-Resume.pdf?v=2026092801510" download>↓ Download PDF</a>
       <a class="btn ghost" href="/Paul-Romeo-Resume.docx?v=2026092801510" download>↓ Download Word</a>
-      <a class="btn ghost" href="mailto:pauljromeo@proton.me">✉ Contact me</a>
+      <a class="btn ghost" href="mailto:paul@paulromeo.net">✉ Contact me</a>
     </div>
   </div></section>
 </Base>
