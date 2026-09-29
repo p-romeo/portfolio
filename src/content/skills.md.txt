@@ -14,4 +14,4 @@ Bash, Python, PowerShell, cron/systemd, Git, LPI Linux Essentials certified
 Google Workspace, AWS fundamentals, GitHub Actions CI/CD, static-site deployment, BigCommerce / Amazon / eBay seller platforms
 
 ## Leadership
-Solo IT operations — day-to-day ownership with vendor & staff coordination, security awareness training, budgeting, project delivery (Project+, ITIL), incident communications
+Solo IT operations: day-to-day ownership with vendor & staff coordination, security awareness training, budgeting, project delivery (Project+, ITIL), incident communications

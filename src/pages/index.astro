@@ -37,7 +37,7 @@ const aboutHtml = about.split('\n\n').map((p) => `<p>${esc(p.trim()).replace(/\n
 const facts = `
 <dl class="facts">
 <dt>Currently</dt><dd>IT &amp; Security Administrator, Belmont Leather Co.</dd>
-<dt>Education</dt><dd>B.S. Cybersecurity &amp; Information Assurance, WGU — graduated Aug 2026</dd>
+<dt>Education</dt><dd>B.S. Cybersecurity &amp; Information Assurance, WGU, graduated Aug 2026</dd>
 <dt>Incident Response</dt><dd>Phishing defense &amp; email security; detection tooling; working toward full IR role</dd>
 <dt>Focus</dt><dd>Incident response &middot; Security monitoring &middot; Detection engineering</dd>
 <dt>Founder</dt><dd>Shoe and Boot Accessories 4 U (Amazon / eBay / BigCommerce)</dd>
@@ -50,7 +50,7 @@ const jobs = [
     logo: '/assets/logos/belmont.webp',
     bullets: [
       'Sole IT & security administrator: ESET EDR (~15 endpoints), UniFi network + 10-camera Protect, TrueNAS storage, BigCommerce platform.',
-      'Handle phishing defense — email filtering, user reporting pipelines, and blocking attempts across the company.',
+      'Handle phishing defense, email filtering, user reporting pipelines, and blocking attempts across the company.',
       'Run the BigCommerce + POS e-commerce platform alongside security operations.',
     ],
   },
@@ -58,7 +58,7 @@ const jobs = [
     role: 'Owner', org: 'Shoe and Boot Accessories 4 U', dates: '',
     logo: '/assets/logos/sba4u.webp',
     bullets: [
-      'Founder-led e-commerce reseller on Amazon, eBay, and BigCommerce — leather and shoe-care products including Saphir and Angelus lines.',
+      'Founder-led e-commerce reseller on Amazon, eBay, and BigCommerce, leather and shoe-care products including Saphir and Angelus lines.',
     ],
   },
   {
@@ -79,7 +79,7 @@ const jobs = [
   },
 ];
 
-const heroTags = ['B.S. Cybersecurity — WGU', 'SSCP', 'Security+', 'CySA+', 'PenTest+', 'Incident Response', 'Security monitoring']
+const heroTags = ['B.S. Cybersecurity, WGU', 'SSCP', 'Security+', 'CySA+', 'PenTest+', 'Incident Response', 'Security monitoring']
   .map((t) => `<span class="tag">${t}</span>`).join('');
 
 const badgesHtml = certs.map((b, i) => {
@@ -101,13 +101,13 @@ const expHtml = jobs.map((j) => `
 <div class="xp" data-reveal>
   ${j.logo ? `<div class="xp-logo"><img src="${j.logo}" alt="${esc(j.org)} logo" loading="lazy"></div>` : ''}
   <div>
-    <b>${esc(j.role)} — ${esc(j.org)}</b>
+    <b>${esc(j.role)}, ${esc(j.org)}</b>
     ${j.dates ? `<span class="xp-dates">${esc(j.dates)}</span>` : ''}
     ${j.bullets.map((b) => `<p>${esc(b)}</p>`).join('')}
   </div>
 </div>`).join('');
 ---
-<Base title="Paul Joseph Romeo — Cybersecurity and IT"
+<Base title="Paul Joseph Romeo, Cybersecurity and IT"
   description="Portfolio of Paul Joseph Romeo: IT and Security Administrator. SSCP, Security+, incident response, security monitoring, detection engineering."
   path="/">
   <Fragment slot="nav">
@@ -116,7 +116,7 @@ const expHtml = jobs.map((j) => `
   <div class="hero" data-reveal><div class="wrap">
     <div class="kicker">// cybersecurity · defensive security</div>
     <h1>Paul Joseph Romeo</h1>
-    <p class="sub">IT &amp; security administrator who does the work — phishing defense, endpoint &amp; network security, and detection tooling.</p>
+    <p class="sub">IT &amp; security administrator who does the work, phishing defense, endpoint &amp; network security, and detection tooling.</p>
     <p class="sub" style="font-family:var(--mono);color:var(--accent);font-size:1rem">&gt; <span id="typed">security manager</span><span class="typed-cursor">▌</span></p>
     <div class="tags" set:html={heroTags} />
   </div></div>
@@ -151,8 +151,8 @@ const expHtml = jobs.map((j) => `
     <h2>Résumé</h2>
     <div class="resume-card">
       <div><b>Download a copy</b><br><span style="color:var(--muted);font-size:.9rem">PDF résumé, kept current.</span></div>
-      <a class="btn" href="/Paul-Romeo-Resume.pdf?v=2026092801510" download>↓ Download PDF</a>
-      <a class="btn ghost" href="/Paul-Romeo-Resume.docx?v=2026092801510" download>↓ Download Word</a>
+      <a class="btn" href="/Paul-Romeo-Resume.pdf?v=202609290251" download>↓ Download PDF</a>
+      <a class="btn ghost" href="/Paul-Romeo-Resume.docx?v=202609290251" download>↓ Download Word</a>
       <a class="btn ghost" href="mailto:paul@paulromeo.net">✉ Contact me</a>
     </div>
   </div></section>

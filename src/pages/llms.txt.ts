@@ -7,7 +7,7 @@ export const GET: APIRoute = async () => {
   .sort((a, b) => Number(a.data.weight ?? 99) - Number(b.data.weight ?? 99));
   const titles = projects.map((p) => p.data.title).join(', ');
   const llms = [
-    '# Paul Joseph Romeo — Cybersecurity & IT',
+    '# Paul Joseph Romeo: Cybersecurity & IT',
     '',
     '> IT & security administrator at Belmont Leather Co: phishing defense,',
     '> endpoint & network security; working toward a full incident-response role.',
@@ -16,7 +16,7 @@ export const GET: APIRoute = async () => {
     '',
     '- [Home](https://paulromeo.net/): about, experience, certifications, skills, résumé',
     `- [Projects](https://paulromeo.net/projects/): ${titles}`,
-    '- [Résumé (PDF)](https://paulromeo.net/Paul-Romeo-Resume.pdf?v=2026092801510): current résumé, kept up to date',
+    '- [Résumé (PDF)](https://paulromeo.net/Paul-Romeo-Resume.pdf?v=202609290251): current résumé, kept up to date',
     '',
     '## Contact',
     '',
