@@ -51,6 +51,10 @@ h2::before{content:'//';font-family:var(--mono);color:var(--accent);font-size:1r
 .xp-logo.multi img{width:40px;height:32px;flex:none}
 .xp h3{font-size:1rem;margin-bottom:6px}
 .xp p{font-size:.9rem;color:var(--muted)}
+.xp:not(.project){display:flex;align-items:flex-start;gap:18px}
+.xp:not(.project)>div:last-child{min-width:0}
+.xp-dates{display:block;font-family:var(--mono);font-size:.78rem;color:var(--muted);margin:4px 0 10px}
+.xp p+p{margin-top:8px}
 .chip{font-family:var(--mono);font-size:.75rem;background:var(--bg2);border:1px solid var(--line);border-radius:6px;padding:4px 10px;color:var(--text)}
 .resume-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:28px;display:flex;align-items:center;gap:28px;flex-wrap:wrap}
 .btn{font-family:var(--mono);font-size:.85rem;padding:11px 22px;border-radius:8px;border:1px solid var(--accent);color:var(--bg);background:var(--accent);font-weight:700}
@@ -77,6 +81,8 @@ nav a.active::after{content:'_';animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 .typed-cursor{display:inline-block;color:var(--accent);animation:blink 1s steps(1) infinite}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.skip-link{position:fixed;top:8px;left:24px;z-index:30;padding:10px 16px;background:var(--bg);border:2px solid var(--accent);border-radius:6px;transform:translateY(-150%)}
+.skip-link:focus{transform:none}
  @media(prefers-reduced-motion:reduce){
  html{scroll-behavior:auto}
  [data-reveal],[data-reveal].reveal-pending{opacity:1;transform:none}
@@ -85,6 +91,7 @@ nav a.active::after{content:'_';animation:blink 1s steps(1) infinite}
  *{scroll-behavior:auto!important}
 }
 /* mobile nav: keep links on one row, no orphaned "resume" */
+nav .nav-social{display:flex;gap:16px;margin-left:auto}
 @media(max-width:720px){
   nav{display:grid;grid-template-columns:repeat(4,auto);justify-content:space-between;gap:8px 12px;font-size:.72rem}
   nav .brand{grid-column:1 / -1}
@@ -96,4 +103,13 @@ nav a.active::after{content:'_';animation:blink 1s steps(1) infinite}
   nav .nav-social{display:flex;flex-basis:100%;margin-left:0;gap:14px}
 }
 
-nav .nav-social{display:flex;gap:16px;margin-left:auto}
+@media(max-width:720px){
+  .hero{padding:52px 0 40px}
+  section{padding:40px 0}
+  .about-grid{gap:24px}
+  .resume-card{padding:20px;gap:16px}
+}
+@media(max-width:480px){
+  .xp:not(.project){flex-direction:column;gap:12px}
+  .hero .kicker{letter-spacing:.06em}
+}

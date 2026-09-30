@@ -30,9 +30,10 @@ const ogImage = 'https://paulromeo.net/assets/icons/apple-touch-icon.png';
   <meta name="twitter:image" content={ogImage}>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
 <div id="progress" aria-hidden="true"></div>
 <header><div class="wrap">
-  <nav>
+  <nav aria-label="Main navigation">
     <a class="brand" href="/">paul_romeo</a>
     <slot name="nav" />
     <span class="nav-social">
@@ -41,7 +42,7 @@ const ogImage = 'https://paulromeo.net/assets/icons/apple-touch-icon.png';
     </span>
   </nav>
 </div></header>
-<main><slot /></main>
+<main id="main" tabindex="-1"><slot /></main>
 <footer><div class="wrap">built with astro <span class="sep">|</span> markdown in, html out <span class="sep">|</span> © 2026 Paul Joseph Romeo</div></footer>
 <script src="../scripts/page.js"></script>
 <script src="../scripts/sink-tilt.js"></script>
