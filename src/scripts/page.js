@@ -21,7 +21,7 @@
     Object.keys(map).forEach(function (id) { var s = document.getElementById(id); if (s) nio.observe(s); });
   }
   // hero typing
-  var roles = ['IT & security admin', 'phishing defense', 'EDR management', 'security monitoring'];
+  var roles = ['online stores and IT', 'shipping tools', 'computer troubleshooting', 'cybersecurity coursework'];
   var el = document.getElementById('typed');
   if (!reduced && el) {
     var ri = 0, ci = 0, del = false;
@@ -34,7 +34,7 @@
       else ci += del ? -1 : 1;
       setTimeout(tick, t);
     })();
-  } else if (el) { el.textContent = 'phishing defense · EDR · security monitoring'; }
+  } else if (el) { el.textContent = 'online stores · practical IT · cybersecurity coursework'; }
   // progress bar
   var bar = document.getElementById('progress'), raf = 0;
   function upd() {

@@ -1,9 +1,7 @@
-I run security and IT at Belmont Leather Co. It's a one-person operation covering the whole stack: ESET EDR on ~15 endpoints, UniFi networking with 10-camera Protect, TrueNAS, identity, email security, and the BigCommerce platform.
+I work at our small family shoe and boot business, Belmont Leather Co. I handle the online stores, ads, shipping tools, and day-to-day computer work. I also pack orders and prepare stock for Amazon FBA.
 
-Phishing and BEC attempts hit the company regularly: ClickFix social engineering, a BEC attempt impersonating Beacon Adhesives, an SSA/ScreenConnect lure, Temu impersonation waves. I handle the defensive side: filtering, user awareness, reporting pipelines, and blocking.
+I built our first BigCommerce store, including about 350 product listings, photos, descriptions, and prices. I manage our ads, Zendesk support setup, and shipping automation. I installed the UniFi network and ten cameras, and set up TrueNAS for shared files.
 
-That exposure is what drives my projects: tools built from real problems my company and I run into.
+I check Wazuh daily and ESET weekly, and install Windows updates manually. I fit this work around the store and warehouse duties.
 
-Credentials: B.S. Cybersecurity & Information Assurance from WGU (Aug 2026), Security+, CySA+, PenTest+, SSCP. Full list below. I also run the company's BigCommerce + POS e-commerce platform, so security decisions here get made with the business in mind.
-
-My direction is incident response. I've built the foundation (Wazuh SIEM, detection tooling, CTF work), and I'm actively working toward a full IR role.
+I graduated from WGU with a B.S. in Cybersecurity & Information Assurance in August 2026. I want to move into incident response and digital forensics. My experience in those areas comes from coursework and labs, including Autopsy, Hack The Box, and TryHackMe.

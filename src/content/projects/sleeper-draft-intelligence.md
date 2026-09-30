@@ -1,8 +1,9 @@
 ---
 title: Sleeper Draft Intelligence
-tag: fantasy football · local-first AI
+tag: personal project · fantasy football
 link: private
 site: https://sleeperai.paulromeo.net
 weight: 7
 ---
-Draft assistant for Sleeper fantasy football. Electron desktop app that tracks live picks and ranks available players with a local engine: team needs, scarcity, superflex/2QB, PPR, injury overlap. Optional LLM second opinions stay advisory; they can never override local rankings. Read-only by design; draft data never leaves your device.
+
+A desktop draft helper for Sleeper fantasy football. It follows the picks and ranks available players based on your league settings and team needs. Optional AI suggestions offer a second opinion without changing those rankings. It does not make picks for you.

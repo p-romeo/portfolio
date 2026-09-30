@@ -1,17 +1,17 @@
-## Endpoint & Email Security
-ESET EDR administration (~15 endpoints), ESET Cloud Protect email filtering, Windows administration, endpoint hardening, patch management, backups & disaster recovery
+## Computers & Security
+Windows troubleshooting, manual Windows updates, daily Wazuh checks, weekly ESET checks
 
-## Detection & Monitoring
-Wazuh SIEM deployment (WGU capstone) & small-scale operation, Duo MFA rollout, phishing defense via ESET Cloud Protect, log analysis
+## Network & Shared Files
+UniFi installation, Wi-Fi, managed switches, Cat6 cabling, ten UniFi Protect cameras, TrueNAS shared files, Google Drive sync
 
-## Network & Infrastructure
-UniFi network administration, UniFi Protect surveillance (10 cameras), TrueNAS file storage/SMB, TCP/IP, firewalls & VPNs, DNS, VLANs, Wi-Fi infrastructure, network segmentation
+## Online Stores & Ads
+BigCommerce product catalog, product photos and descriptions, Amazon and eBay selling, Google and Bing ads, TikTok ads
 
-## Linux & Scripting
-Bash, Python, PowerShell, cron/systemd, Git, LPI Linux Essentials certified
+## Shipping & Customer Support
+ShipStation automation, Rollo printers and scan stations, Amazon FBA preparation, Zendesk administration, ChannelReply rules and macros
 
-## Cloud & Platforms
-Google Workspace, AWS fundamentals, GitHub Actions CI/CD, static-site deployment, BigCommerce / Amazon / eBay seller platforms
+## Coding & App Testing
+Python, Bash, PowerShell, Git, AI-assisted app development, workflow design, testing and revisions
 
-## Leadership
-Solo IT operations: day-to-day ownership with vendor & staff coordination, security awareness training, budgeting, project delivery (Project+, ITIL), incident communications
+## Coursework & Labs
+Incident response, digital forensics with Autopsy, Hack The Box, TryHackMe, capture-the-flag exercises

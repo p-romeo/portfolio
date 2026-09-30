@@ -1,8 +1,9 @@
 ---
 title: Weekend
-tag: couples app · Cloudflare Workers + D1
+tag: personal project · weekend plans
 link: private
 site: https://weekend.paulromeo.net
 weight: 2
 ---
-A couples weekend-planning app: real local events only (never fabricated), swipe-to-match on plans with your partner, drive-time and weather awareness, and taste tuning that learns from every vote. Built on Cloudflare Workers + D1, with an autonomous build→QA→ship pipeline and Sentry monitoring from day one.
+
+An app for finding local events with your partner. You each vote on events, and the app shows the ones you both want to try. It includes travel time and weather information. Built with AI assistance and hosted on Cloudflare.

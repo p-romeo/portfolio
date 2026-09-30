@@ -36,50 +36,50 @@ const aboutHtml = about.split('\n\n').map((p) => `<p>${esc(p.trim()).replace(/\n
 
 const facts = `
 <dl class="facts">
-<dt>Currently</dt><dd>IT &amp; Security Administrator, Belmont Leather Co.</dd>
+<dt>Currently</dt><dd>Online stores and day-to-day IT, Belmont Leather Co.</dd>
 <dt>Education</dt><dd>B.S. Cybersecurity &amp; Information Assurance, WGU, graduated Aug 2026</dd>
-<dt>Incident Response</dt><dd>Phishing defense &amp; email security; detection tooling; working toward full IR role</dd>
-<dt>Focus</dt><dd>Incident response &middot; Security monitoring &middot; Detection engineering</dd>
+<dt>Career goal</dt><dd>Incident response and digital forensics</dd>
 <dt>Founder</dt><dd>Shoe and Boot Accessories 4 U (Amazon / eBay / BigCommerce)</dd>
+<dt>Outside work</dt><dd>Eagle Scout</dd>
 </dl>`;
+
 
 // ---- experience (dates restored; owner entry added) ----
 const jobs = [
   {
-    role: 'IT & Security Administrator', org: 'Belmont Leather Co.', dates: '2021 – Present',
+    role: 'Online Stores & IT', org: 'Belmont Leather Co.', dates: '2021 - Present',
     logo: '/assets/logos/belmont.webp',
     bullets: [
-      'Sole IT & security administrator: ESET EDR (~15 endpoints), UniFi network + 10-camera Protect, TrueNAS storage, BigCommerce platform.',
-      'Handle phishing defense, email filtering, user reporting pipelines, and blocking attempts across the company.',
-      'Run the BigCommerce + POS e-commerce platform alongside security operations.',
+      'Handle the online stores, ads, computer support, and shipping tools at our small family shoe and boot business. Also pack orders and prepare Amazon FBA stock.',
+      'Built the first BigCommerce store with about 350 products. Manage Amazon, Google, Bing, TikTok, and eBay ads, plus Zendesk and ChannelReply rules and macros.',
+      'Set up ShipStation automation, mini PCs, Rollo printers, and scan stations. Consistent daily shipping rose from about 120 orders to 300–500.',
+      'Installed UniFi Express, a CloudKey Plus, one U7 Pro, three managed switches, ten cameras, and Cat6 cabling. Set up TrueNAS shared files with Google Drive sync.',
+      'Check Wazuh daily and ESET weekly. Install Windows updates manually and deal with outdated apps and everyday computer problems.',
     ],
   },
   {
     role: 'Owner', org: 'Shoe and Boot Accessories 4 U', dates: '',
     logo: '/assets/logos/sba4u.webp',
-    bullets: [
-      'Founder-led e-commerce reseller on Amazon, eBay, and BigCommerce, leather and shoe-care products including Saphir and Angelus lines.',
-    ],
+    bullets: ['Sell shoe-care and leather products, including Saphir and Angelus, through Amazon, eBay, and BigCommerce.'],
   },
   {
-    role: 'Theater Technician (Part-time)', org: 'Rowan University', dates: '2018 – 2020',
+    role: 'Theater Technician (Part-time)', org: 'Rowan University', dates: '2018 - 2020',
     logo: '/assets/logos/rowan.png',
-    bullets: [
-      'Operated and maintained lighting, sound, and life-safety systems across 20+ live productions, troubleshooting failures under show-time pressure.',
-      'Coordinated setup and teardown with student and faculty crews for rehearsals, performances, and campus events.',
-    ],
+    bullets: ['Set up and operated lighting and sound for theater productions. Worked with student and faculty crews during rehearsals, performances, and events.'],
   },
   {
-    role: 'IT Help Desk Technician & Media Services Specialist', org: 'Southern New Hampshire University', dates: '2016 – 2018',
+    role: 'Help Desk', org: 'Southern New Hampshire University', dates: '2017 - 2018',
     logo: '/assets/logos/snhu.png',
-    bullets: [
-      'Delivered Tier 1/2 support to 200+ users: malware removal, security policy enforcement, hardware/software triage, and account administration.',
-      'Maintained classroom and AV technology across campus, supporting lectures, media playback, and hybrid events.',
-    ],
+    bullets: ['Helped students with hardware problems, login issues, and software licenses.'],
+  },
+  {
+    role: 'Media Services', org: 'Southern New Hampshire University', dates: '2016 - 2018',
+    logo: '/assets/logos/snhu.png',
+    bullets: ['Covered the switchboard and supported classroom and event audio and video, with day and night shifts.'],
   },
 ];
 
-const heroTags = ['B.S. Cybersecurity, WGU', 'SSCP', 'Security+', 'CySA+', 'PenTest+', 'Incident Response', 'Security monitoring']
+const heroTags = ['B.S. Cybersecurity, WGU', 'SSCP', 'Security+', 'CySA+', 'PenTest+', 'Incident response goal', 'Digital forensics labs']
   .map((t) => `<span class="tag">${t}</span>`).join('');
 
 const badgesHtml = certs.map((b, i) => {
@@ -108,16 +108,16 @@ const expHtml = jobs.map((j) => `
 </div>`).join('');
 ---
 <Base title="Paul Joseph Romeo, Cybersecurity and IT"
-  description="Portfolio of Paul Joseph Romeo: IT and Security Administrator. SSCP, Security+, incident response, security monitoring, detection engineering."
+  description="Paul Joseph Romeo: online stores and practical IT at a family business. WGU cybersecurity graduate working toward incident response and digital forensics."
   path="/">
   <Fragment slot="nav">
     <a href="/#about">about</a><a href="/#experience">experience</a><a href="/#certifications">certs</a><a href="/projects/">projects</a><a href="/#skills">skills</a><a href="/#resume">resume</a>
   </Fragment>
   <div class="hero" data-reveal><div class="wrap">
-    <div class="kicker">// cybersecurity · defensive security</div>
+    <div class="kicker">// practical IT · cybersecurity</div>
     <h1>Paul Joseph Romeo</h1>
-    <p class="sub">IT &amp; security administrator who does the work, phishing defense, endpoint &amp; network security, and detection tooling.</p>
-    <p class="sub" style="font-family:var(--mono);color:var(--accent);font-size:1rem">&gt; <span id="typed">security manager</span><span class="typed-cursor">▌</span></p>
+    <p class="sub">I run online stores and handle everyday IT at our family shoe and boot business.</p>
+    <p class="sub" style="font-family:var(--mono);color:var(--accent);font-size:1rem">&gt; <span id="typed">online stores and IT</span><span class="typed-cursor">▌</span></p>
     <div class="tags" set:html={heroTags} />
   </div></div>
 
@@ -142,15 +142,15 @@ const expHtml = jobs.map((j) => `
   </div></section>
 
   <section id="case-study"><div class="wrap" data-reveal>
-    <h2>Case study: OSINT fraud-network takedown</h2>
-    <p>Independent investigation, September 2026. Mapped a network of <b>14 fraudulent websites</b> backed by <b>8 payment processors</b>, all impersonating real small businesses. Traced the whole operation to a single threat actor using WHOIS records, Burp Suite, DNS analysis, and a shared admin handle found in page source.</p>
-    <p>Reported the full network with evidence to the registrars, the FTC (confirmed, control on file), and Google Ads/Maps. Corrections filed; takedowns in progress. Public case file: <a href="https://fakeboot.paulromeo.net" rel="noopener">fakeboot.paulromeo.net</a>.</p>
+    <h2>Research: fake shoe storefronts</h2>
+    <p>I mapped <b>14 fake storefronts</b> and <b>eight checkout domains</b> impersonating real shoe and leather businesses. I used public website and domain records to document the connections.</p>
+    <p>Explore the evidence at <a href="https://fakeboot.paulromeo.net" rel="noopener">fakeboot.paulromeo.net</a>.</p>
   </div></section>
 
   <section id="resume"><div class="wrap" data-reveal>
     <h2>Résumé</h2>
     <div class="resume-card">
-      <div><b>Download a copy</b><br><span style="color:var(--muted);font-size:.9rem">PDF résumé, kept current.</span></div>
+      <div><b>Download a copy</b><br><span style="color:var(--muted);font-size:.9rem">Available as PDF or Word.</span></div>
       <a class="btn" href="/Paul-Romeo-Resume.pdf?v=202609290251" download>↓ Download PDF</a>
       <a class="btn ghost" href="/Paul-Romeo-Resume.docx?v=202609290251" download>↓ Download Word</a>
       <a class="btn ghost" href="mailto:paul@paulromeo.net">✉ Contact me</a>
