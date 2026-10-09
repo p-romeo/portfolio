@@ -1,4 +1,4 @@
-I work at our small family shoe and boot business, Belmont Leather Co. I handle the online stores, ads, shipping tools, and day-to-day computer work. I also pack orders and prepare stock for Amazon FBA.
+I work at Belmont Leather Co., our family business selling shoe-care and leather-care products. I handle the online stores, ads, shipping tools, and day-to-day computer work. I also pack orders and prepare stock for Amazon FBA.
 
 I built our first BigCommerce store, including about 350 product listings, photos, descriptions, and prices. I manage our ads, Zendesk support setup, and shipping automation. I installed the UniFi network and ten cameras, and set up TrueNAS for shared files.
 

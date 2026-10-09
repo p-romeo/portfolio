@@ -9,7 +9,7 @@ export const GET: APIRoute = async () => {
   const llms = [
     '# Paul Joseph Romeo: Cybersecurity & IT',
     '',
-    '> Online stores and day-to-day IT at a small family shoe and boot business.',
+    '> Online stores and day-to-day IT at a family shoe-care and leather-care products business.',
     '> WGU cybersecurity graduate working toward incident response and digital forensics.',
     '',
     '## Pages',
