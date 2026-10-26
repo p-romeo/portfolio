@@ -98,7 +98,7 @@ Agents and automated clients calling the public paulromeo.net Site Status API
 ## Authentication
 
 - **Method: none (anonymous public access).** No registration, no API keys, no OAuth.
-- Requests are rate-limited and cached at the Cloudflare edge. Send a descriptive
+- Requests are cached and filtered by Cloudflare's WAF at the edge. Send a descriptive
   \`User-Agent\` so traffic is attributable; generic or abusive clients may be challenged.
 - There is no credential to provision and nothing to store. Do not send secrets to this host.
 
@@ -116,6 +116,13 @@ Agents and automated clients calling the public paulromeo.net Site Status API
 ## Contact
 
 - Operator: Paul Joseph Romeo — pauljromeo@proton.me
+`;
+
+// RFC 9116
+const SECURITY_TXT = `Contact: mailto:paul@paulromeo.net
+Expires: 2027-10-26T00:00:00Z
+Preferred-Languages: en
+Canonical: https://paulromeo.net/.well-known/security.txt
 `;
 
 const json = (obj, cache = "public, max-age=3600") =>
@@ -147,6 +154,14 @@ export default {
       );
     }
     if (url.pathname === "/openapi.json") return json(OPENAPI);
+    if (url.pathname === "/.well-known/security.txt") {
+      return new Response(SECURITY_TXT, {
+        headers: {
+          "content-type": "text/plain; charset=utf-8",
+          "cache-control": "public, max-age=86400",
+        },
+      });
+    }
     if (url.pathname === "/auth.md") {
       return new Response(AUTH_MD, {
         headers: {
@@ -192,12 +207,8 @@ export default {
       );
     }
 
-    // Security headers for HTML responses
-    const CSP =
-      "default-src 'self'; script-src 'self' https://static.cloudflareinsights.com; connect-src 'self' https://cloudflareinsights.com; style-src 'self' 'unsafe-inline'; " +
-      "img-src 'self' data: https://tryhackme.com; " +
-      "font-src 'self'; object-src 'none'; frame-ancestors 'self'; base-uri 'self'";
-
+    // Security headers (CSP, HSTS, COOP/CORP, etc.) are set on every apex response by the
+    // Cloudflare response header transform rule "Security headers on every paulromeo.net response".
     if (response.ok && ct.includes("text/html")) {
       let html = await response.text();
       // strip Cloudflare-injected WebMCP bridge tag — it fires tools/list at
@@ -206,11 +217,6 @@ export default {
       const res = new Response(html, response);
       res.headers.append("Link", LINK_HEADERS[0]);
       res.headers.append("Link", LINK_HEADERS[1]);
-      res.headers.set("Content-Security-Policy", CSP);
-      res.headers.set("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
-      res.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
-      res.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
-      res.headers.set("X-Content-Type-Options", "nosniff");
       return res;
     }
     if (!response.ok || !ct.includes("text/html")) return response;
